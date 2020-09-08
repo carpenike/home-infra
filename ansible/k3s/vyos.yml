@@ -1,0 +1,4 @@
+# Enable Node-Exporter
+- hosts: vyos
+  roles:
+    - cloudalchemy.node-exporter
