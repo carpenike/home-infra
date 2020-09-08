@@ -1,0 +1,5 @@
+---
+- name: Include NFS
+  include_role:
+    name: geerlingguy.nfs
+  when: "'nfs' in group_names"

@@ -1,0 +1,11 @@
+---
+- name: create longhorn lvm directory
+  file:
+    path: /var/lib/longhorn
+    state: directory
+  when: "'longhorn' in group_names"
+
+- name: Include lvm
+  include_role:
+    name: mrlesmithjr.manage-lvm
+  when: "'longhorn' in group_names"
