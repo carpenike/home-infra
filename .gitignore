@@ -1,2 +1,3 @@
 k8s-config.yml
 .terraform
+*.tfstate*
