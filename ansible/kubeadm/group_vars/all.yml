@@ -12,3 +12,5 @@ cilium_image_version: v1.8.3
 github_username: carpenike
 github_k8s_reponame: k8s-gitops
 github_k8s_reponame_branch: master
+zfs_enabled: false
+longhorn_enabled: true

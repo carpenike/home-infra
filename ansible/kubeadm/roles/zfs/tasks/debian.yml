@@ -8,9 +8,7 @@
   register: apt_install_zfsutils
   retries: 5
   until: apt_install_zfsutils is success
-  when: "'zfs' in group_names"
 
 - name: Import ZFS Pool
   command:
-    cmd: "zpool import -f {{{ zfs_pool_name }}}"
-  when: "'zfs' in group_names"
+    cmd: "zpool import -f {{ zfs_pool_name }}"

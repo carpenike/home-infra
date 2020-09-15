@@ -40,5 +40,5 @@
 
 - name: applying kube-router
   command:
-    cmd: kubectl apply -f hhttps://raw.githubusercontent.com/carpenike/home-infra/master/manifests/generic-kuberouter-only-advertise-routes.yaml
+    cmd: kubectl apply -f https://raw.githubusercontent.com/carpenike/home-infra/master/manifests/generic-kuberouter-only-advertise-routes.yaml
     #creates: /etc/cni/net.d/10-calico.conflist

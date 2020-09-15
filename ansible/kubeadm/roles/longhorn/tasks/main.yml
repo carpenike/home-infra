@@ -3,14 +3,6 @@
   include_tasks: pre_checks.yml
   run_once: true
 
-- name: include zfs specific tasks
-  include_tasks: longhorn.yml
-  when: zfs_enabled
-
 - name: include longhorn specific tasks
   include_tasks: longhorn.yml
   when: longhorn_enabled
-
-- name: include nfs specific tasks
-  include_tasks: nfs.yml
-  when: nfs_enabled

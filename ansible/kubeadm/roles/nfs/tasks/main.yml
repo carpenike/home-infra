@@ -1,0 +1,8 @@
+---
+- name: preflight checks
+  include_tasks: pre_checks.yml
+  run_once: true
+
+- name: Include NFS
+  include_role:
+    name: geerlingguy.nfs
