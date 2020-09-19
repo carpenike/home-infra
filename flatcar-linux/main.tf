@@ -1,6 +1,6 @@
 module "k8s" {
-  source = "git::https://github.com/carpenike/typhoon//bare-metal/container-linux/kubernetes?ref=per-node-install-disk"
-
+  #source = "git::https://github.com/carpenike/typhoon//bare-metal/container-linux/kubernetes?ref=per-node-install-disk"
+  source = "git::https://github.com/poseidon/typhoon//bare-metal/fedora-coreos/kubernetes?ref=v1.19.2"
   # bare-metal
   cluster_name            = "k8s"
   matchbox_http_endpoint  = "http://matchbox.holthome.net:8070"
