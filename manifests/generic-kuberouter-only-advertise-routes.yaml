@@ -30,6 +30,7 @@ spec:
         - "--run-service-proxy=false"
         - "--bgp-graceful-restart=true"
         - "--enable-cni=false"
+        - "--enable-pod-egress=false"
         - "--enable-ibgp=true"
         - "--enable-overlay=false"
         - "--peer-router-ips=10.20.0.1"
