@@ -31,7 +31,7 @@ spec:
         - "--bgp-graceful-restart=true"
         - "--enable-cni=false"
         - "--enable-pod-egress=false"
-        - "--enable-ibgp=false"
+        - "--enable-ibgp=true"
         - "--enable-overlay=false"
         - "--peer-router-ips=10.20.0.1"
         - "--peer-router-asns=64512"
