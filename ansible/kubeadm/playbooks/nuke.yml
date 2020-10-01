@@ -57,3 +57,8 @@
       file:
         path: /var/openebs
         state: absent
+
+    - name: remove longhorn engine-binaries directory
+      file:
+        path: /var/lib/longhorn/engine-binaries
+        state: absent
