@@ -22,7 +22,7 @@ spec:
       serviceAccountName: kube-router
       containers:
       - name: kube-router
-        image: docker.io/onedr0p/kube-router:latest
+        image: "{{ kube_router_image }}"
         imagePullPolicy: Always
         args:
         - "--run-router=true"
@@ -33,9 +33,9 @@ spec:
         - "--enable-pod-egress=false"
         - "--enable-ibgp=true"
         - "--enable-overlay=false"
-        - "--peer-router-ips=10.20.0.1"
-        - "--peer-router-asns=64512"
-        - "--cluster-asn=64513"
+        - "--peer-router-ips={{ bgp_peer_address }}"
+        - "--peer-router-asns={{ bgp_peer_asn }}"
+        - "--cluster-asn={{ bgp_cluster_asn }}"
         - "--advertise-cluster-ip=true"
         - "--advertise-external-ip=true"
         - "--advertise-loadbalancer-ip=true"
