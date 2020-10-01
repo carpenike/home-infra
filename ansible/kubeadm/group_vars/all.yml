@@ -7,6 +7,7 @@ cluster_extra_sans:
   - k8s.holthome.net
 cluster_control_plane_endpoint: "k8s.holthome.net:6443"
 cluster_pod_subnet: "10.42.0.0/16"
+cluster_external_subnet: "10.20.0.0/16"
 cilium_helm_version: 1.8.3
 cilium_image_version: v1.8.3
 github_username: carpenike
