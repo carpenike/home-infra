@@ -32,11 +32,27 @@
     --set config.bpfMasquerade="false" \
     --namespace kube-system
 
-- name: "Deploy kube-router"
+- name: Create Manifests Directory
+  file:
+    path: /root/manifests
+    state: directory
+
+- name: "Deploy manifests"
   become: true
   template:
     src: "{{ item }}"
-    dest: "/etc/kubernetes/manifests/{{ item | basename | replace('.j2','') }}"
+    dest: "/root/manifests/{{ item | basename | replace('.j2','') }}"
     mode: 0600
   with_items:
   - "generic-kuberouter-only-advertise-routes.yaml.j2"
+
+- name: Applying manifests
+  command:
+    cmd: "kubectl apply -f /root/manifests/{{ item }}"
+  with_items:
+  - "generic-kuberouter-only-advertise-routes.yaml"
+
+- name: Remove Manifests Directory
+  file:
+    path: /root/manifests
+    state: absent
