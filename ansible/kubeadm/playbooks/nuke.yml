@@ -62,3 +62,13 @@
       file:
         path: /var/lib/longhorn/engine-binaries
         state: absent
+
+    - name: remove longhorn replicas directory
+      file:
+        path: /var/lib/longhorn/replicas
+        state: absent
+
+    - name: remove longhorn longhorn-disk file
+      file:
+        path: /var/lib/longhorn/longhorn-disk.cfg
+        state: absent
