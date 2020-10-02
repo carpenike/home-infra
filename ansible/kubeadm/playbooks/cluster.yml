@@ -9,4 +9,5 @@
   roles:
     - cluster
     - cni
+    - secrets
     #- helm-operator
