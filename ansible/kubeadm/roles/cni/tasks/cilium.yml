@@ -27,8 +27,8 @@
     --set global.hubble.relay.enabled="true" \
     --set global.hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,http}" \
     --set global.kubeProxyReplacement=strict \
-    --set global.k8sServiceHost=10.20.10.16 \
-    --set global.k8sServicePort=6443 \
+    --set global.k8sServiceHost={{ k8s_service_host }} \
+    --set global.k8sServicePort={{ k8s_service_port }} \
     --set config.bpfMasquerade="false" \
     --namespace kube-system
 

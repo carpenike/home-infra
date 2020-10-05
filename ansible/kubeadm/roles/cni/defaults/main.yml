@@ -1,2 +1,8 @@
 ---
 cni_plugin: cilium
+bgp_peer_address: 10.20.0.1
+bgp_peer_asn: 64512
+cilium_helm_version: 1.8.3
+cilium_image_version: v1.8.3
+k8s_service_host: "{{ hostvars[groups['masters'][0]]['ansible_default_ipv4']['address'] }}"
+k8s_service_port: 6443
