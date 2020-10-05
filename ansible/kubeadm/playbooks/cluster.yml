@@ -10,4 +10,4 @@
     - cluster
     - cni
     - secrets
-    #- helm-operator
+    - helm-operator
