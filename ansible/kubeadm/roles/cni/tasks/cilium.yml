@@ -22,6 +22,7 @@
     --set externalIPs.enabled="true" \
     --set ipam.operator.clusterPoolIPv4PodCIDR="{{ cluster_pod_subnet }}" \
     --set ipam.operator.clusterPoolIPv4MaskSize="24" \
+    --set nativeRoutingCIDR="10.43.0.0/16" \
     --set endpointRoutes.enabled="true" \
     --set ipMasqAgent.enabled=="true" \
     --set hostServices.enabled="true" \
