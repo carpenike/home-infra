@@ -1,0 +1,6 @@
+# Goals
+My overarching goal for this project are to minimize the amount of "manual" work needed to deploy servers. The configs in this folder represent the files in my `/var/lib/tftpboot` folder on a separate system on my network.
+
+# Other Steps
+1. Download the latest iso from Ubuntu and put in the root of `/var/lib/tftpboot`. Update `/var/lib/tftpboot/grub/grub.cfg` to match the proper ISO file downloaded.
+2. An example dnsmasq config is located at the root of this folder. I'm using dnsmasq as the tftp server.
