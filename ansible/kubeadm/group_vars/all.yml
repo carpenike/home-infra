@@ -8,8 +8,8 @@ cluster_extra_sans:
 cluster_control_plane_endpoint: "k8s.holthome.net:6443"
 cluster_pod_subnet: "10.42.0.0/16"
 cluster_external_subnet: "10.42.0.0/16"
-cilium_helm_version: 1.9.0
-cilium_image_version: v1.9.0
+cilium_helm_version: 1.9.1
+cilium_image_version: v1.9
 github_username: carpenike
 github_k8s_reponame: k8s-gitops
 github_k8s_reponame_branch: master
