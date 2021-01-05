@@ -16,10 +16,10 @@ github_k8s_reponame_branch: master
 bgp_peer_address: 10.20.0.1
 bgp_peer_asn: 64512
 bgp_cluster_asn: 64513
-kube_router_image: "docker.io/cloudnativelabs/kube-router:v1.1.0"
-kubernetes_kubelet_version: 1.19.2-00
-kubernetes_kubeadm_version: 1.19.2-00
-kubernetes_kubectl_version: 1.19.2-00
+kube_router_image: "docker.io/cloudnativelabs/kube-router:v1.1.1"
+kubernetes_kubelet_version: 1.20.1-00
+kubernetes_kubeadm_version: 1.20.1-00
+kubernetes_kubectl_version: 1.20.1-00
 etcd_ca_file: /etc/kubernetes/pki/etcd/ca.crt
 etcd_cert_file: /etc/kubernetes/pki/etcd/server.crt
 etcd_cert_key_file: /etc/kubernetes/pki/etcd/server.key
