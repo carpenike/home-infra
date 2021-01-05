@@ -36,7 +36,7 @@
     --set hubble.listenAddress=":4244" \
     --set hubble.ui.enabled="true" \
     --set hubble.relay.enabled="true" \
-    --set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,http}" \
+    --set hubble.metrics.enabled="{dns:query;ignoreAAAA;destinationContext=pod-short,drop:sourceContext=pod;destinationContext=pod,tcp,flow,port-distribution,icmp,http}" \
     --set kubeProxyReplacement=strict \
     --set k8sServiceHost={{ k8s_service_host }} \
     --set k8sServicePort={{ k8s_service_port }} \
