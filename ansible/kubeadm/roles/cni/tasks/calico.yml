@@ -1,5 +1,74 @@
 ---
+# ref: https://docs.projectcalico.org/maintenance/ebpf/enabling-bpf
+- name: define k8s api information for calico
+  shell: |
+    cat << EOF | kubectl apply -f -
+      kind: ConfigMap
+      apiVersion: v1
+      metadata:
+        name: kubernetes-services-endpoint
+        namespace: kube-system
+      data:
+        KUBERNETES_SERVICE_HOST: "{{ k8s_service_host }}"
+        KUBERNETES_SERVICE_PORT: "{{ k8s_service_port }}"
+
 - name: applying calico
   command:
     cmd: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
     creates: /etc/cni/net.d/10-calico.conflist
+
+# Install calicoctl
+- name: Install calicoctl
+  get_url:
+    url: https://github.com/projectcalico/calicoctl/releases/download/v3.16.6/calicoctl-linux-amd64
+    dest: /usr/local/bin/calicoctl
+    mode: 0755
+
+# Configure BGP peering with external router
+- name: create bgp peer in calico config
+  shell: |
+    cat << EOF | calicoctl apply -f -
+      apiVersion: projectcalico.org/v3
+      kind: BGPPeer
+      metadata:
+        name: fw
+      spec:
+        peerIP: {{ bgp_peer_address }}
+        asNumber: {{ bgp_peer_asn }}
+  environment:
+    CALICO_DATASTORE_TYPE: kubernetes
+    CALICO_KUBECONFIG: /etc/kubernetes/admin.conf
+
+# Advertise Service and Pod networks via bgp
+- name: advertise service and pod networks via bgp
+  shell: |
+    cat << EOF | calicoctl apply -f -
+      apiVersion: projectcalico.org/v3
+      kind: BGPConfiguration
+      metadata:
+        name: default
+      spec:
+        serviceClusterIPs:
+        - cidr: 10.43.0.0/16
+        serviceExternalIPs:
+        - cidr: 10.45.0.0/16
+  environment:
+    CALICO_DATASTORE_TYPE: kubernetes
+    CALICO_KUBECONFIG: /etc/kubernetes/admin.conf
+
+# Configure eBPF mode with Calico
+- name: enable eBPF mode in calico
+  shell: |
+    calicoctl patch felixconfiguration default --patch='{"spec": {"bpfEnabled": true}}'
+    kubectl delete pod -n kube-system -l k8s-app=kube-dns
+  environment:
+    CALICO_DATASTORE_TYPE: kubernetes
+    CALICO_KUBECONFIG: /etc/kubernetes/admin.conf
+
+# Configure DSR for Calico
+- name: enable DSR mode in calico
+  shell: |
+    calicoctl patch felixconfiguration default --patch='{"spec": {"bpfExternalServiceMode": "DSR"}}'
+  environment:
+    CALICO_DATASTORE_TYPE: kubernetes
+    CALICO_KUBECONFIG: /etc/kubernetes/admin.conf

@@ -31,7 +31,7 @@
     --set loadBalancer.algorithm="maglev" \
     --set maglev.tableSize=16381 \
     --set maglev.hashSeed="4QTbVKvWlrq8h/gU" \
-    --set masquerade="false" \
+    --set masquerade="true" \
     --set hubble.enabled="true" \
     --set hubble.listenAddress=":4244" \
     --set hubble.ui.enabled="true" \
@@ -40,7 +40,7 @@
     --set kubeProxyReplacement=strict \
     --set k8sServiceHost={{ k8s_service_host }} \
     --set k8sServicePort={{ k8s_service_port }} \
-    --set bpf.masquerade="false" \
+    --set bpf.masquerade="true" \
     --namespace kube-system
 
 - name: Create Manifests Directory

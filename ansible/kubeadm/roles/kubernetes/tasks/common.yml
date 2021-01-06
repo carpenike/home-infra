@@ -3,6 +3,7 @@
   file:
     path: /etc/kubernetes/manifests
     state: directory
+    mode: 0755
 
 - name: ensure systemd kubelet directory
   file:
@@ -18,13 +19,13 @@
   notify:
     - restart kubelet
 
-- name: systemd kubelet after docker drop-in
-  copy:
-    dest: /etc/systemd/system/kubelet.service.d/12-after-docker.conf
-    mode: 0755
-    src: 12-after-docker.conf
-  notify:
-    - restart kubelet
+# - name: systemd kubelet after docker drop-in
+#   copy:
+#     dest: /etc/systemd/system/kubelet.service.d/12-after-docker.conf
+#     mode: 0755
+#     src: 12-after-docker.conf
+#   notify:
+#     - restart kubelet
 
 - name: kubelet defaults file
   template:

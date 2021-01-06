@@ -1,5 +1,5 @@
 ---
-cni_plugin: cilium
+cni_plugin: calico
 bgp_peer_address: 10.20.0.1
 bgp_peer_asn: 64512
 cilium_helm_version: 1.8.3
