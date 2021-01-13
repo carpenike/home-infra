@@ -8,7 +8,8 @@ My overarching goal for this project are to minimize the amount of "manual" work
 
 # Miscellaneous Notes
 1. Getting the initial `user-data` file located in each server's folder can be done by doing a manual installation of the server using ISO and then getting the file from `/var/log/installer/autoinstall-user-data` from the resulting system.
-2. The `initrd` and `vmlinuz` files in the `/var/lib/tftpboot/pxelinux` folder were extracted from one the Ubuntu ISO.
+2. The `initrd` and `vmlinuz` files in the `/var/lib/tftpboot/pxelinux` folder were extracted from an Ubuntu ISO.
+3. The deployment depends on these files being available on a web server.  I've deployed apache to the node and included the apache config file at the root of the tftpboot folder.
 
 
 # Reference links
