@@ -24,3 +24,4 @@ kubernetes_kubectl_version: 1.19.6-00
 etcd_ca_file: /etc/kubernetes/pki/etcd/ca.crt
 etcd_cert_file: /etc/kubernetes/pki/etcd/server.crt
 etcd_cert_key_file: /etc/kubernetes/pki/etcd/server.key
+kube_proxy: enabled
