@@ -36,6 +36,7 @@ autoinstall:
     - curtin in-target --target=/target -- /usr/local/bin/step ca bootstrap --ca-url https://pki.holthome.net --fingerprint 0c2da0bd00e5253de0d8ba90b8e9f87fee97369667e1ecb0d2c6855f33110202
     - curtin in-target --target=/target -- /usr/local/bin/step ssh certificate h2-0.holthome.net /etc/ssh/ssh_host_ecdsa_key.pub --sign --host -f --token eyJhbGciOiJSUzI1NiIsImtpZCI6IjM4NjBlNTc1ZWVlMDExNWExYzFjYWNjOTVkNzMxOGU2OTJkOWNhMjAifQ.eyJpc3MiOiJodHRwczovL2RleC5ob2x0aG9tZS5uZXQiLCJzdWIiOiJDZ2N4TXpBeU5EUXlFZ1puYVhSb2RXSSIsImF1ZCI6InN0ZXAiLCJleHAiOjE2MTI4ODYzMTEsImlhdCI6MTYxMjc5OTkxMSwibm9uY2UiOiJkZDgyYjI2YTBmZWIyMmJjYzdkNmJlMWNlYjEwMzBjNjA3MThlOTk4MmViMjBiMzAzYjNmMmE2YzBmMjVhNDg1IiwiYXRfaGFzaCI6ImVSekJ2S0p0VVdyY3I1UzVpVHdqWWciLCJlbWFpbCI6InJ5YW5AcnlhbmhvbHQubmV0IiwiZW1haWxfdmVyaWZpZWQiOnRydWV9.LdZmB5Um0NCNJvxq6Bxb5ZNq6516Ng1dizngKkQJFDdMgKrV5eLDP-blxlA75mSYIkD-CMhAS4g6ZxQ3eXcdWRCkD75wAnI_MJzwJ0XwYUe0DT2XqdZ3Qbrc0WIQuBbNFFdPnWOv3vNJhbBQPe5KLUId3yApT3WkhwKsZhyVw6fpW6-rhWOKvAwdj88n06H-WGQN58jnnnrfxqbyAJbeu-Fm-Q9LNxPfIT-YWWDrxvBOA-Ai8bA-9be6zsR66tcEz0ZFo__E4QvMQzmK0eDMdoZTR5Gnb3j0z8S39PwJJZeNnp4l_k7c-V-DgcYZvi51Ddu0IDySV9bwG9_XAuHgNw
     - curtin in-target --target=/target -- /usr/local/bin/step ssh config --host  --set Certificate=ssh_host_ecdsa_key-cert.pub --set Key=ssh_host_ecdsa_key
+    - curtin in-target --target=/target -- /usr/local/bin/step certificate install /root/.step/certs/root_ca.crt
   ssh:
     allow-pw: false
     install-server: true
