@@ -57,18 +57,18 @@
     CALICO_KUBECONFIG: /etc/kubernetes/admin.conf
 
 # Configure eBPF mode with Calico
-- name: enable eBPF mode in calico
-  shell: |
-    calicoctl patch felixconfiguration default --patch='{"spec": {"bpfEnabled": true}}'
-    kubectl delete pod -n kube-system -l k8s-app=kube-dns
-  environment:
-    CALICO_DATASTORE_TYPE: kubernetes
-    CALICO_KUBECONFIG: /etc/kubernetes/admin.conf
+# - name: enable eBPF mode in calico
+#   shell: |
+#     calicoctl patch felixconfiguration default --patch='{"spec": {"bpfEnabled": true}}'
+#     kubectl delete pod -n kube-system -l k8s-app=kube-dns
+#   environment:
+#     CALICO_DATASTORE_TYPE: kubernetes
+#     CALICO_KUBECONFIG: /etc/kubernetes/admin.conf
 
 # Configure DSR for Calico
-- name: enable DSR mode in calico
-  shell: |
-    calicoctl patch felixconfiguration default --patch='{"spec": {"bpfExternalServiceMode": "DSR"}}'
-  environment:
-    CALICO_DATASTORE_TYPE: kubernetes
-    CALICO_KUBECONFIG: /etc/kubernetes/admin.conf
+# - name: enable DSR mode in calico
+#   shell: |
+#     calicoctl patch felixconfiguration default --patch='{"spec": {"bpfExternalServiceMode": "DSR"}}'
+#   environment:
+#     CALICO_DATASTORE_TYPE: kubernetes
+#     CALICO_KUBECONFIG: /etc/kubernetes/admin.conf
