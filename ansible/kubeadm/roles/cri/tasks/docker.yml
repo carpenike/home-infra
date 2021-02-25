@@ -19,7 +19,7 @@
       - docker-ce-cli
       - containerd.io
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_os_family | lower == 'debian'
 
 - name: 'archlinux : install docker and its dependencies'
@@ -28,7 +28,7 @@
       - docker
       - containerd
     state: present
-    update_cache: yes
+    update_cache: true
   when: ansible_os_family | lower == 'archlinux'
 
 - name: ensure docker directory
@@ -37,14 +37,19 @@
     state: directory
     mode: 0755
 
-- name: copy docker daemon config
-  copy:
-    src: docker/daemon.json
+- name: Show docker daemon.json file
+  debug:
+    msg: "{{ lookup('template', '../templates/docker/daemon.json.j2') }}"
+  when: ansible_check_mode
+
+- name: template docker daemon config
+  template:
+    src: docker/daemon.json.j2
     dest: '/etc/docker/daemon.json'
     owner: root
     group: root
     mode: 0644
-  notify: restart docker
+  notify: restart cri
 
 - name: ensure systemd docker.d directory
   file:
@@ -57,4 +62,4 @@
     dest: /etc/systemd/system/docker.service.d/override.conf
     mode: 0755
     src: docker/override.conf
-  notify: restart docker
+  notify: restart cri

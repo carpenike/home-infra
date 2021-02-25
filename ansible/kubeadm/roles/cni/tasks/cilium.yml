@@ -1,70 +1,58 @@
 ---
-- name: Install Helm v3
-  shell: |
-    curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-  args:
-    warn: false
 
-- name: Add Cilium Repo
-  command:
-    cmd: helm repo add cilium https://helm.cilium.io/
+# See https://github.com/cilium/cilium/issues/10645
+- name: set net.ipv4.conf.*.rp_filter to 0 for systemd 245 workaround
+  ansible.posix.sysctl:
+    name: '{{ item }}'
+    value: '0'
+    sysctl_file: /etc/sysctl.d/98-override_cilium_rp_filter.conf
+    reload: false
+  loop:
+    - net.ipv4.conf.all.rp_filter
+    - net.ipv4.conf.default.rp_filter
+  notify: restart systemd-sysctl
 
-- name: Update Helm Repos
-  command:
-    cmd: helm repo update
+- name: mount sys-fs-bpf
+  ansible.posix.mount:
+    path: /sys/fs/bpf
+    src: bpffs
+    opts: defaults
+    state: mounted
+    fstype: bpf
 
-- name: Deploy Cilium
-  shell: |
-    helm upgrade -i cilium cilium/cilium --version {{ cilium_helm_version }} \
-    --set image.registry="docker.io/cilium" \
-    --set image.tag="{{ cilium_image_version }}" \
-    --set tunnel="disabled" \
-    --set externalIPs.enabled="true" \
-    --set ipam.operator.clusterPoolIPv4PodCIDR="{{ cluster_pod_subnet }}" \
-    --set ipam.operator.clusterPoolIPv4MaskSize="24" \
-    --set nativeRoutingCIDR="10.43.0.0/16" \
-    --set endpointRoutes.enabled="true" \
-    --set hostServices.enabled="true" \
-    --set autoDirectNodeRoutes="true" \
-    --set nodePort.enabled="true" \
-    --set loadBalancer.mode="dsr" \
-    --set loadBalancer.algorithm="maglev" \
-    --set maglev.tableSize=16381 \
-    --set maglev.hashSeed="4QTbVKvWlrq8h/gU" \
-    --set masquerade="true" \
-    --set hubble.enabled="true" \
-    --set hubble.listenAddress=":4244" \
-    --set hubble.ui.enabled="true" \
-    --set hubble.relay.enabled="true" \
-    --set hubble.metrics.enabled="{dns:query;ignoreAAAA;destinationContext=pod-short,drop:sourceContext=pod;destinationContext=pod,tcp,flow,port-distribution,icmp,http}" \
-    --set kubeProxyReplacement=strict \
-    --set k8sServiceHost={{ k8s_service_host }} \
-    --set k8sServicePort={{ k8s_service_port }} \
-    --set bpf.masquerade="true" \
-    --namespace kube-system
+- name: add Cilium Helm Repo
+  community.kubernetes.helm_repository:
+    name: cilium
+    repo_url: "https://helm.cilium.io/"
 
-- name: Create Manifests Directory
-  file:
-    path: /root/manifests
-    state: directory
-    mode: 0700
+- name: deploy Cilium
+  community.kubernetes.helm:
+    name: cilium
+    chart_ref: cilium/cilium
+    release_namespace: kube-system
+    chart_version: "{{ cni_cilium_helm_version }}"
+    values: "{{ lookup('template', 'values.yaml.j2') | from_yaml }}"
 
-- name: "Deploy manifests"
-  become: true
-  template:
-    src: "{{ item }}"
-    dest: "/root/manifests/{{ item | basename | replace('.j2','') }}"
-    mode: 0600
-  with_items:
-  - "generic-kuberouter-only-advertise-routes.yaml.j2"
+- name: patch cilium-operator for helm chart bug
+  community.kubernetes.k8s:
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: cilium-operator
+        namespace: kube-system
+      spec:
+        template:
+          spec:
+            containers:
+              - name: cilium-operator
+                image: cilium/operator-dev:{{ cni_cilium_image_version }}
 
-- name: Applying manifests
-  command:
-    cmd: "kubectl apply -f /root/manifests/{{ item }}"
-  with_items:
-  - "generic-kuberouter-only-advertise-routes.yaml"
 
-- name: Remove Manifests Directory
-  file:
-    path: /root/manifests
-    state: absent
+- name: Apply kube-router manifests
+  community.kubernetes.k8s:
+    state: present
+    template: 'generic-kuberouter-only-advertise-routes.yaml.j2'
+  when:
+    - cni_kube_router_enabled

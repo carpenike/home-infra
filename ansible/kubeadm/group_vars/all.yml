@@ -6,6 +6,8 @@ cni_plugin: calico
 common_log2ram_enabled: false
 cluster_extra_sans:
   - k8s.holthome.net
+  - 10.43.0.1
+  - kubernetes
 cluster_control_plane_endpoint: "k8s.holthome.net:6443"
 cluster_pod_subnet: "10.42.0.0/16"
 cluster_external_subnet: "10.43.0.0/16"
@@ -18,9 +20,9 @@ bgp_peer_address: 10.20.0.1
 bgp_peer_asn: 64512
 bgp_cluster_asn: 64513
 kube_router_image: "docker.io/cloudnativelabs/kube-router:v1.1.1"
-kubernetes_kubelet_version: 1.19.6-00
-kubernetes_kubeadm_version: 1.19.6-00
-kubernetes_kubectl_version: 1.19.6-00
+kubernetes_kubelet_version: 1.20.4-00
+kubernetes_kubeadm_version: 1.20.4-00
+kubernetes_kubectl_version: 1.20.4-00
 etcd_ca_file: /etc/kubernetes/pki/etcd/ca.crt
 etcd_cert_file: /etc/kubernetes/pki/etcd/server.crt
 etcd_cert_key_file: /etc/kubernetes/pki/etcd/server.key

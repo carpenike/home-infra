@@ -1,0 +1,26 @@
+#jinja2:lstrip_blocks: True
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+caCertPath: /etc/kubernetes/pki/ca.crt
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: {{ cluster_control_plane_endpoint }}
+    token: {{ kubeadm_join_token }}
+    {% if cluster_ca_sha256 is defined %}
+    unsafeSkipCAVerification: false
+    caCertHashes:
+    - sha256:{{ cluster_ca_sha256 }}
+    {% else %}
+    unsafeSkipCAVerification: true
+    {% endif %}
+  timeout: 5m0s
+{% if inventory_hostname in groups['controlplane'] %}
+controlPlane:
+  localAPIEndpoint:
+    advertiseAddress: {{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}
+    bindPort: {{ cluster_apiserver_bind_port }}
+  certificateKey: {{ kubeadm_certificate_key }}
+{% endif %}
+nodeRegistration:
+  criSocket: {{ cri_socket }}
