@@ -1,78 +1,45 @@
 ---
-- name: preflight checks
-  include_tasks: pre_checks.yml
+- name: 'initialize | create configuration file for kubeadm'
+  ansible.builtin.template:
+    src: 'kubeadm-config.yaml.j2'
+    dest: '/etc/kubernetes/kubeadm-config.yaml'
+    mode: 0640
+
+- name: 'initialize | execute kubeadm init on first control plane node'
+  ansible.builtin.command: >
+    kubeadm init --config /etc/kubernetes/kubeadm-config.yaml
+    {% if not cluster_kube_proxy_enabled %}
+    --skip-phases='addon/kube-proxy'
+    {% endif %}
+    --upload-certs
+  register: kubeadm_init
+
+- name: 'initialize | set cluster_initialized fact'
+  ansible.builtin.set_fact:
+    cluster_initialized: true
   run_once: true
+  when: kubeadm_init.rc == 0
 
-- name: 'pre-flight | add kubectl bash completion'
-  ansible.builtin.shell: |
-    kubectl completion bash > /etc/bash_completion.d/kubectl.sh
-  ignore_errors: true
-
-- name: 'pre-flight | set kubectl bash completion file permissions'
+- name: 'initialize | create kubectl config directory'
   ansible.builtin.file:
-    path: '/etc/bash_completion.d/kubectl.sh'
+    path: '/root/.kube/'
+    state: 'directory'
     owner: 'root'
     group: 'root'
-    mode: 0755
-  ignore_errors: true
+    mode: 0750
 
-- name: 'pre-flight | set cluster control plane endpoint'
-  ansible.builtin.set_fact:
-    cluster_control_plane_endpoint: '{{ keepalived_vip }}:8443'
-  run_once: true
-  delegate_to: '{{ groups["controlplane"]|first }}'
-  when:
-  - cluster_control_plane_endpoint | length < 1
+- name: 'initialize | copy admin.conf to kubectl config directory'
+  ansible.builtin.copy:
+    src: '/etc/kubernetes/admin.conf'
+    dest: '/root/.kube/config'
+    owner: 'root'
+    group: 'root'
+    mode: 0750
+    remote_src: true
+    backup: true
 
-# The cluster version and the kubeadm version can be different
-- name: 'pre-flight | determine kubeadm version installed'
-  ansible.builtin.command: |
-    /usr/bin/kubeadm version -o short
-  register: kubeadm_version
-  changed_when: false
-
-- name: 'pre-flight | determine kubeadm capabilities'
-  ansible.builtin.set_fact:
-    kubeadm_certs_command: >-
-      {%- if kubeadm_version.stdout.split(".")[1]|int < 20 -%}
-      kubeadm alpha
-      {%- else -%}
-      kubeadm
-      {%- endif -%}
-
-- name: 'pre-flight | check if kubeadm has already been run'
-  ansible.builtin.stat:
-    path: '/var/lib/kubelet/config.yaml'
-  register: kubelet_config
-
-- name: 'pre-flight | generate certificate-key used to encrypt the certificates'
-  ansible.builtin.command: |
-    {{ kubeadm_certs_command }} certs certificate-key
-  delegate_to: '{{ groups["controlplane"]|first }}'
-  run_once: true
-  register: generated_certificate_key
-
-- name: 'pre-flight | generate randomized token'
-  ansible.builtin.command: |
-    kubeadm token generate
-  delegate_to: '{{ groups["controlplane"]|first }}'
-  run_once: true
-  register: generated_token
-
-- name: 'pre-flight | set kubeadm token and certificate-key facts'
-  ansible.builtin.set_fact:
-    kubeadm_certificate_key: '{{ generated_certificate_key.stdout }}'
-    kubeadm_join_token: '{{ generated_token.stdout }}'
-  run_once: true
-
-- name: 'initialize | perform cluster initialization on primary control node'
-  include_tasks: 'initialize.yml'
-  when:
-  - inventory_hostname == groups["controlplane"]|first
-  - not kubelet_config.stat.exists
-
-- name: 'join | perform cluster join on remaining cluster nodes'
-  include_tasks: 'join.yml'
-  when:
-  - inventory_hostname != groups["controlplane"]|first
-  - not kubelet_config.stat.exists
+- name: 'initialize | copy Kubernetes config locally'
+  ansible.builtin.fetch:
+    src: '/etc/kubernetes/admin.conf'
+    dest: 'output/k8s-config.yaml'
+    flat: true
