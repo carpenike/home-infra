@@ -21,8 +21,8 @@ bgp_peer_asn: 64512
 bgp_cluster_asn: 64512
 kube_router_image: "docker.io/cloudnativelabs/kube-router:v1.1.1"
 kubernetes_kubelet_version: 1.21.1-00
-kubernetes_kubeadm_version: 1.20.1-00
-kubernetes_kubectl_version: 1.20.1-00
+kubernetes_kubeadm_version: 1.21.1-00
+kubernetes_kubectl_version: 1.21.1-00
 etcd_ca_file: /etc/kubernetes/pki/etcd/ca.crt
 etcd_cert_file: /etc/kubernetes/pki/etcd/server.crt
 etcd_cert_key_file: /etc/kubernetes/pki/etcd/server.key
