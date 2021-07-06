@@ -1,0 +1,12 @@
+---
+- name: configure bgp
+  vyos.vyos.vyos_config:
+    lines:
+      - set protocols bgp local-as 64512
+      - set protocols bgp peer-group k8s remote-as 64512
+      - set protocols bgp listen range {{ SERVERS.CIDR }} peer-group k8s
+      - set protocols bgp neighbor 10.20.10.16 peer-group k8s
+      - set protocols bgp neighbor 10.20.10.20 peer-group k8s
+      - set protocols bgp neighbor 10.20.10.21 peer-group k8s
+      - set protocols bgp neighbor 10.20.10.22 peer-group k8s
+      - set protocols bgp neighbor 10.20.10.23 peer-group k8s

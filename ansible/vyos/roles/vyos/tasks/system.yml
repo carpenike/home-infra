@@ -1,0 +1,27 @@
+---
+- name: configure name servers
+  vyos.vyos.vyos_system:
+    name_servers:
+      - 127.0.0.1
+
+- name: configure domain search suffixes
+  vyos.vyos.vyos_system:
+    domain_search:
+      - "{{ ZONE }}"
+
+- name: configure hostname and domain-name
+  vyos.vyos.vyos_system:
+    host_name: "{{ HOSTNAME }}"
+    domain_name: "{{ ZONE }}"
+
+# - name: configure default route
+#   vyos.vyos.vyos_config:
+#     lines:
+#       - set protocols static route 0.0.0.0/0 dhcp-interface 'eth0'
+
+# - name: configure alt default route
+#   vyos.vyos.vyos_config:
+#     lines:
+#       - set protocols static table 10 route 0.0.0.0/0 dhcp-interface 'eth0'
+#       - set protocols static table 11 route 0.0.0.0/0 interface 'eth2'
+#   when: "'nwk1' in inventory_hostname"

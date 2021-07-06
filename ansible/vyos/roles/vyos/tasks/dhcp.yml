@@ -1,0 +1,105 @@
+---
+
+- name: configure LAN DHCP
+  vyos.vyos.vyos_config:
+    lines:
+      - set service dhcp-server shared-network-name LAN subnet {{ LAN.CIDR }} default-router '{{ LAN.GW }}'
+      - set service dhcp-server shared-network-name LAN subnet {{ LAN.CIDR }} dns-server '{{ LAN.DNS_SERVER }}'
+      - set service dhcp-server shared-network-name LAN subnet {{ LAN.CIDR }} domain-name '{{ ZONE }}'
+      - set service dhcp-server shared-network-name LAN subnet {{ LAN.CIDR }} lease '86400'
+      - set service dhcp-server shared-network-name LAN subnet {{ LAN.CIDR }} range 0 start '{{ LAN.DHCP_RANGE_START }}'
+      - set service dhcp-server shared-network-name LAN subnet {{ LAN.CIDR }} range 0 stop '{{ LAN.DHCP_RANGE_END }}'
+
+- name: configure SERVER DHCP
+  vyos.vyos.vyos_config:
+    lines:
+      - set service dhcp-server shared-network-name SERVERS subnet {{ SERVERS.CIDR }} default-router '{{ SERVERS.GW }}'
+      - set service dhcp-server shared-network-name SERVERS subnet {{ SERVERS.CIDR }} dns-server '{{ SERVERS.DNS_SERVER }}'
+      - set service dhcp-server shared-network-name SERVERS subnet {{ SERVERS.CIDR }} lease '86400'
+      - set service dhcp-server shared-network-name SERVERS subnet {{ SERVERS.CIDR }} range 0 start '{{ SERVERS.DHCP_RANGE_START }}'
+      - set service dhcp-server shared-network-name SERVERS subnet {{ SERVERS.CIDR }} range 0 stop '{{ SERVERS.DHCP_RANGE_END }}'
+
+- name: configure WIRELESS DHCP
+  vyos.vyos.vyos_config:
+    lines:
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} default-router '{{ WIRELESS.GW }}'
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} dns-server '{{ WIRELESS.DNS_SERVER }}'
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} domain-name '{{ ZONE }}'
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} domain-search '{{ ZONE }}'
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} lease '86400'
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} range 0 start '{{ WIRELESS.DHCP_RANGE_START }}'
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} range 0 stop '{{ WIRELESS.DHCP_RANGE_END }}'
+
+- name: configure host file updating
+  vyos.vyos.vyos_config:
+    lines:
+      - set service dhcp-server hostfile-update
+
+- name: set static DHCP mappings
+  vyos.vyos.vyos_config:
+    lines:
+      - set service dhcp-server shared-network-name LAN subnet {{ LAN.CIDR }} static-mapping bcs mac-address {{ STATIC_DHCP.bcs.MAC }}
+      - set service dhcp-server shared-network-name LAN subnet {{ LAN.CIDR }} static-mapping bcs ip-address {{ STATIC_DHCP.bcs.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping nintendo-switch-1 mac-address {{ STATIC_DHCP.nintendo-switch-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping nintendo-switch-1 ip-address {{ STATIC_DHCP.nintendo-switch-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping nintendo-switch-2 mac-address {{ STATIC_DHCP.nintendo-switch-2.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping nintendo-switch-2 ip-address {{ STATIC_DHCP.nintendo-switch-2.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping nvidia-shield-tv-livingroom-1 mac-address {{ STATIC_DHCP.nvidia-shield-tv-livingroom-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping nvidia-shield-tv-livingroom-1 ip-address {{ STATIC_DHCP.nvidia-shield-tv-livingroom-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping nvidia-shield-tv-basement mac-address {{ STATIC_DHCP.nvidia-shield-tv-basement.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping nvidia-shield-tv-basement ip-address {{ STATIC_DHCP.nvidia-shield-tv-basement.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping firetv-bar-tv mac-address {{ STATIC_DHCP.firetv-bar-tv.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping firetv-bar-tv ip-address {{ STATIC_DHCP.firetv-bar-tv.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping hdhr-1 mac-address {{ STATIC_DHCP.hdhr-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping hdhr-1 ip-address {{ STATIC_DHCP.hdhr-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping google-home-mini-1 mac-address {{ STATIC_DHCP.google-home-mini-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping google-home-mini-1 ip-address {{ STATIC_DHCP.google-home-mini-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping google-home-kitchendisplay mac-address {{ STATIC_DHCP.google-home-kitchendisplay.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping google-home-kitchendisplay ip-address {{ STATIC_DHCP.google-home-kitchendisplay.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-kitchen-1 mac-address {{ STATIC_DHCP.sonos-kitchen-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-kitchen-1 ip-address {{ STATIC_DHCP.sonos-kitchen-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-upstairs-hallway-1 mac-address {{ STATIC_DHCP.sonos-upstairs-hallway-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-upstairs-hallway-1 ip-address {{ STATIC_DHCP.sonos-upstairs-hallway-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-livingroom-1 mac-address {{ STATIC_DHCP.sonos-livingroom-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-livingroom-1 ip-address {{ STATIC_DHCP.sonos-livingroom-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-bar-1 mac-address {{ STATIC_DHCP.sonos-bar-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-bar-1 ip-address {{ STATIC_DHCP.sonos-bar-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-move-1 mac-address {{ STATIC_DHCP.sonos-move-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-move-1 ip-address {{ STATIC_DHCP.sonos-move-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-office-1 mac-address {{ STATIC_DHCP.sonos-office-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping sonos-office-1 ip-address {{ STATIC_DHCP.sonos-office-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping tplink-sunroom-window-lights mac-address {{ STATIC_DHCP.tplink-sunroom-window-lights.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping tplink-sunroom-window-lights ip-address {{ STATIC_DHCP.tplink-sunroom-window-lights.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping tplink-livingroom-couch-lights mac-address {{ STATIC_DHCP.tplink-livingroom-couch-lights.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping tplink-livingroom-couch-lights ip-address {{ STATIC_DHCP.tplink-livingroom-couch-lights.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping tplink-entrance-bathroom-1 mac-address {{ STATIC_DHCP.tplink-entrance-bathroom-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping tplink-entrance-bathroom-1 ip-address {{ STATIC_DHCP.tplink-entrance-bathroom-1.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping wemo-sunroom-corner-light mac-address {{ STATIC_DHCP.wemo-sunroom-corner-light.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping wemo-sunroom-corner-light ip-address {{ STATIC_DHCP.wemo-sunroom-corner-light.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping wemo-master-bathroom-heater mac-address {{ STATIC_DHCP.wemo-master-bathroom-heater.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping wemo-master-bathroom-heater ip-address {{ STATIC_DHCP.wemo-master-bathroom-heater.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping front_christmas_lights mac-address {{ STATIC_DHCP.front_christmas_lights.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping front_christmas_lights ip-address {{ STATIC_DHCP.front_christmas_lights.IP }}
+
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping lg-basement-tv-1 mac-address {{ STATIC_DHCP.lg-basement-tv-1.MAC }}
+      - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} static-mapping lg-basement-tv-1 ip-address {{ STATIC_DHCP.lg-basement-tv-1.IP }}
