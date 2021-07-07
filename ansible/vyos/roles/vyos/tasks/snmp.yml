@@ -1,0 +1,6 @@
+---
+- name: configure snmp
+  vyos.vyos.vyos_config:
+    lines:
+      - set service snmp community {{ SNMP.COMMUNITY }}
+      - set service snmp listen-address {{ SNMP.LISTEN_ADDRESS }}

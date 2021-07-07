@@ -22,4 +22,6 @@
 
 - include_tasks: bgp.yml
 
+- include_tasks: snmp.yml
+
 - include_tasks: save_config.yml
