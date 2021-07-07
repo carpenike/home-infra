@@ -36,6 +36,7 @@ static_dns:
     node-3-ipmi.holthome.net: ENC[AES256_GCM,data:v29/aA5Iu92l0A==,iv:RGPa0xzM52vfQNH5LzzwR0hPz0Yh/F8sTz+vPROIZUg=,tag:FmiXvSOTuTGLkkK24ybwrg==,type:str]
     h2-0.holthome.net: ENC[AES256_GCM,data:lBCfj5oY1C9DFQ0=,iv:3ylcp+MWJjk3PyTuugu2RSmsh1eluddM36zDcsqD1XE=,tag:e7LmS4aQAr+A2xIlw295Sg==,type:str]
     sm-0.holthome.net: ENC[AES256_GCM,data:j4JNBIwJt9zDXVw=,iv:NiQaL19pSYrDBuc2w/IFIOhsfYnQ4I6dGOQi02bPS3g=,tag:XlB16yQsUBqRGJx/KvV5OQ==,type:str]
+    traefik.holthome.net: ENC[AES256_GCM,data:B+J6hKqygHyPHi4=,iv:2lZcRafxDI0NNWO93g5ufo8jQj4StYdQL4xyoM2FSf8=,tag:/o+BSmUpydco/ezk3EztPQ==,type:str]
 STATIC_DHCP:
     bcs:
         IP: ENC[AES256_GCM,data:NvylmHy3kKsSbA==,iv:RDeMFQ6mQVClJUfPqIRGWGyf7dbjG5y5RZXdkHBsiMI=,tag:3i2+eISwTHzlRS1jZeSwiA==,type:str]
@@ -124,8 +125,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-07-06T21:07:55Z"
-    mac: ENC[AES256_GCM,data:bvUdw1KM8U3C6wYciCbq4y90WEw2bUzzI8mHX2JAoblFmy64xXFJRPe37fjG9/eoR7yOvK4mRPEv4VMjh1IxZimCOiVBVWMss3+S6tw3GkBSgqFcvIBVAMM5gcIImjj6JrA9blr+b7SqOy/YXb1aq//G6l/QoYW/0jkUWEoaY7A=,iv:+cNApaXbDEFDDPSt8sUqchN1ss9DQGJnk/0m30zZtEs=,tag:MWHiGmCUsML408SIYHvzNw==,type:str]
+    lastmodified: "2021-07-07T21:05:29Z"
+    mac: ENC[AES256_GCM,data:cenWQkdNBV6IBI4LdFBT4Xe2rq/8RnQo5ykN5ONXOARg3M5oE7r8h8XV+Ux5c0fUEMsVxzGuY+1Ho5NZi2s8kGGUtqdA+mX961SQeKlVVn3xe4JM411dFEyOll2NyVfsdI2OfFf+CyN41k/WI1N0HKOOGT36XbFt10bg/XLXOoo=,iv:mm/q0utEHAiHccFhwKNmPIawPgjszpoi4sQfz9eo8g4=,tag:Fdkb2DuVj73LW4e6V0hTgg==,type:str]
     pgp:
         - created_at: "2021-06-29T00:45:38Z"
           enc: |
