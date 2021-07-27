@@ -1,0 +1,11 @@
+---
+- name: define lan-cameras rules
+  vyos.vyos.vyos_firewall_rules:
+    config:
+      - afi: ipv4
+        rule_sets:
+          - name: LAN-CAMERAS
+            description: LAN to CAMERAS Rule Set
+            default_action: accept
+            enable_default_log: yes
+    state: merged

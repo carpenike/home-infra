@@ -1,0 +1,11 @@
+---
+- name: define wan-cameras rules
+  vyos.vyos.vyos_firewall_rules:
+    config:
+      - afi: ipv4
+        rule_sets:
+          - name: WAN-CAMERAS
+            description: WAN to CAMERAS Rule Set
+            default_action: drop
+            enable_default_log: yes
+    state: merged

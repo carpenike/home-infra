@@ -1,0 +1,8 @@
+---
+- name: configure bgp
+  vyos.vyos.vyos_config:
+    lines:
+      - set protocols bgp local-as 64513
+      - set protocols bgp peer-group on-prem remote-as 64512
+      - set protocols bgp listen range 192.168.10.0/24 peer-group on-prem
+      - set protocols bgp neighbor 192.168.10.1 peer-group on-prem

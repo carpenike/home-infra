@@ -30,6 +30,17 @@
       - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} range 0 start '{{ WIRELESS.DHCP_RANGE_START }}'
       - set service dhcp-server shared-network-name WIRELESS subnet {{ WIRELESS.CIDR }} range 0 stop '{{ WIRELESS.DHCP_RANGE_END }}'
 
+- name: configure CAMERAS DHCP
+  vyos.vyos.vyos_config:
+    lines:
+      - set service dhcp-server shared-network-name CAMERAS subnet {{ CAMERAS.CIDR }} default-router '{{ CAMERAS.GW }}'
+      - set service dhcp-server shared-network-name CAMERAS subnet {{ CAMERAS.CIDR }} dns-server '{{ CAMERAS.DNS_SERVER }}'
+      - set service dhcp-server shared-network-name CAMERAS subnet {{ CAMERAS.CIDR }} domain-name '{{ ZONE }}'
+      - set service dhcp-server shared-network-name CAMERAS subnet {{ CAMERAS.CIDR }} domain-search '{{ ZONE }}'
+      - set service dhcp-server shared-network-name CAMERAS subnet {{ CAMERAS.CIDR }} lease '86400'
+      - set service dhcp-server shared-network-name CAMERAS subnet {{ CAMERAS.CIDR }} range 0 start '{{ CAMERAS.DHCP_RANGE_START }}'
+      - set service dhcp-server shared-network-name CAMERAS subnet {{ CAMERAS.CIDR }} range 0 stop '{{ CAMERAS.DHCP_RANGE_END }}'
+
 - name: configure host file updating
   vyos.vyos.vyos_config:
     lines:

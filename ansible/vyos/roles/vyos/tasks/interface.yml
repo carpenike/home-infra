@@ -29,6 +29,8 @@
         description: SERVERS
       - vlan_id: 30
         description: WIRELESS
+      - vlan_id: 3000
+        description: CAMERAS
       - vlan_id: 4000
         description: WAN
     state: overridden
@@ -41,6 +43,7 @@
       - set interfaces bonding bond0 address '{{ LAN.GW }}/24'
       - set interfaces bonding bond0 vif 20 address '{{ SERVERS.GW }}/16'
       - set interfaces bonding bond0 vif 30 address '{{ WIRELESS.GW }}/16'
+      - set interfaces bonding bond0 vif 3000 address '{{ CAMERAS.GW }}/16'
 
 - name: configure interface NAT
   vyos.vyos.vyos_config:

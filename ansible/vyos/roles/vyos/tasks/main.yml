@@ -1,16 +1,16 @@
 ---
 
-- include_tasks: interface.yml
+# - include_tasks: interface.yml
 
-- include_tasks: system.yml
+# - include_tasks: system.yml
 
-- include_tasks: service.yml
+# - include_tasks: service.yml
 
-- include_tasks: dns.yml
+# - include_tasks: dns.yml
 
-# - include_tasks: firewall/main.yml
+- include_tasks: firewall/main.yml
 
-# - include_tasks: wireguard.yml
+- include_tasks: wireguard.yml
 
 # - include_tasks: pbr.yml
 
