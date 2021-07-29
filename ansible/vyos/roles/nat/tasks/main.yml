@@ -1,0 +1,7 @@
+---
+# tasks file for nat
+- name: Apply NAT Overload
+  vyos_config:
+    src: nat-overload.j2
+  tags:
+  - nat

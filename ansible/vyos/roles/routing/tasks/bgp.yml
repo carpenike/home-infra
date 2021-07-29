@@ -1,0 +1,43 @@
+---
+- name: Configure Prefix Lists - IPv4
+  vyos_config:
+    src: prefixlists_v4.j2
+  when:
+    - route_maps is defined
+    - route_maps.prefix_lists is defined
+    - route_maps.prefix_lists.ipv4 is defined
+  tags:
+    - bgp
+    - bgp_v4
+
+- name: Configure Prefix Lists - IPv6
+  vyos_config:
+    src: prefixlists_v6.j2
+  when:
+    - route_maps is defined
+    - route_maps.prefix_lists is defined
+    - route_maps.prefix_lists.ipv6 is defined
+  tags:
+    - bgp
+    - bgp_v6
+
+- name: Configure Route Maps 
+  vyos_config:
+    src: routemap.j2
+  when:
+    - route_maps is defined
+    - route_maps.rm is defined
+  tags:
+    - bgp
+    - bgp_v4
+    - bgp_v6
+
+- name: Configure BGP Peers
+  vyos_config:
+    src: bgp.j2
+  when:
+    - bgp is defined
+  tags:
+    - bgp
+    - bgp_v4
+    - bgp_v6

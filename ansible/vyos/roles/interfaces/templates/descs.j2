@@ -1,0 +1,3 @@
+{% for interface in interfaces %}
+set interfaces {{ interface['junos_if'] }} unit {{ interface['unit'] }} description "{{ interface['desc'] }}"
+{% endfor %} 

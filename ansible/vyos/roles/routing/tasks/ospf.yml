@@ -1,0 +1,48 @@
+---
+# tasks file for routing
+#
+- name: OSPF Process - Router ID
+  vyos_config:
+    lines: 
+      - "set protocols ospf parameters router-id  {{ router_id }}"
+  tags:
+    - ospf
+    - ospf_v4
+
+- name: OSPF Interfaces
+  vyos_config:
+    lines:
+      - set protocols ospf area {{ item.ospf.area }} network {{ item.ipv4_addr | ipaddr('network/prefix') }} 
+  when: 
+    - item.ospf is defined
+    - item.ipv4_addr is not search("dhcp")
+  loop: "{{ interfaces }}"
+  tags:
+    - ospf
+    - ospf_v4
+
+- name: OSPF Interfaces - Passive
+  vyos_config:
+    lines:
+      - set protocols ospf passive-interface {{ item.vyos_if }}
+  when: 
+    - item.ospf is defined
+    - item.ospf.passive is defined
+    - item.vif is not defined
+  loop: "{{ interfaces }}"
+  tags:
+    - ospf
+    - ospf_v4
+
+- name: OSPF Interfaces - Passive - vif
+  vyos_config:
+    lines:
+      - set protocols ospf passive-interface {{ item.vyos_if }}.{{ item.vif }}
+  when: 
+    - item.ospf is defined
+    - item.ospf.passive is defined
+    - item.vif is defined
+  loop: "{{ interfaces }}"
+  tags:
+    - ospf
+    - ospf_v4

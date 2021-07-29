@@ -1,0 +1,2 @@
+set system login radius server {{ tacacs['ipv4'] }} key {{ radius['secret'] }} 
+set system login radius source-address {{ router_id }}

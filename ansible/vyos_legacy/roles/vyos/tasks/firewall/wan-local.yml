@@ -1,0 +1,41 @@
+---
+- name: define wan-local rules
+  vyos.vyos.vyos_firewall_rules:
+    config:
+      - afi: ipv4
+        rule_sets:
+          - name: WAN-LOCAL
+            description: WAN to LOCAL Rule Set
+            default_action: drop
+            enable_default_log: yes
+            rules:
+              - number: 1
+                action: accept
+                description: Allow Established and Related to LOCAL
+                state:
+                  established: true
+                  new: false
+                  invalid: false
+                  related: true
+              - number: 2
+                action: drop
+                description: Drop Invalid to LOCAL
+                state:
+                  established: false
+                  new: false
+                  invalid: true
+                  related: false
+              - number: 300
+                action: accept
+                description: accept WireGuard connection from NerdRack
+                state:
+                  established: false
+                  new: true
+                  invalid: false
+                  related: false
+                destination:
+                  port: "{{ WIREGUARD.WG01.PORT }}"
+                protocol: udp
+                source:
+                  address: "{{ WIREGUARD.WG02.ENDPOINT }}"
+    state: merged

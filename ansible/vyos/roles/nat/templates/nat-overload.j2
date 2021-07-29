@@ -1,0 +1,12 @@
+{% if 'edge' in rtr_role %}
+delete nat 
+{% for interface in interfaces %}
+{% if 'nat' in interface %}
+{% if 'outside' in interface['nat']['role'] %}
+set nat source rule 100 source address '0.0.0.0/0'
+set nat source rule 100 outbound-interface '{{ interface['vyos_if'] }}'
+set nat source rule 100 translation address 'masquerade'
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}

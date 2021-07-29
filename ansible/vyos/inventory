@@ -1,0 +1,2 @@
+[vyos]
+fw.holthome.net ansible_host=10.20.0.1

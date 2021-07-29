@@ -1,0 +1,12 @@
+delete service snmp
+set service snmp contact "{{ snmp['contact'] }}"
+set service snmp location "{{ snmp['location'] }}"
+set service snmp v3 group default mode 'ro'
+set service snmp v3 engineid '000000000000000000000002'
+set service snmp v3 group default view 'default'
+set service snmp v3 user {{ snmp['user'] }} auth plaintext-password {{ snmp['auth_key'] }}
+set service snmp v3 user {{ snmp['user'] }} auth type 'sha'
+set service snmp v3 user {{ snmp['user'] }} group 'default'
+set service snmp v3 user {{ snmp['user'] }} privacy plaintext-password {{ snmp['priv_key'] }}
+set service snmp v3 user {{ snmp['user'] }} privacy type 'aes'
+set service snmp v3 view default oid 1

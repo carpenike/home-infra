@@ -1,0 +1,6 @@
+{% for pfx_list in route_maps['prefix_lists']['ipv6'] %}
+{% for address in pfx_list['addresses'] %}
+set policy prefix-list6 {{ pfx_list['name'] }} rule {{ loop.index }} prefix {{ address }} 
+set policy prefix-list6 {{ pfx_list['name'] }} rule {{ loop.index }} action {{ pfx_list['action'] }}
+{% endfor %}
+{% endfor %}

@@ -1,0 +1,54 @@
+---
+# - include_tasks: outside-in.yml
+
+# - include_tasks: outside-local.yml
+
+- include_tasks: cameras-lan.yml
+
+- include_tasks: cameras-servers.yml
+
+- include_tasks: cameras-wan.yml
+
+- include_tasks: lan-cameras.yml
+
+- include_tasks: lan-local.yml
+
+- include_tasks: lan-servers.yml
+
+- include_tasks: lan-wan.yml
+
+- include_tasks: local-lan.yml
+
+- include_tasks: local-servers.yml
+
+- include_tasks: local-wan.yml
+
+- include_tasks: local-wireless.yml
+
+- include_tasks: servers-cameras.yml
+
+- include_tasks: servers-wan.yml
+
+- include_tasks: servers-lan.yml
+
+- include_tasks: servers-local.yml
+
+- include_tasks: servers-wireless.yml
+
+- include_tasks: wan-servers.yml
+
+- include_tasks: wan-wireless.yml
+
+- include_tasks: wan-cameras.yml
+
+- include_tasks: wan-lan.yml
+
+- include_tasks: wan-local.yml
+
+- include_tasks: wireless-local.yml
+
+- include_tasks: wireless-servers.yml
+
+- include_tasks: wireless-wan.yml
+
+- include_tasks: zone-assignments.yml

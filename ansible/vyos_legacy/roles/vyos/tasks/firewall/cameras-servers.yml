@@ -1,0 +1,28 @@
+---
+- name: define cameras-servers rules
+  vyos.vyos.vyos_firewall_rules:
+    config:
+      - afi: ipv4
+        rule_sets:
+          - name: CAMERAS-SERVERS
+            description: CAMERAS to SERVERS Rule Set
+            default_action: drop
+            enable_default_log: yes
+            rules:
+              - number: 1
+                action: accept
+                description: Allow Established and Related to SERVERS
+                state:
+                  established: true
+                  new: false
+                  invalid: false
+                  related: true
+              - number: 2
+                action: drop
+                description: Drop Invalid to SERVERS
+                state:
+                  established: false
+                  new: false
+                  invalid: true
+                  related: false
+    state: merged

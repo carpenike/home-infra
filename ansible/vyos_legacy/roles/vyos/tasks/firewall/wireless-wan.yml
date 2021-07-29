@@ -1,0 +1,11 @@
+---
+- name: define wireless-wan rules
+  vyos.vyos.vyos_firewall_rules:
+    config:
+      - afi: ipv4
+        rule_sets:
+          - name: WIRELESS-WAN
+            description: WIRELESS to WAN Rule Set
+            default_action: accept
+            enable_default_log: yes
+    state: merged

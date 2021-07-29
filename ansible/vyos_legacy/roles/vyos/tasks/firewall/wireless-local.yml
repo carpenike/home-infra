@@ -1,0 +1,11 @@
+---
+- name: define wireless-local rules
+  vyos.vyos.vyos_firewall_rules:
+    config:
+      - afi: ipv4
+        rule_sets:
+          - name: WIRELESS-LOCAL
+            description: WIRELESS to LOCAL Rule Set
+            default_action: accept
+            enable_default_log: yes
+    state: merged

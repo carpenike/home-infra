@@ -1,0 +1,35 @@
+---
+# tasks file for routing
+#
+
+- name: OSPFv3 Interfaces
+  vyos_config:
+    lines:
+      - set protocols ospfv3 area {{ item.ospf.area }} interface {{ item.vyos_if }}
+  when: 
+    - item.ospfv3 is defined
+    - item.vif is not defined
+  loop: "{{ interfaces }}"
+  tags:
+    - ospf
+    - ospf_v6
+
+- name: OSPFv3 Interfaces - vif
+  vyos_config: 
+    lines:
+      - set protocols ospfv3 area {{ item.ospf.area }} interface {{ item.vyos_if }}.{{ item.vif }}
+  when: 
+     - item.ospfv3 is defined
+     - item.vif is defined
+  loop: "{{ interfaces }}"
+  tags:
+    - ospf
+    - ospf_v6
+
+- name: OSPFv3 Interfaces - Passive
+  vyos_config:
+    src: ospfv3_passive.j2
+  tags:
+    - ospf
+    - ospf_v6
+

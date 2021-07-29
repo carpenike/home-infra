@@ -1,0 +1,51 @@
+set protocols bgp {{ bgp['local_as'] }} parameters router-id {{ router_id }}
+set protocols bgp {{ bgp['local_as'] }} parameters default no-ipv4-unicast 
+{% if bgp['redistribute'] is defined %}
+{% if bgp['redistribute']['ospf'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} address-family ipv4-unicast redistribute ospf
+{% endif %}
+{% endif %}
+{% if bgp['redistribute'] is defined %}
+{% if bgp['redistribute']['ospfv3'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} address-family ipv6-unicast redistribute ospfv3
+{% endif %}
+{% endif %}
+{% if bgp['neighbours']['ipv4'] is defined %}
+{% for neighbour in bgp['neighbours']['ipv4'] %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} remote-as {{ neighbour['remote_as'] }} 
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} address-family ipv4-unicast
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} description "{{ neighbour['desc'] }}"
+{% if neighbour['loc_ip'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} update-source {{ neighbour['loc_ip'] }}
+{% endif %} 
+{% if neighbour['default_originate'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} address-family ipv4-unicast default-originate
+{% endif %} 
+{% if neighbour['route_map'] is defined %}
+{% if neighbour['route_map']['in'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} address-family ipv4-unicast route-map import {{ neighbour['route_map']['in'] }} 
+{% endif %}
+{% if neighbour['route_map']['out'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} address-family ipv4-unicast route-map export {{ neighbour['route_map']['out'] }} 
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if bgp['neighbours']['ipv6'] is defined %}
+{% for neighbour in bgp['neighbours']['ipv6'] %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} remote-as {{ neighbour['remote_as'] }}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} address-family ipv6-unicast
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} description "{{ neighbour['desc'] }}"
+{% if neighbour['loc_ip'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} update-source {{ neighbour['loc_ip'] }}
+{% endif %}
+{% if neighbour['route_map'] is defined %}
+{% if neighbour['route_map']['in'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} address-family ipv6-unicast route-map import {{ neighbour['route_map']['in'] }} 
+{% endif %}
+{% if neighbour['route_map']['out'] is defined %}
+set protocols bgp {{ bgp['local_as'] }} neighbor {{ neighbour['peer'] }} address-family ipv6-unicast route-map export {{ neighbour['route_map']['out'] }} 
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}

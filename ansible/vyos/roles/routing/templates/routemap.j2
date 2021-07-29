@@ -1,0 +1,11 @@
+{% for route_map in route_maps['rm'] %}
+{% for rule in route_map['rules'] %}
+{% if rule['pfx_list'] is defined %}
+set policy route-map {{ route_map['name'] }} rule {{ loop.index }} match ip address prefix-list {{ rule['pfx_list'] }}
+{% endif %}
+{% if rule['pfx_list6'] is defined %}
+set policy route-map {{ route_map['name'] }} rule {{ loop.index }} match ipv6 address prefix-list {{ rule['pfx_list6'] }}
+{% endif %}
+set policy route-map {{ route_map['name'] }} rule {{ loop.index }} action {{ rule['action'] }}
+{% endfor %}
+{% endfor %}

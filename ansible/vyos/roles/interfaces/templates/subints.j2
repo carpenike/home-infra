@@ -1,0 +1,8 @@
+{% for interface in interfaces %}
+{% if interface['subint'] is defined %}
+set interfaces  {{ interface['junos_if'] }} vlan-tagging
+{% for vlan in interface['subint']['vlans'] %}
+set interfaces {{ interface['junos_if'] }} unit {{ vlan }} vlan-id {{ vlan }}
+{% endfor %}
+{% endif %}
+{% endfor %} 

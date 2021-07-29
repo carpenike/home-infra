@@ -1,0 +1,15 @@
+{% for interface in interfaces %}
+  {% if interface.ospfv3 is defined %}
+    {% if interface.ospfv3.passive is defined %}
+      {% if "eth" in interface.vyos_if %}
+        {% if interface.vif is defined %}
+interfaces ethernet {{ interface.vyos_if }} vif {{ interface.vif }} ipv6 ospfv3 passive
+        {% else %}
+interfaces ethernet {{ interface.vyos_if }} ipv6 ospfv3 passive
+        {% endif %}
+      {% elif "lo" in interface.vyos_if %}
+interfaces loopback {{ interface.vyos_if }} ipv6 ospfv3 passive
+      {% endif %}
+   {% endif %}
+  {% endif %}
+{% endfor %}
