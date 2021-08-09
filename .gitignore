@@ -2,3 +2,5 @@ k8s-config.yaml
 .terraform
 *.tfstate*
 .decrypted~*
+# Ansible
+xanmanning.k3s*
