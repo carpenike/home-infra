@@ -57,6 +57,18 @@
   with_items:
     - "{{ WIREGUARD.WG02.ALLOWED_IPS }}"
 
+- name: configure wireguard VPN peer wg03
+  vyos.vyos.vyos_config:
+    lines:
+      - set interfaces wireguard wg01 private-key '{{ WIREGUARD.WG01.PRIVKEY }}'
+      - set interfaces wireguard wg01 address '{{ WIREGUARD.WG01.CIDR }}'
+      - set interfaces wireguard wg01 port '{{ WIREGUARD.WG01.PORT }}'
+      - set interfaces wireguard wg01 description 'VPN-VPC'
+      - set interfaces wireguard wg01 peer {{ WIREGUARD.WG03.NAME }} allowed-ips '{{ item }}'
+      - set interfaces wireguard wg01 peer {{ WIREGUARD.WG03.NAME }} public-key '{{ WIREGUARD.WG03.PUBKEY }}'
+  with_items:
+    - "{{ WIREGUARD.WG03.ALLOWED_IPS }}"
+
 # - name: configure wireguard mesh VPN peer wg02
 #   vyos.vyos.vyos_config:
 #     lines:

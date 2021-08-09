@@ -22,6 +22,9 @@ set firewall name {{ policy['name'] }} rule {{ loop.index }} source group addres
 {% if rule['dest_group'] is defined %}
 set firewall name {{ policy['name'] }} rule {{ loop.index }} destination group address-group {{ rule['dest_group'] }}
 {% endif %}
+{% if rule['log'] is defined %}
+set firewall name {{ policy['name'] }} rule {{ loop.index }} log {{ rule['log'] }}
+{% endif %}
 {% if rule['protocol'] is defined %}
 set firewall name {{ policy['name'] }} rule {{ loop.index }} protocol {{ rule['protocol'] }}
 {% endif %}

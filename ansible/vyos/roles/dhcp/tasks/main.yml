@@ -1,0 +1,7 @@
+---
+# tasks file for snmp
+- name: Enable dhcp-server
+  vyos_config:
+    src: snmpv3.j2
+  tags:
+    - dhcp

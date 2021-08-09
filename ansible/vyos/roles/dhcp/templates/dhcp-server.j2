@@ -1,0 +1,21 @@
+delete service dhcp-server
+{% for interface in interfaces | selectattr('dhcp', 'defined') | selectattr('dhcp.enabled') -%}
+  {% set shared_network_name = interface.desc | default(interface.name | upper) -%}
+  {% set network = ((networks + local_networks) | selectattr('name', 'eq', interface.name) | first) -%}    
+  {% set default_router = interface.dhcp.default_router | default(interface_ipv4_addresses[interface.name] | ipv4('address')) -%}
+  {% set lease = interface.dhcp.lease | default(86400) -%}
+  {% set start_addr = network.cidr | ipv4(100) | ipv4('address') -%}
+  {% set stop_addr = network.cidr | ipv4(254) | ipv4('address') %}
+set service dhcp-server shared-network-name {{ shared_network_name }} authoritative
+set service dhcp-server shared-network-name {{ shared_network_name }} subnet {{ network.cidr }} default-router {{ default_router }}
+set service dhcp-server shared-network-name {{ shared_network_name }} subnet {{ network.cidr }} lease '{{ lease }}'
+set service dhcp-server shared-network-name {{ shared_network_name }} subnet {{ network.cidr }} range 0 start {{ start_addr }}
+set service dhcp-server shared-network-name {{ shared_network_name }} subnet {{ network.cidr }} range 0 stop {{ stop_addr }}
+  {% for network_host in (network_hosts | selectattr("network", "defined") | selectattr('network', 'eq', network.name)) -%}
+    {% if network_host.ipv4_hostid and network_host.mac_addr %}
+set service dhcp-server shared-network-name {{ shared_network_name }} subnet {{ network.cidr }} static-mapping {{ network_host.hostname }} mac-address {{ network_host.mac_addr }}
+set service dhcp-server shared-network-name {{ shared_network_name }} subnet {{ network.cidr }} static-mapping {{ network_host.hostname }} ip-address {{ (network.cidr | ipv4(network_host.ipv4_hostid) | ipv4('address')) }}
+    {% endif %}
+  {% endfor %}
+set service dhcp-server hostfile-update
+{% endfor %}

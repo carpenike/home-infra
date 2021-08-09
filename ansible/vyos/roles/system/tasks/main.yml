@@ -32,3 +32,4 @@
     lines:
       - "set system syslog host {{ KUBERNETES.SYSLOG.ENDPOINT }} facility all level all"
       - "set system syslog host {{ KUBERNETES.SYSLOG.ENDPOINT }} port {{ KUBERNETES.SYSLOG.PORT }}"
+      - "set system syslog host {{ KUBERNETES.SYSLOG.ENDPOINT }} facility all protocol tcp"

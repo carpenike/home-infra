@@ -1,0 +1,2 @@
+# The interface on the host kube-vip should attach to
+kubevip_interface: enp2s0
