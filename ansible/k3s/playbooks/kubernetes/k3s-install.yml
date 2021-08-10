@@ -6,7 +6,6 @@
   gather_facts: true
   any_errors_fatal: true
   pre_tasks:
-    - debug: var=kubevip_interface
     - name: Pausing for 5 seconds...
       pause:
         seconds: 5
@@ -28,6 +27,16 @@
         name: xanmanning.k3s
         public: yes
 
+    - name: Copy kubeconfig locally to /tmp
+      run_once: true
+      ansible.builtin.fetch:
+        src: "/etc/rancher/k3s/k3s.yaml"
+        dest: "/tmp/kubeconfig"
+        flat: true
+      when:
+        - k3s_control_node is defined
+        - k3s_control_node
+
     - name: Update kubeconfig with the right IPv4 address
       delegate_to: localhost
       become: false
@@ -35,7 +44,7 @@
       ansible.builtin.replace:
         path: "/tmp/kubeconfig"
         regexp: "https://127.0.0.1:6443"
-        replace: "https://{{ k3s_registration_address }}:6443"
+        replace: "https://{{ k3s_registration_domain }}:6443"
 
     - name: Remove deployed manifest templates
       ansible.builtin.file:

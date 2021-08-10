@@ -44,7 +44,7 @@ spec:
         - name: bgp_enable
           value: "true"
         - name: bgp_routerinterface
-          value: "{{ kubevip_interface }}"
+          value: "eth0"
         - name: bgp_as
           value: "{{ kubevip_bgp_as_number }}"
         - name: bgp_peeraddress
@@ -59,9 +59,6 @@ spec:
             - NET_ADMIN
             - NET_RAW
             - SYS_TIME
-        volumeMounts:
-        - mountPath: /etc/kubernetes/admin.conf
-          name: kubeconfig
       hostNetwork: true
       nodeSelector:
         node-role.kubernetes.io/master: "true"

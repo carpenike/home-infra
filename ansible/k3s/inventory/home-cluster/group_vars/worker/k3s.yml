@@ -11,5 +11,5 @@ k3s_agent:
   kubelet-arg:
     - "feature-gates=GracefulNodeShutdown=true"
     - "feature-gates=MixedProtocolLBService=true"
-  node-label:
-    - "node-role.kubernetes.io/worker=true"
+  # node-label:
+  #   - "node-role.kubernetes.io/worker=true"

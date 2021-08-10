@@ -11,4 +11,4 @@ calico_bgp_as_number: 64512
 # (this network should not exist or be defined anywhere in your network)
 calico_bgp_external_ips: 10.45.0.0/16
 # CIDR of the host node interface Calico should use
-calico_node_cidr: 10.20.0.0/24
+calico_node_cidr: 10.20.0.0/16

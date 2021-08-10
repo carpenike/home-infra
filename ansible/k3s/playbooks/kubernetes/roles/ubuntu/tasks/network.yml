@@ -10,6 +10,13 @@
     path: /proc/sys/net/bridge/bridge-nf-call-iptables
   register: bridge_nf_call_iptables_result
 
+- name: Update /etc/hosts to include hostname
+  ansible.builtin.blockinfile:
+    path: /etc/hosts
+    create: true
+    block: |
+      127.0.1.1 {{ inventory_hostname }}
+
 - name: Set Kubernetes network configuration
   ansible.builtin.blockinfile:
     path: /etc/sysctl.d/99-kubernetes-cri.conf

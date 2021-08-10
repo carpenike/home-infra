@@ -23,6 +23,7 @@ k3s_etcd_datastore: true
 # Control Plane registration address
 # ...this is set to my kube-vip address
 k3s_registration_address: 10.45.10.10
+k3s_registration_domain: k8s.holthome.net
 
 #
 # Uncomment the config below on new installations
@@ -42,5 +43,5 @@ k3s_server_manifests_templates:
 
 # Custom manifest URLs
 k3s_server_manifests_urls:
-  - url: https://docs.projectcalico.org/archive/v3.19/manifests/tigera-operator.yaml
+  - url: https://docs.projectcalico.org/manifests/tigera-operator.yaml
     filename: tigera-operator.yaml
