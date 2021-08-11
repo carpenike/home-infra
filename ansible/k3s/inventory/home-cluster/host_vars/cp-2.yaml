@@ -1,4 +1,0 @@
-kubectl create secret docker-registry dockerhub-creds --docker-username=carpenike --docker-password=tyeX9pwBnmt48G --docker-email=ryan@ryanholt.net -n tigera-operator
-
-
-tyeX9pwBnmt48G
