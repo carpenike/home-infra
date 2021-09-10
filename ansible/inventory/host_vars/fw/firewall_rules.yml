@@ -1,0 +1,206 @@
+# -------------------------
+# Firewall Rule definition
+# -------------------------
+
+firewall_rules:
+  accept_wireguard:
+    action: accept
+    protocol: udp
+    destination:
+      port: "{{ wireguard['servers']['wg_trusted']['port'] }}"
+
+  accept_k8s_api:
+    action: accept
+    log: true
+    protocol: tcp
+    destination:
+      port: 6443
+
+  accept_ingress_from_cloudflare:
+    action: accept
+    protocol: tcp
+    source:
+      network-group: cloudflare-ipv4
+    destination:
+      port: http,https
+      address-group: k8s_ingress
+
+  accept_mqtt:
+    action: accept
+    protocol: tcp
+    destination:
+      port: 1883
+      address-group: k8s_mqtt
+
+  accept_k8s_nodes:
+    action: accept
+    log: true
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+
+  accept_unifi_inform:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: unifi_devices
+    destination:
+      port: 8080
+      address-group: k8s_unifi
+
+  accept_unifi_stun:
+    action: accept
+    protocol: udp
+    source:
+      address-group: unifi_devices
+    destination:
+      port: 3478
+      address-group: k8s_unifi
+
+  accept_promtail_syslog:
+    action: accept
+    protocol: tcp
+    destination:
+      port: 1514
+      address-group: k8s_promtail
+
+  accept_prometheus_from_k8s_nodes:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 9153
+
+  accept_k8s_ingress_from_wall_displays:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: wall_displays
+    destination:
+      port: http,https
+      address-group: k8s_ingress
+
+  accept_plex_from_external:
+    action: accept
+    protocol: tcp
+    destination:
+      port: 32400
+      address-group: k8s_plex
+
+  accept_plex_from_internal_tcp:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: plex_clients
+    destination:
+      port: 32400,5353,32469
+      address-group: k8s_plex
+
+  accept_plex_from_internal_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: plex_clients
+    destination:
+      port: 1900,5353,8324,32410,32412,32413,32414
+      address-group: k8s_plex
+
+  accept_discovery_from_hass:
+    action: accept
+    protocol: udp
+    source:
+      address-group: k8s_hass
+    destination:
+      port: 1900
+
+  accept_discovery_from_sonos_players:
+    action: accept
+    protocol: udp
+    source:
+      address-group: sonos_players
+    destination:
+      port: 1900
+
+  accept_discovery_from_sonos_controllers:
+    action: accept
+    protocol: udp
+    source:
+      address-group: sonos_controllers
+    destination:
+      port: 1900
+
+  accept_app_control_from_sonos_players:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: sonos_players
+    destination:
+      port: 3400,3401,3500
+
+  accept_app_control_from_sonos_controllers:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: sonos_controllers
+    destination:
+      port: 1400,1433,4444
+
+  accept_k8s_ingress_from_sonos_players:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: sonos_players
+    destination:
+      port: http,https
+      address-group: k8s_ingress
+
+  accept_k8s_ingress_from_internal:
+    action: accept
+    protocol: tcp
+    destination:
+      port: http,https
+      address-group: k8s_ingress
+
+  accept_stepca_ingress_from_internal:
+    action: accept
+    protocol: tcp
+    destination:
+      port: http,https
+      address-group: pki
+
+  accept_nfs_from_nfs_clients_tcp:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: nfs_clients
+    destination:
+      port: 111,2049
+      address-group: nas_nodes
+
+  accept_nfs_from_nfs_clients_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: nfs_clients
+    destination:
+      port: 111,2049
+      address-group: nas_nodes
+
+  accept_smb_from_smb_clients_tcp:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: smb_clients
+    destination:
+      port: 445
+      address-group: nas_nodes
+
+  accept_smb_from_smb_clients_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: smb_clients
+    destination:
+      port: 445
+      address-group: nas_nodes

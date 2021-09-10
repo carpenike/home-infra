@@ -1,0 +1,16 @@
+---
+dhcp_server:
+  enabled: false
+  interfaces: {}
+
+igmp_proxy:
+  enabled: false
+  interfaces: {}
+
+mdns_repeater:
+  enabled: false
+  interfaces: []
+
+broadcast_relay:
+  enabled: false
+  rules: []

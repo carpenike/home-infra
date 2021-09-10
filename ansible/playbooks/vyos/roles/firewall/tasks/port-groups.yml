@@ -1,0 +1,28 @@
+---
+- name: store vyos_managed_port_groups
+  ansible.builtin.set_fact:
+    vyos_managed_port_groups: "{{ lookup('template', './config/port-groups.j2') | from_yaml }}"
+
+- name: get current firewall configuration
+  vyos.vyos.vyos_firewall_global:
+    config:
+    state: gathered
+  register: vyos_firewall_config
+
+- name: configure port groups
+  vars:
+    vyos_existing_config: "{{ vyos_firewall_config['gathered'] }}"
+  vyos.vyos.vyos_firewall_global:
+    config:
+      log_martians: "{{ vyos_existing_config['log_martians'] }}"
+      ping: "{{ vyos_existing_config['ping'] }}"
+      route_redirects: "{{ vyos_existing_config['route_redirects'] }}"
+      state_policy: "{{ vyos_existing_config['state_policy'] | default([]) }}"
+      syn_cookies: "{{ vyos_existing_config['syn_cookies'] }}"
+      twa_hazards_protection: "{{ vyos_existing_config['twa_hazards_protection'] }}"
+      validation: "{{ vyos_existing_config['validation'] }}"
+      group:
+        address_group: "{{ vyos_existing_config['group']['address_group'] }}"
+        network_group: "{{ vyos_existing_config['group']['network_group'] }}"
+        port_group: "{{ vyos_managed_port_groups }}"
+    state: replaced

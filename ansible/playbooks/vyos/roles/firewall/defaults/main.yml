@@ -1,0 +1,9 @@
+---
+firewall_network_groups: []
+firewall_address_groups: []
+firewall_port_groups: []
+
+firewall_zones: []
+
+firewall_global_rules: {}
+firewall_rules: {}

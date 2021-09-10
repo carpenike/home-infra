@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# variables
+VERBOSE=0
+SOURCE_URL='https://www.cloudflare.com/ips-v4'
+
+# simple logger function
+logger(){
+  if [ "$VERBOSE" == "1" ]
+  then
+  echo "$@"
+  fi
+}
+
+# set verbose flag if given
+if [ "$1" == "-v" ]
+then
+VERBOSE=1;
+fi
+
+# create or truncate tmp file
+>/config/groups/cloudflare-ipv4
+
+# get cloudflare ipv4 address file
+wget -q "$SOURCE_URL" -O - | grep ^[0-9] | sed -e 's/;.*//' >> /config/groups/cloudflare-ipv4
+if [ $? -ne 0 ]
+then
+  logger "error getting cloudflare ipv4 address file"
+  logger "exiting..."
+exit
+fi
+logger "received `wc -l /config/groups/cloudflare-ipv4 | awk '{print $1}'` networks to block..."
+
+logger "starting vyatta cmd wrapper"
+/opt/vyatta/sbin/vyatta-cfg-cmd-wrapper begin
+
+# remove existing list, in case a network has been removed"
+logger "deleting existing cloudflare-ipv4 network group"
+/opt/vyatta/sbin/vyatta-cfg-cmd-wrapper delete firewall group network-group cloudflare-ipv4
+
+# add each network to the block list
+logger "building new cloudflare-ipv4 network group"
+logger "this might take a while..."
+for i in `cat /config/groups/cloudflare-ipv4`;
+do
+  /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper set firewall group network-group cloudflare-ipv4 network $i
+done;
+
+# now commit the changes
+logger "committing changes"
+/opt/vyatta/sbin/vyatta-cfg-cmd-wrapper commit
+
+logger "ending vyatta cmd wrapper"
+/opt/vyatta/sbin/vyatta-cfg-cmd-wrapper end

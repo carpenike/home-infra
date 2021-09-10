@@ -1,4 +1,0 @@
-- hosts: all
-  #  gather_facts: true
-  roles:
-    - cloudalchemy.node_exporter

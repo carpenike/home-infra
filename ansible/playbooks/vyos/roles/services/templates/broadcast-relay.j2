@@ -1,0 +1,22 @@
+delete service broadcast-relay
+{% if broadcast_relay['enabled'] %}
+    {% set ns = namespace(counter = 1) %}
+    {% for rule in broadcast_relay['rules'] %}
+        {% set counter = loop.counter %}
+        {% if rule['description'] is defined %}
+            set service broadcast-relay id {{ ns.counter }} description {{ rule['description'] }}
+        {% endif %}
+        {% for name in rule['interfaces'] %}
+            {% set vyos_interface = vyos_interfaces[name] %}
+            {% if vyos_interface %}
+                {% set interface = vyos_interface['interface'] %}
+                {% if vyos_interface['vlan_id'] is defined %}
+                    {% set interface = interface + '.' + (vyos_interface['vlan_id'] | string) %}
+                {% endif %}
+                set service broadcast-relay id {{ ns.counter }} interface '{{ interface }}'
+            {% endif %}
+        {% endfor %}    
+        set service broadcast-relay id {{ ns.counter }} port {{ rule['port'] }}
+        {% set ns.counter = ns.counter + 1 %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,48 @@
+{%- set ns = namespace(source_counter=1, destination_counter=1) -%}
+
+{# Reset defaults #}
+delete nat
+
+{% for rule in nat['rules'] %}
+    {% set interface = vyos_interfaces[rule['interface']] %}
+
+    {% if rule['type'] == 'snat' %}
+        set nat source rule {{ ns.source_counter }} outbound-interface '{{ interface['interface_complete'] }}'
+        {% if rule['protocol'] is defined %}
+            set nat source rule {{ ns.source_counter }} protocol {{rule['protocol']}}
+        {% endif %}
+        {% if rule['source']['address'] is defined %}
+            set nat source rule {{ ns.source_counter }} destination address {{rule['source']['address']}}
+        {% endif %}
+        {% if rule['source']['port'] is defined %}
+            set nat source rule {{ ns.source_counter }} destination port {{rule['source']['port']}}
+        {% endif %}
+        {% if rule['destination']['address'] is defined %}
+            set nat source rule {{ ns.source_counter }} translation address {{rule['destination']['address']}}
+        {% endif %}
+        {% if rule['destination']['port'] is defined %}
+            set nat source rule {{ ns.source_counter }} translation port {{rule['destination']['port']}}
+        {% endif %}
+        {% set ns.source_counter = ns.source_counter + 1 %}
+    {% endif %}
+
+    {% if rule['type'] == 'dnat' %}
+        set nat destination rule {{ ns.destination_counter }} inbound-interface '{{ interface['interface_complete'] }}'
+        {% if rule['protocol'] is defined %}
+            set nat destination rule {{ ns.destination_counter }} protocol {{rule['protocol']}}
+        {% endif %}
+        {% if rule['source']['address'] is defined %}
+            set nat destination rule {{ ns.destination_counter }} destination address {{rule['source']['address']}}
+        {% endif %}
+        {% if rule['source']['port'] is defined %}
+            set nat destination rule {{ ns.destination_counter }} destination port {{rule['source']['port']}}
+        {% endif %}
+        {% if rule['destination']['address'] is defined %}
+            set nat destination rule {{ ns.destination_counter }} translation address {{rule['destination']['address']}}
+        {% endif %}
+        {% if rule['destination']['port'] is defined %}
+            set nat destination rule {{ ns.destination_counter }} translation port {{rule['destination']['port']}}
+        {% endif %}
+        {% set ns.destination_counter = ns.destination_counter + 1 %}
+    {% endif %}
+{% endfor %}

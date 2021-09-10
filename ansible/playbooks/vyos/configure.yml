@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://json.schemastore.org/ansible-playbook.json
+---
+- hosts:
+    - vyos
+  become: false
+  gather_facts: false
+  any_errors_fatal: true
+
+  vars:
+    vyos_interfaces: "{{ lookup('template', './variables/vyos_interfaces.j2') }}"
+    vyos_address_book: "{{ lookup('template', './variables/vyos_address_book.j2') }}"
+
+  tasks:
+    - name: get current config
+      vyos.vyos.vyos_facts:
+        gather_subset: config
+      tags:
+        - always
+
+    - name: "role: system"
+      ansible.builtin.import_role:
+        name: system
+      tags:
+        - system
+
+    - name: "role: interfaces"
+      ansible.builtin.import_role:
+        name: interfaces
+      tags:
+        - interfaces
+
+    - name: "role: routing"
+      ansible.builtin.import_role:
+        name: routing
+      tags:
+        - routing
+
+    - name: "role: nat"
+      ansible.builtin.import_role:
+        name: nat
+      tags:
+        - nat
+
+    - name: "role: firewall"
+      ansible.builtin.import_role:
+        name: firewall
+      tags:
+        - firewall
+
+    - name: "role: services"
+      ansible.builtin.import_role:
+        name: services
+      tags:
+        - services
+
+    - name: "role: dns"
+      ansible.builtin.import_role:
+        name: dns
+      tags:
+        - dns
+
+    - name: Save configuration
+      vyos.vyos.vyos_config:
+        save: true

@@ -1,0 +1,21 @@
+delete protocol igmp-proxy
+{% if igmp_proxy['enabled'] %}
+    {% for name, settings in igmp_proxy['interfaces'].items() %}
+        {%- set vyos_interface = vyos_interfaces[name] -%}
+        {%- if vyos_interface -%}
+            {% set interface = vyos_interface['interface'] %}
+            {% if vyos_interface['vlan_id'] is defined %}
+                {% set interface = interface + '.' + (vyos_interface['vlan_id'] | string) %}
+            {% endif %}
+            {% if settings['role'] is defined %}
+                set  protocol igmp-proxy interface {{ interface }} role {{ settings['role'] }}
+            {% endif %}
+            {% if settings['threshold'] is defined %}
+                set  protocol igmp-proxy interface {{ interface }} threshold {{ settings['threshold'] }}
+            {% endif %}
+            {% if settings['alt-subnet'] is defined %}
+                set  protocol igmp-proxy interface {{ interface }} alt-subnet {{ settings['alt-subnet'] }}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

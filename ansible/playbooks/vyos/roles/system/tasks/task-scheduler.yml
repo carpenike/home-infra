@@ -1,0 +1,5 @@
+---
+- name: define address groups
+  vyos.vyos.vyos_config:
+    match: none
+    src: task-scheduler.j2

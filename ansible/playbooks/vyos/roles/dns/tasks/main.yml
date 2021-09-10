@@ -1,0 +1,53 @@
+---
+- name: set facts for ansible ssh
+  when:
+    - coredns['enabled']
+  set_fact:
+    ansible_connection: ssh
+  tags:
+    - coredns
+
+- name: create CoreDNS config directory on host
+  when:
+    - coredns['enabled']
+  ansible.builtin.file:
+    path: "{{ coredns['config_path'] }}"
+    state: directory
+    owner: root
+    group: vyattacfg
+    mode: "0755"
+  become: true
+  tags:
+    - coredns
+
+- import_tasks: coredns-kubeconfig.yml
+  when:
+    - coredns['enabled']
+    - coredns['k8s_gateway']['enabled']
+  tags:
+    - coredns
+    - kubeconfig
+
+- import_tasks: coredns-container.yml
+  when:
+    - coredns['enabled']
+  tags:
+    - coredns
+
+- name: flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: set facts for network connection
+  when:
+    - coredns['enabled']
+  set_fact:
+    ansible_connection: ansible.netcommon.network_cli
+  tags:
+    - coredns
+
+- name: set static host mappings
+  vyos.vyos.vyos_config:
+    match: line
+    src: config/static-host-mapping.j2
+  tags:
+    - static-host-mapping

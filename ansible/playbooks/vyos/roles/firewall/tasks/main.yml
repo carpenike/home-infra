@@ -1,0 +1,31 @@
+---
+- name: allow all local ICMP
+  vyos.vyos.vyos_config:
+    lines:
+      - set firewall all-ping enable
+
+- import_tasks: network-groups.yml
+  tags:
+    - network-groups
+    - firewall-groups
+
+- import_tasks: address-groups.yml
+  tags:
+    - address-groups
+    - firewall-groups
+
+- import_tasks: port-groups.yml
+  tags:
+    - port-groups
+    - firewall-groups
+
+- import_tasks: rules.yml
+  tags:
+    - firewall-rules
+
+- name: define zones
+  vyos.vyos.vyos_config:
+    match: none
+    src: config/zones.j2
+  tags:
+    - firewall-zones

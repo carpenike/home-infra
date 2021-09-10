@@ -1,0 +1,248 @@
+---
+# ----------------------
+# Ansible configuration
+# ----------------------
+
+ansible_python_interpreter: /usr/bin/python3
+
+# ---------------------
+# System configuration
+# ---------------------
+
+hostname: fw
+domain: holthome.net
+upstream_dns:
+  - 1.1.1.1
+
+syslog:
+  endpoint: "{{ vyos_address_book['services']['k8s_promtail']['ipv4_addr'] }}"
+  port: 1514
+
+task_scheduler:
+  tasks:
+    update_cloudflare-ipv4:
+      crontab: '0 */12 * * *'
+      path: /config/scripts/cloudflare-ipv4.sh
+
+# ---------------------
+# Remote files to be managed
+# ---------------------
+
+files:
+  - url: https://www.cloudflare.com/ips-v4
+    dest: /config/groups/cloudflare-ipv4
+  - template: cloudflare-ipv4.sh.j2
+    dest: /config/scripts/cloudflare-ipv4.sh
+    mode: "0755"
+
+# -------------------------
+# Interfaces configuration
+# -------------------------
+
+interfaces:
+  wan:
+    interface: bond0
+    vlan_id: 4000
+    ipv4_addr: dhcp
+  lan:
+    desc: Management
+    interface: bond0
+    ipv4_addr: true
+    skip_creation: true
+  vlan_servers:
+    vlan_id: 20
+    interface: bond0
+    ipv4_addr: true
+  # vlan_trusted:
+  #   vlan_id: 20
+  #   interface: eth1
+  #   ipv4_addr: true
+  vlan_wireless:
+    vlan_id: 30
+    interface: bond0
+    ipv4_addr: true
+  vlan_guest:
+    vlan_id: 35
+    interface: bond0
+    ipv4_addr: true
+  vlan_iot:
+    vlan_id: 40
+    interface: bond0
+    ipv4_addr: true
+  vlan_video:
+    vlan_id: 50
+    interface: bond0
+    ipv4_addr: true
+  rescue:
+    interface: bond0
+    vlan_id: 5
+    ipv4_addr: true
+  wg_trusted:
+    interface: wg01
+    ipv4_addr: true
+    skip_creation: true
+
+wireguard:
+  servers:
+    wg_trusted:
+      private-key: "{{ secure_values['wireguard']['wg_trusted']['private_key'] }}"
+      port: 51820
+      peers:
+        - name: iphone-ryan
+          public-key: "{{ secure_values['wireguard']['wg_trusted']['iphone_ryan_public'] }}"
+          ipv4_hostid: 2
+        # - name: macbook-bernd
+        #   public-key: "{{ secure_values['wireguard']['wg_trusted']['macbook_bernd_public'] }}"
+        #   ipv4_hostid: 3
+
+# ------------------
+# NAT configuration
+# ------------------
+
+nat:
+  rules:
+    - type: snat
+      interface: wan
+      source:
+        address: 0.0.0.0/0
+      destination:
+        address: masquerade
+    - type: dnat
+      interface: wan
+      protocol: tcp
+      source:
+        port: 443
+      destination:
+        address: "{{ vyos_address_book['services']['k8s_ingress']['ipv4_addr'] }}"
+        port: 443
+    - type: dnat
+      interface: wan
+      protocol: tcp
+      source:
+        port: 80
+      destination:
+        address: "{{ vyos_address_book['services']['k8s_ingress']['ipv4_addr'] }}"
+        port: 80
+    - type: dnat
+      interface: vlan_iot
+      protocol: tcp_udp
+      source:
+        address: "!{{ vyos_interfaces['vlan_iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        port: 53
+      destination:
+        address: "{{ vyos_interfaces['vlan_iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+    - type: dnat
+      interface: vlan_video
+      protocol: tcp_udp
+      source:
+        address: "!{{ vyos_interfaces['vlan_video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        port: 53
+      destination:
+        address: "{{ vyos_interfaces['vlan_video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+    - type: dnat
+      interface: vlan_wireless
+      protocol: tcp_udp
+      source:
+        address: "!{{ vyos_interfaces['vlan_wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        port: 53
+      destination:
+        address: "{{ vyos_interfaces['vlan_wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+    - type: dnat
+      interface: wan
+      protocol: tcp
+      source:
+        port: 32400
+      destination:
+        address: "{{ vyos_address_book['services']['k8s_plex']['ipv4_addr'] }}"
+
+# -----------------------
+# Firewall configuration
+# Note: rules and zones are configured in their own respective host_vars files.
+# -----------------------
+
+firewall_network_groups:
+  - name: cloudflare-ipv4
+    from_file: /config/groups/cloudflare-ipv4
+
+firewall_port_groups:
+  - name: wireguard
+    ports:
+      - "{{ wireguard['servers']['wg_trusted']['port'] }}"
+
+# ----------------------
+# Routing configuration
+# ----------------------
+
+bgp:
+  enabled: true
+  local_as: 64512
+  router_id: "{{ vyos_interfaces['vlan_servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+  neighbour_groups:
+    - group: k8s_nodes
+      remote_as: 64512
+
+# -----------------------
+# Services configuration
+# -----------------------
+
+coredns:
+  enabled: true
+  interfaces:
+    - lan
+    - vlan_servers
+    - vlan_iot
+    - vlan_wireless
+    - vlan_video
+    - rescue
+    - wg_trusted
+  config_path: /config/coredns
+  container:
+    repository: ghcr.io/k8s-at-home/coredns
+    tag: v1.8.4
+  k8s_gateway:
+    enabled: true
+    api_ip: "{{ vyos_address_book['services']['k8s_api']['ipv4_addr'] }}"
+    domains: "{{ secure_values['coredns']['k8s_gateway']['domains'] }}"
+    service_account_ns: kube-system
+    service_account: excoredns
+
+dhcp_server:
+  enabled: true
+  host-decl-name: true
+  hostfile-update: true
+  interfaces:
+    lan: true
+    vlan_servers: true
+    vlan_iot: true
+    vlan_video: true
+    vlan_wireless: true
+    rescue: true
+
+igmp_proxy:
+  enabled: true
+  interfaces:
+    lan:
+      role: upstream
+      threshold: 1
+      alt-subnet: 0.0.0.0/0
+    vlan_iot:
+      role: downstream
+      threshold: 1
+      alt-subnet: 0.0.0.0/0
+
+mdns_repeater:
+  enabled: true
+  interfaces:
+    - lan
+    - vlan_iot
+    - vlan_wireless
+
+broadcast_relay:
+  enabled: true
+  rules:
+    - description: SONOS
+      interfaces:
+        - lan
+        - vlan_iot
+        - vlan_wireless
+      port: 1900

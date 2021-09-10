@@ -1,0 +1,16 @@
+[Unit]
+Description=CoreDNS container
+Wants=network.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+TimeoutStopSec=60
+ExecStartPre=/usr/bin/podman rm --force --volumes --ignore coredns
+ExecStart=/usr/bin/podman run -d --rm --net host --name coredns -v {{ coredns['config_path'] }}/:/config/ -v /etc/hosts:/etc/hosts:ro {{ coredns['container']['repository'] }}:{{ coredns['container']['tag'] }}
+ExecStop=/usr/bin/podman stop -t 10 coredns
+ExecStopPost=/usr/bin/podman stop -t 10 coredns
+Type=forking
+
+[Install]
+WantedBy=multi-user.target default.target

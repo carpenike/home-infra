@@ -1,0 +1,46 @@
+---
+- name: set facts for ansible ssh
+  set_fact:
+    ansible_connection: ssh
+
+- name: make sure target folders exist
+  ansible.builtin.file:
+    path: "{{ item['dest'] | dirname }}"
+    state: directory
+    owner: root
+    group: vyattacfg
+    mode: "0775"
+  become: true
+  with_items:
+    - "{{ files }}"
+
+- name: download remote files
+  ansible.builtin.get_url:
+    url: "{{ item['url'] }}"
+    dest: "{{ item['dest'] }}"
+    owner: root
+    group: vyattacfg
+    mode: "{{ item['mode'] | default('0644') }}"
+  become: true
+  with_items:
+    - "{{ files }}"
+  when:
+    - item['url'] is defined
+
+- name: create files from templates
+  ansible.builtin.template:
+    src: "{{ item['template'] }}"
+    dest: "{{ item['dest'] }}"
+    owner: root
+    group: vyattacfg
+    mode: "{{ item['mode'] | default('0644') }}"
+    lstrip_blocks: true
+  become: true
+  with_items:
+    - "{{ files }}"
+  when:
+    - item['template'] is defined
+
+- name: set facts for network connection
+  set_fact:
+    ansible_connection: ansible.netcommon.network_cli

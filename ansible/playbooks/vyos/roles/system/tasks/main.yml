@@ -1,0 +1,41 @@
+---
+- name: configure timezone
+  vyos.vyos.vyos_config:
+    lines:
+      - set system time-zone {{ timezone }}
+
+- name: configure hostname
+  vyos.vyos.vyos_system:
+    host_name: "{{ hostname }}"
+    domain_name: "{{ domain }}"
+
+- name: configure domain search suffixes
+  vyos.vyos.vyos_system:
+    domain_search:
+      - "{{ domain }}"
+
+- name: configure name servers
+  vyos.vyos.vyos_system:
+    name_servers: "{{ upstream_dns }}"
+
+- name: configure syslog
+  vyos.vyos.vyos_config:
+    lines:
+      - "set system syslog host {{ syslog['endpoint'] }} facility all level all"
+      - "set system syslog host {{ syslog['endpoint'] }} facility all protocol tcp"
+      - "set system syslog host {{ syslog['endpoint'] }} format octet-counted"
+      - "set system syslog host {{ syslog['endpoint'] }} port {{ syslog['port'] }}"
+  when:
+    - syslog is defined
+    - syslog['endpoint'] is defined
+    - syslog['port'] is defined
+  tags:
+  - syslog
+
+- import_tasks: files.yml
+  tags:
+  - files
+
+- import_tasks: task-scheduler.yml
+  tags:
+  - task-scheduler

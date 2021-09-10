@@ -1,0 +1,43 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+
+{#- Parse current configuration -#}
+{%- set static_hosts_pattern = "^set system static-host-mapping host-name (?P<hostname>.*) inet .*" -%}
+{%- set current_host_entries = ansible_net_config[0] | split('\n') | map('regex_search',static_hosts_pattern) | map('regex_replace',static_hosts_pattern, '\\1') | reject('eq', 'None') | unique -%}
+
+{#- Collect static-host-mappings to be managed -#}
+{%- set static_host_mappings = dict() -%}
+
+{%- for hostname, host in vyos_address_book['hosts'].items() -%}
+  {# Add static host mappings for devices that are not DHCP clients #}
+  {%- if host['dhcp_client'] is defined and host['dhcp_client'] == false and host['ipv4_addr'] is defined -%}
+    {%- set _ = static_host_mappings.update({(hostname + '.' + domain): {'ipv4_addr': host['ipv4_addr']}}) -%}
+  {% endif -%}
+
+  {#- Add static host mappings for device aliases -#}
+  {% if host['aliases'] is defined and host['ipv4_addr'] is defined -%}
+    {%- for alias in host['aliases'] -%}
+      {%- set _ = static_host_mappings.update({alias: {'ipv4_addr': host['ipv4_addr']}}) -%}
+    {% endfor -%}
+  {% endif -%}
+{% endfor -%}
+
+{#- Add manually specified static host mappings -#}
+{%- for static_mapping in vyos_address_book['static_mappings'] | selectattr('ipv4_addr', 'defined') -%}
+  {%- set _ = static_host_mappings.update({static_mapping['hostname']: {'ipv4_addr': static_mapping['ipv4_addr']}}) -%}
+{% endfor -%}
+
+{#- Process the collected static host mappings -#}
+{%- if static_host_mappings.keys() | count > 0 %}
+  {# Create the new static mappings #}
+  {%- for hostname, static_mapping in static_host_mappings.items() -%}
+    set system static-host-mapping host-name '{{ hostname }}' inet '{{ static_mapping['ipv4_addr'] }}'
+  {% endfor -%}
+
+  {# Remove obsolete static mappings #}
+  {%- for host_name in (current_host_entries | difference(static_host_mappings.keys())) -%}
+    delete system static-host-mapping host-name {{ host_name }}
+  {% endfor -%}
+{% else %}
+  {# Remove the entire key if no mappings are found #}
+  delete system static-host-mapping
+{%- endif %}

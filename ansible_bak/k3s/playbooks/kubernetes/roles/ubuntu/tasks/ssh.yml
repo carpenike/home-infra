@@ -1,0 +1,17 @@
+---
+- name: Check for ssh cert
+  ansible.builtin.stat:
+    path: /etc/ssh/ssh_host_ecdsa_key-cert.pub
+  register: ssh_host_ecdsa_key-cert_results
+
+- name: Set Kubernetes network configuration
+  ansible.builtin.blockinfile:
+    path: /etc/sysctl.d/99-kubernetes-cri.conf
+    mode: 0644
+    create: true
+    block: |
+      net.ipv4.ip_forward = 1
+      net.bridge.bridge-nf-call-iptables = 1
+  when:
+    - bridge_nf_call_iptables_result.stat.exists
+  register: sysctl_network

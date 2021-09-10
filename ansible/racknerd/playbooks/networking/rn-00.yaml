@@ -1,7 +1,0 @@
----
-- hosts: 'rn-00.holthome.net'
-  gather_facts: true
-  connection: network_cli
-  any_errors_fatal: yes
-  roles:
-    - role: vyos

@@ -1,0 +1,19 @@
+{# Reset defaults #}
+delete system task-scheduler
+
+{# Tasks from gateway config #}
+{% for task_name, task in task_scheduler['tasks'].items() %}
+  {% if task['interval'] is defined %}
+    set system task-scheduler task {{ task_name }} interval '{{ task['interval'] }}'
+  {% endif %}
+
+  {% if task['crontab'] is defined %}
+    set system task-scheduler task {{ task_name }} crontab-spec '{{ task['crontab'] }}'
+  {% endif %}
+
+  set system task-scheduler task {{ task_name }} executable path '{{ task['path'] }}'
+
+  {% if task['args'] is defined %}
+    set system task-scheduler task {{ task_name }} executable arguments '{{ task['args'] }}'
+  {% endif %}
+{% endfor %}
