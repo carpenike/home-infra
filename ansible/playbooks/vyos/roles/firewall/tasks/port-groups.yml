@@ -14,15 +14,15 @@
     vyos_existing_config: "{{ vyos_firewall_config['gathered'] }}"
   vyos.vyos.vyos_firewall_global:
     config:
-      log_martians: "{{ vyos_existing_config['log_martians'] }}"
+      log_martians: "{{ vyos_existing_config['log_martians'] | default('yes') }}"
       ping: "{{ vyos_existing_config['ping'] }}"
-      route_redirects: "{{ vyos_existing_config['route_redirects'] }}"
+      route_redirects: "{{ vyos_existing_config['route_redirects'] | default('[]') }}"
       state_policy: "{{ vyos_existing_config['state_policy'] | default([]) }}"
-      syn_cookies: "{{ vyos_existing_config['syn_cookies'] }}"
-      twa_hazards_protection: "{{ vyos_existing_config['twa_hazards_protection'] }}"
-      validation: "{{ vyos_existing_config['validation'] }}"
+      syn_cookies: "{{ vyos_existing_config['syn_cookies'] | default('yes') }}"
+      twa_hazards_protection: "{{ vyos_existing_config['twa_hazards_protection'] | default('yes') }}"
+      validation: "{{ vyos_existing_config['validation'] | default('strict') }}"
       group:
-        address_group: "{{ vyos_existing_config['group']['address_group'] }}"
-        network_group: "{{ vyos_existing_config['group']['network_group'] }}"
-        port_group: "{{ vyos_managed_port_groups }}"
+        address_group: "{{ vyos_existing_config['group']['address_group'] | default('[]') }}"
+        network_group: "{{ vyos_existing_config['group']['network_group'] | default('[]') }}"
+        port_group: "{{ vyos_managed_port_groups | default('[]') }}"
     state: replaced
