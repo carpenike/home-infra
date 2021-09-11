@@ -39,7 +39,7 @@
       state_policy: "{{ vyos_existing_config['state_policy'] | default([]) }}"
       syn_cookies: "{{ vyos_existing_config['syn_cookies'] | default('yes') }}"
       twa_hazards_protection: "{{ vyos_existing_config['twa_hazards_protection'] | default('no') }}"
-      validation: "{{ vyos_existing_config['validation'] | default('disabled') }}"
+      validation: "{{ vyos_existing_config['validation'] | default('disable') }}"
       group:
         address_group: "{{ vyos_managed_address_groups | default('[]') }}"
         network_group: "{{ vyos_existing_config['group']['network_group'] | default('[]') }}"
