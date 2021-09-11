@@ -19,8 +19,8 @@
       route_redirects: "{{ vyos_existing_config['route_redirects'] | default('[]') }}"
       state_policy: "{{ vyos_existing_config['state_policy'] | default([]) }}"
       syn_cookies: "{{ vyos_existing_config['syn_cookies'] | default('yes') }}"
-      twa_hazards_protection: "{{ vyos_existing_config['twa_hazards_protection'] | default('yes') }}"
-      validation: "{{ vyos_existing_config['validation'] | default('strict') }}"
+      twa_hazards_protection: "{{ vyos_existing_config['twa_hazards_protection'] | default('no') }}"
+      validation: "{{ vyos_existing_config['validation'] | default('disabled') }}"
       group:
         address_group: "{{ vyos_existing_config['group']['address_group'] | default('[]') }}"
         network_group: "{{ vyos_existing_config['group']['network_group'] | default('[]') }}"
