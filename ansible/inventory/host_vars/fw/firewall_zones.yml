@@ -11,13 +11,14 @@ firewall_zones:
       - includeZones:
           - vlan_video
         default: drop
-        defaultLog: false
+        defaultLog: true
       - ignoreZones:
           - vlan_video
         default: accept
-        defaultLog: false
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
   - name: local
     description: Local router zone
@@ -28,6 +29,7 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_ssh: null
           - accept_dns: null
@@ -39,6 +41,7 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
           - accept_ssh: null
@@ -54,6 +57,7 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_ssh: null
           - accept_dns: null
@@ -69,6 +73,7 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_dns: null
           - accept_ntp: null
@@ -80,6 +85,7 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_wireguard: null
       - includeZones:
@@ -87,6 +93,7 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_dhcp: null
       - ignoreZones:
@@ -100,6 +107,7 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_dns: null
           - accept_ntp: null
@@ -114,9 +122,10 @@ firewall_zones:
           # - vlan_trusted
           - wg_trusted
         default: accept
-        defaultLog: false
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
       - ignoreZones:
           # - vlan_trusted
@@ -124,6 +133,7 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
   - name: vlan_servers
     description: Server devices zone
@@ -134,25 +144,30 @@ firewall_zones:
           # - vlan_trusted
           - wg_trusted
         default: accept
-        defaultLog: false
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
           - accept_k8s_ingress_from_internal: null
       - includeZones:
           - wan
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_ingress_from_cloudflare: null
           - accept_plex_from_external: null
       - includeZones:
           - mgmt
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
           - accept_k8s_api: null
@@ -164,16 +179,16 @@ firewall_zones:
           - accept_mqtt: null
           - accept_unifi_inform: null
           - accept_unifi_stun: null
-          - accept_smb_from_smb_clients_udp: null
-          - accept_smb_from_smb_clients_tcp: null
-          - accept_smb_from_smb_clients_tcp: null
-          - accept_smb_from_smb_clients_udp: null
+          - accept_smb_from_smb_clients: null
+          - accept_nfs_from_smb_clients: null
           - accept_stepca_ingress_from_internal: null
       - includeZones:
           - vlan_wireless
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
           - accept_k8s_api: null
@@ -184,8 +199,10 @@ firewall_zones:
       - includeZones:
           - vlan_iot
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           # - accept_mqtt: null
           # - accept_plex_from_plex_clients: null
@@ -194,8 +211,10 @@ firewall_zones:
       - includeZones:
           - local
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_bgp: null
           - accept_k8s_api: null
@@ -209,8 +228,10 @@ firewall_zones:
           # - vlan_trusted
           - wg_trusted
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
   # - name: vlan_trusted
   #   description: Trusted devices zone
@@ -222,6 +243,7 @@ firewall_zones:
   #       default: drop
   #       rules:
   #         - accept_established: null
+  #         - accept_related: null
   #         - drop_invalid: null
   #         - accept_igmp: null
   #         - accept_mdns: null
@@ -229,15 +251,17 @@ firewall_zones:
   #     - includeZones:
   #         - wg_trusted
   #       default: accept
-  #       defaultLog: false
+  #       defaultLog: true
   #       rules:
   #         - accept_established: null
+  #         - accept_related: null
   #         - drop_invalid: null
   #     - includeZones:
   #         - vlan_iot
   #       default: drop
   #       rules:
   #         - accept_established: null
+  #         - accept_related: null
   #         - drop_invalid: null
   #         - accept_app_control_from_sonos_players: null
   #     - ignoreZones:
@@ -247,6 +271,7 @@ firewall_zones:
   #       default: drop
   #       rules:
   #         - accept_established: null
+  #         - accept_related: null
   #         - drop_invalid: null
   - name: vlan_wireless
     description: Guest devices zone
@@ -254,8 +279,10 @@ firewall_zones:
       - vlan_wireless
     fw_policies:
       - default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
   - name: vlan_iot
     description: IoT devices zone
@@ -269,25 +296,30 @@ firewall_zones:
         defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
           - accept_app_control_from_sonos_controllers: null
       - includeZones:
           - vlan_servers
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
           - accept_k8s_nodes: null
       - includeZones:
           - local
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_igmp: null
-          - accept_mdns: null
+          # - accept_mdns: null
           # - accept_discovery_from_sonos_controllers: null
       - ignoreZones:
           - local
@@ -295,8 +327,10 @@ firewall_zones:
           # - vlan_trusted
           - wg_trusted
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
   - name: vlan_video
     description: Video devices zone
@@ -307,16 +341,19 @@ firewall_zones:
           # - vlan_trusted
           - wg_trusted
         default: accept
-        defaultLog: false
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
       - includeZones:
           - vlan_servers
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
           # - accept_k8s_nodes: null
@@ -325,8 +362,10 @@ firewall_zones:
           # - vlan_trusted
           - wg_trusted
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
   - name: wg_trusted
     description: Wireguard VPN trusted devices
@@ -336,8 +375,10 @@ firewall_zones:
       - includeZones:
           - local
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_igmp: null
           - accept_mdns: null
@@ -345,8 +386,10 @@ firewall_zones:
       - includeZones:
           - vlan_iot
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null
           - accept_app_control_from_sonos_players: null
       - ignoreZones:
@@ -355,4 +398,5 @@ firewall_zones:
         default: drop
         rules:
           - accept_established: null
+          - accept_related: null
           - drop_invalid: null

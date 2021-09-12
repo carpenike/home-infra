@@ -4,6 +4,10 @@ firewall_global_rules:
     action: accept
     state:
       established: true
+
+  accept_related:
+    action: accept
+    state:
       related: true
 
   drop_invalid:

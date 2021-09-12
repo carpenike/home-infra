@@ -135,6 +135,38 @@ address_book:
     ####################
     ### DHCP Clients ###
     ####################
+    ubnt-upstairs:
+      hostname: ubnt-upstairs
+      mac_addr: 80:2a:a8:10:ed:da
+      network: lan
+      dhcp_client: true
+      ipv4_addr: 10.9.18.100
+      groups:
+        - unifi_devices
+    ubnt-basement:
+      hostname: ubnt-basement
+      mac_addr: 80:2a:a8:56:70:a4
+      network: lan
+      dhcp_client: true
+      ipv4_addr: 10.9.18.101
+      groups:
+        - unifi_devices
+    ubnt-10gbswitch:
+      hostname: ubnt-10gbswitch
+      mac_addr: b4:fb:e4:56:cf:8e
+      network: lan
+      dhcp_client: true
+      ipv4_addr: 10.9.18.102
+      groups:
+        - unifi_devices
+    ubnt-24poeswitch:
+      hostname: ubnt-24poeswitch
+      mac_addr: b4:fb:e4:1c:a1:f6
+      network: lan
+      dhcp_client: true
+      ipv4_addr: 10.9.18.103
+      groups:
+        - unifi_devices
     bcs:
       hostname: bcs
       mac_addr: aa:00:02:00:24:0f
@@ -153,6 +185,7 @@ address_book:
         - nfs_clients
         - smb_clients
         - plex_clients
+        - print_clients
     Ryan-PC:
       hostname: Ryan-PC
       mac_addr: 52:54:00:f5:e6:19
@@ -163,6 +196,7 @@ address_book:
         - nfs_clients
         - smb_clients
         - plex_clients
+        - print_clients
     nintendo-switch-1:
       hostname: nintendo-switch-1
       mac_addr: 58:2f:40:7c:25:19
@@ -188,6 +222,7 @@ address_book:
       groups:
         - media_players
         - nvidia_shields
+        - plex_clients
     nvidia_shield_tv_basement:
       hostname: nvidia_shield_tv_basement
       mac_addr: 48:b0:2d:13:b7:a0
@@ -197,15 +232,17 @@ address_book:
       groups:
         - media_players
         - nvidia_shields
+        - plex_clients
     nvidia_shield_tv_masterbedroom:
       hostname: nvidia_shield_tv_masterbedroom
-      mac_addr: 48:b0:2d:13:b7:a1
+      mac_addr: 48:b0:2d:13:d1:d6
       network: vlan_wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.14
       groups:
         - media_players
         - nvidia_shields
+        - plex_clients
     firetv_bar_tv:
       hostname: firetv_bar_tv
       mac_addr: 74:ec:b2:5a:c3:47
@@ -270,7 +307,7 @@ address_book:
         - sonos_players
     sonos_bar:
       hostname: sonos_bar
-      mac_addr: 34:7e:5c:1e:04:4c
+      mac_addr: 48:a6:b8:f9:11:b6
       network: vlan_wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.153
@@ -297,7 +334,7 @@ address_book:
         - sonos_players
     sonos_livingroom_tv:
       hostname: sonos_livingroom_tv
-      mac_addr: 48:a6:b8:68:81:b9
+      mac_addr: 54:2a:1b:87:58:10
       network: vlan_wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.156
@@ -306,7 +343,7 @@ address_book:
         - sonos_players
     sonos_masterbedroom_tv:
       hostname: sonos_masterbedroom_tv
-      mac_addr: 48:a6:b8:68:81:b2
+      mac_addr: 48:a6:b8:b3:9f:e7
       network: vlan_wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.157
@@ -322,6 +359,70 @@ address_book:
       groups:
         - media_players
         - lg_tvs
+    Ryans-iPhone:
+      hostname: Ryans-iPhone
+      mac_addr: 74:42:8b:68:50:ae
+      network: vlan_wireless
+      dhcp_client: true
+      ipv4_addr: 10.30.50.200
+      groups:
+        - sonos_controllers
+        - media_players
+        - print_clients
+    rybook:
+      hostname: rybook
+      mac_addr: 74:42:8b:68:50:fe
+      network: vlan_wireless
+      dhcp_client: true
+      ipv4_addr: 10.30.50.250
+      groups:
+        - sonos_controllers
+        - media_players
+        - print_clients
+    StefaniesiPhone:
+      hostname: StefaniesiPhone
+      mac_addr: 60:83:73:40:3a:8b
+      network: vlan_wireless
+      dhcp_client: true
+      ipv4_addr: 10.30.50.201
+      groups:
+        - sonos_controllers
+        - media_players
+        - print_clients
+    Steffi-PC:
+      hostname: Steffi-PC
+      mac_addr: 50:1a:c5:e9:75:af
+      network: vlan_wireless
+      dhcp_client: true
+      ipv4_addr: 10.30.50.251
+      groups:
+        - sonos_controllers
+        - media_players
+        - print_clients
+    ecobee:
+      hostname: ecobee
+      mac_addr: 44:61:32:f0:99:8b
+      network: vlan_wireless
+      dhcp_client: true
+      ipv4_addr: 10.30.50.180
+      groups:
+        - ecobee
+    camera_backpatio:
+      hostname: camera_backpatio
+      mac_addr: 9c:8e:cd:30:99:4c
+      network: vlan_video
+      dhcp_client: true
+      ipv4_addr: 10.50.0.100
+      groups:
+        - rtsp
+    amcrest_frontdoor:
+      hostname: amcrest_frontdoor
+      mac_addr: 9c:8e:cd:30:99:4d
+      network: vlan_video
+      dhcp_client: true
+      ipv4_addr: 10.50.0.101
+      groups:
+        - rtsp
 
   services:
     k8s_api:
@@ -336,6 +437,8 @@ address_book:
       ipv4_addr: 10.45.100.100
     k8s_mqtt:
       ipv4_addr: 10.45.10.11
+    k8s_dns:
+      ipv4_addr: 10.45.10.13
   static_mappings:
     - hostname: k8s.holthome.net
       service: k8s_api

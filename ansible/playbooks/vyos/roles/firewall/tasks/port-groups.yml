@@ -11,18 +11,8 @@
 
 - name: configure port groups
   vars:
-    vyos_existing_config: "{{ vyos_firewall_config['gathered'] }}"
+    config: "{{ vyos_firewall_config['gathered'].copy() }}"
+    firewall_groups: "{{ {'port_group': vyos_managed_port_groups} }}"
   vyos.vyos.vyos_firewall_global:
-    config:
-      log_martians: "{{ vyos_existing_config['log_martians'] | default('yes') }}"
-      ping: "{{ vyos_existing_config['ping'] }}"
-      route_redirects: "{{ vyos_existing_config['route_redirects'] | default('[]') }}"
-      state_policy: "{{ vyos_existing_config['state_policy'] | default([]) }}"
-      syn_cookies: "{{ vyos_existing_config['syn_cookies'] | default('yes') }}"
-      twa_hazards_protection: "{{ vyos_existing_config['twa_hazards_protection'] | default('no') }}"
-      validation: "{{ vyos_existing_config['validation'] | default('disable') }}"
-      group:
-        address_group: "{{ vyos_existing_config['group']['address_group'] | default('[]') }}"
-        network_group: "{{ vyos_existing_config['group']['network_group'] | default('[]') }}"
-        port_group: "{{ vyos_managed_port_groups | default('[]') }}"
+    config: "{{ lookup('template', './config/firewall-groups.j2') | from_yaml }}"
     state: replaced

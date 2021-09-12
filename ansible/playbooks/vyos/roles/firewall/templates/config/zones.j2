@@ -1,39 +1,38 @@
-{# Reset defaults #}
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+
+{#- Reset defaults #}
 delete zone-policy
 
 {# Set defaults #}
-{% for zone in firewall_zones %}
-    set zone-policy zone {{ zone['name'] }} description '{{ zone['description'] }}'
-    set zone-policy zone {{ zone['name'] }} default-action drop
-    {% if zone['local'] is defined and zone['local'] %}
-        set zone-policy zone {{ zone['name'] }} local-zone
-    {% else %}
-      {% for zone_interface in zone['interfaces'] %}
-        {% set interface = vyos_interfaces[zone_interface] %}
-        {% if interface['vlan_id'] is defined %}
-          set zone-policy zone {{ zone['name'] }} interface {{ interface['interface'] }}.{{ interface['vlan_id'] }}
-        {% else %}
-          set zone-policy zone {{ zone['name'] }} interface {{ interface['interface'] }}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+{% for zone in firewall_zones -%}
+  set zone-policy zone {{ zone['name'] }} description '{{ zone['description'] }}'
+  {# -#}
+  set zone-policy zone {{ zone['name'] }} default-action drop
+  {% if zone['local'] is defined and zone['local'] -%}
+    set zone-policy zone {{ zone['name'] }} local-zone
+  {% else -%}
+    {% for zone_interface in zone['interfaces'] -%}
+      {% set interface = vyos_interfaces[zone_interface] -%}
+      set zone-policy zone {{ zone['name'] }} interface {{ interface['interface_complete'] }}
+    {% endfor -%}
+  {% endif %}
 {% endfor %}
 
-{# IPv4: Generate zone rules #}
-{% for zone in firewall_zones | selectattr('fw_policies', 'defined') %}
-    {% for policy in zone['fw_policies'] %}
-      {# Select zones for the rule set #}
-      {% if policy['includeZones'] is defined %}
-          {% set fromZones = policy['includeZones'] %}
-      {% elif policy['ignoreZones'] is defined %}
-          {% set fromZones = (firewall_zones | map(attribute='name') | list) | reject("eq", zone['name']) | reject("in", policy['ignoreZones']) %}
-      {% else %}
-          {% set fromZones = (firewall_zones | map(attribute='name') | list) | reject("eq", zone['name']) %}
-      {% endif %}
+{#- IPv4: Generate zone rules #}
+{%- for zone in firewall_zones | selectattr('fw_policies', 'defined') -%}
+  {%- for policy in zone['fw_policies'] %}
+    {#- Select zones for the rule set -#}
+    {% if policy['includeZones'] is defined -%}
+      {%- set fromZones = policy['includeZones'] -%}
+    {% elif policy['ignoreZones'] is defined -%}
+      {%- set fromZones = (firewall_zones | map(attribute='name') | list) | reject("eq", zone['name']) | reject("in", policy['ignoreZones']) -%}
+    {% else -%}
+      {%- set fromZones = (firewall_zones | map(attribute='name') | list) | reject("eq", zone['name']) -%}
+    {% endif -%}
 
-      {# Iterate over zone combinations #}
-      {% for fromZone in fromZones %}
-        set zone-policy zone {{ zone['name'] }} from {{ fromZone }} firewall name {{ fromZone }}-{{ zone['name'] }}
-      {% endfor %}
-    {% endfor %}
-{% endfor %}
+    {# Iterate over zone combinations #}
+    {% for fromZone in fromZones -%}
+      set zone-policy zone {{ zone['name'] }} from {{ fromZone }} firewall name {{ fromZone }}-{{ zone['name'] }}
+    {% endfor -%}
+  {% endfor -%}
+{% endfor -%}

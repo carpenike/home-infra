@@ -169,36 +169,18 @@ firewall_rules:
       port: http,https
       address-group: pki
 
-  accept_nfs_from_nfs_clients_tcp:
+  accept_nfs_from_nfs_clients:
     action: accept
-    protocol: tcp
+    protocol: tcp_udp
     source:
       address-group: nfs_clients
     destination:
       port: 111,2049
       address-group: nas_nodes
 
-  accept_nfs_from_nfs_clients_udp:
+  accept_smb_from_smb_clients:
     action: accept
-    protocol: udp
-    source:
-      address-group: nfs_clients
-    destination:
-      port: 111,2049
-      address-group: nas_nodes
-
-  accept_smb_from_smb_clients_tcp:
-    action: accept
-    protocol: tcp
-    source:
-      address-group: smb_clients
-    destination:
-      port: 445
-      address-group: nas_nodes
-
-  accept_smb_from_smb_clients_udp:
-    action: accept
-    protocol: udp
+    protocol: tcp_udp
     source:
       address-group: smb_clients
     destination:

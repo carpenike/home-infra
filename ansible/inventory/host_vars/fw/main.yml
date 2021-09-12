@@ -130,7 +130,7 @@ nat:
         address: "!{{ vyos_interfaces['vlan_iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces['vlan_iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
       interface: vlan_video
       protocol: tcp_udp
@@ -138,7 +138,7 @@ nat:
         address: "!{{ vyos_interfaces['vlan_video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces['vlan_video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
       interface: vlan_wireless
       protocol: tcp_udp
@@ -146,7 +146,7 @@ nat:
         address: "!{{ vyos_interfaces['vlan_wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces['vlan_wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
       interface: wan
       protocol: tcp
@@ -213,9 +213,12 @@ dhcp_server:
   interfaces:
     lan: true
     vlan_servers: true
-    vlan_iot: true
-    vlan_video: true
-    vlan_wireless: true
+    vlan_iot:
+      dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+    vlan_video:
+      dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+    vlan_wireless:
+      dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
     rescue: true
 
 igmp_proxy:
