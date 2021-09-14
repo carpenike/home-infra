@@ -186,3 +186,19 @@ firewall_rules:
     destination:
       port: 445
       address-group: nas_nodes
+
+  accept_ecobee_ems_from_ecobee:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: ecobee
+    destination:
+      port: 8089
+
+  accept_esphome_from_k8s_nodes:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 3232,6053,8266

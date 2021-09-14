@@ -1,5 +1,9 @@
 #jinja2: lstrip_blocks: "True", trim_blocks: "True"
 
+{%- if not config -%}
+  {%- set config = dict() -%}
+{%- endif -%}
+
 {%- if config['group'] is undefined -%}
   {%- set _ = config.update({'group': dict()}) -%}
 {%- endif -%}

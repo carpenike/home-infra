@@ -9,14 +9,9 @@
   vars:
     vyos_interfaces: "{{ lookup('template', './variables/vyos_interfaces.j2') }}"
     vyos_address_book: "{{ lookup('template', './variables/vyos_address_book.j2') }}"
+    vyos_cmd_config_as_json: "show configuration > /dev/null && /opt/vyatta/sbin/vyatta-cfg-cmd-wrapper show system  | /usr/bin/vyos-config-to-json"
 
   tasks:
-    - name: get current config
-      vyos.vyos.vyos_facts:
-        gather_subset: config
-      tags:
-        - always
-
     - name: "role: system"
       ansible.builtin.import_role:
         name: system
@@ -60,5 +55,7 @@
         - dns
 
     - name: Save configuration
+      when:
+        - vyos_save_config
       vyos.vyos.vyos_config:
         save: true

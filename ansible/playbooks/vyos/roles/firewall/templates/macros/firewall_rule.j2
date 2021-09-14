@@ -5,9 +5,10 @@
 
   {# Enable any configured states #}
   {% if rule_config['state']is defined %}
+    {%- set _ = output.update({'state': {}})-%}
     {% for state in rule_config['state'].keys() %}
       {% if rule_config['state'][state] %}
-        {%- set _ = output.update({'state': {state: true}}) -%}
+        {%- set _ = output['state'].update({state: true}) -%}
       {% endif %}
     {% endfor %}
   {% endif %}

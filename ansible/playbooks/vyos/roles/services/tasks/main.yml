@@ -20,10 +20,7 @@
   tags:
     - broadcast-relay
 
-- name: igmp-proxy
-  vyos.vyos.vyos_config:
-    match: none
-    src: igmp-proxy.j2
+- ansible.builtin.import_tasks: igmp-proxy.yml
   tags:
     - igmp-proxy
 

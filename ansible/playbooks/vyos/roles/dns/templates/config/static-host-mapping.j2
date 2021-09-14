@@ -1,9 +1,5 @@
 #jinja2: lstrip_blocks: "True", trim_blocks: "True"
 
-{#- Parse current configuration -#}
-{%- set static_hosts_pattern = "^set system static-host-mapping host-name (?P<hostname>.*) inet .*" -%}
-{%- set current_host_entries = ansible_net_config[0] | split('\n') | map('regex_search',static_hosts_pattern) | map('regex_replace',static_hosts_pattern, '\\1') | reject('eq', 'None') | unique -%}
-
 {#- Collect static-host-mappings to be managed -#}
 {%- set static_host_mappings = dict() -%}
 

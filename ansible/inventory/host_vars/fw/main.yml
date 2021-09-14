@@ -21,7 +21,7 @@ syslog:
 task_scheduler:
   tasks:
     update_cloudflare-ipv4:
-      crontab: '0 */12 * * *'
+      crontab: "0 */12 * * *"
       path: /config/scripts/cloudflare-ipv4.sh
 
 # ---------------------
@@ -44,12 +44,15 @@ interfaces:
     interface: bond0
     vlan_id: 4000
     ipv4_addr: dhcp
-  lan:
-    desc: Management
+  mgmt:
     interface: bond0
     ipv4_addr: true
     skip_creation: true
-  vlan_servers:
+  wired:
+    vlan_id: 10
+    interface: bond0
+    ipv4_addr: true
+  servers:
     vlan_id: 20
     interface: bond0
     ipv4_addr: true
@@ -57,19 +60,19 @@ interfaces:
   #   vlan_id: 20
   #   interface: eth1
   #   ipv4_addr: true
-  vlan_wireless:
+  wireless:
     vlan_id: 30
     interface: bond0
     ipv4_addr: true
-  vlan_guest:
+  guest:
     vlan_id: 35
     interface: bond0
     ipv4_addr: true
-  vlan_iot:
+  iot:
     vlan_id: 40
     interface: bond0
     ipv4_addr: true
-  vlan_video:
+  video:
     vlan_id: 50
     interface: bond0
     ipv4_addr: true
@@ -124,26 +127,26 @@ nat:
         address: "{{ vyos_address_book['services']['k8s_ingress']['ipv4_addr'] }}"
         port: 80
     - type: dnat
-      interface: vlan_iot
+      interface: iot
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['vlan_iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
         address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
-      interface: vlan_video
+      interface: video
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['vlan_video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
         address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
-      interface: vlan_wireless
+      interface: wireless
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['vlan_wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
         address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
@@ -176,7 +179,7 @@ firewall_port_groups:
 bgp:
   enabled: true
   local_as: 64512
-  router_id: "{{ vyos_interfaces['vlan_servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+  router_id: "{{ vyos_interfaces['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
   neighbour_groups:
     - group: k8s_nodes
       remote_as: 64512
@@ -188,11 +191,12 @@ bgp:
 coredns:
   enabled: true
   interfaces:
-    - lan
-    - vlan_servers
-    - vlan_iot
-    - vlan_wireless
-    - vlan_video
+    - mgmt
+    - wired
+    - servers
+    - iot
+    - wireless
+    - video
     - rescue
     - wg_trusted
   config_path: /config/coredns
@@ -211,24 +215,26 @@ dhcp_server:
   host-decl-name: true
   hostfile-update: true
   interfaces:
-    lan: true
-    vlan_servers: true
-    vlan_iot:
+    mgmt: true
+    wired:
       dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
-    vlan_video:
+    servers: true
+    iot:
       dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
-    vlan_wireless:
+    video:
+      dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+    wireless:
       dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
     rescue: true
 
 igmp_proxy:
   enabled: true
   interfaces:
-    lan:
+    wired:
       role: upstream
       threshold: 1
       alt-subnet: 0.0.0.0/0
-    vlan_iot:
+    iot:
       role: downstream
       threshold: 1
       alt-subnet: 0.0.0.0/0
@@ -236,16 +242,16 @@ igmp_proxy:
 mdns_repeater:
   enabled: true
   interfaces:
-    - lan
-    - vlan_iot
-    - vlan_wireless
+    - wired
+    - iot
+    - wireless
 
 broadcast_relay:
   enabled: true
   rules:
     - description: SONOS
       interfaces:
-        - lan
-        - vlan_iot
-        - vlan_wireless
+        - wired
+        - iot
+        - wireless
       port: 1900

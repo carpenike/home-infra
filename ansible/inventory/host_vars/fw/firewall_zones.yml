@@ -9,11 +9,20 @@ firewall_zones:
       - wan
     fw_policies:
       - includeZones:
-          - vlan_video
+          - video
         default: drop
         defaultLog: true
+      - includeZones:
+          - wireless
+        default: accept
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_ecobee_ems_from_ecobee: null
       - ignoreZones:
-          - vlan_video
+          - video
         default: accept
         defaultLog: true
         rules:
@@ -36,7 +45,7 @@ firewall_zones:
           - accept_ntp: null
           - accept_dhcp: null
       - includeZones:
-          # - vlan_trusted
+          - wired
           - wg_trusted
         default: drop
         rules:
@@ -53,7 +62,7 @@ firewall_zones:
           - accept_discovery_from_sonos_players: null
           - accept_discovery_from_sonos_controllers: null
       - includeZones:
-          - vlan_iot
+          - iot
         default: drop
         rules:
           - accept_established: null
@@ -69,7 +78,7 @@ firewall_zones:
           # - accept_discovery_from_sonos_controllers: null
           # - accept_discovery_from_hass: null
       - includeZones:
-          - vlan_servers
+          - servers
         default: drop
         rules:
           - accept_established: null
@@ -89,7 +98,7 @@ firewall_zones:
           - drop_invalid: null
           - accept_wireguard: null
       - includeZones:
-          - vlan_wireless
+          - wireless
         default: drop
         rules:
           - accept_established: null
@@ -98,10 +107,10 @@ firewall_zones:
           - accept_dhcp: null
       - ignoreZones:
           - mgmt
-          - vlan_wireless
-          - vlan_iot
-          - vlan_servers
-          # - vlan_trusted
+          - wireless
+          - iot
+          - servers
+          - wired
           - wg_trusted
           - wan
         default: drop
@@ -115,11 +124,11 @@ firewall_zones:
   - name: mgmt
     description: Management zone
     interfaces:
-      - lan
+      - mgmt
       - rescue
     fw_policies:
       - includeZones:
-          # - vlan_trusted
+          - wired
           - wg_trusted
         default: accept
         defaultLog: true
@@ -128,20 +137,20 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
       - ignoreZones:
-          # - vlan_trusted
+          - wired
           - wg_trusted
         default: drop
         rules:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
-  - name: vlan_servers
-    description: Server devices zone
+  - name: servers
+    description: Server iot zone
     interfaces:
-      - vlan_servers
+      - servers
     fw_policies:
       - includeZones:
-          # - vlan_trusted
+          - wired
           - wg_trusted
         default: accept
         defaultLog: true
@@ -183,7 +192,7 @@ firewall_zones:
           - accept_nfs_from_smb_clients: null
           - accept_stepca_ingress_from_internal: null
       - includeZones:
-          - vlan_wireless
+          - wireless
         default: drop
         defaultLog: true
         rules:
@@ -197,7 +206,7 @@ firewall_zones:
           - accept_plex_from_internal_udp: null
           - accept_k8s_ingress_from_internal: null
       - includeZones:
-          - vlan_iot
+          - iot
         default: drop
         defaultLog: true
         rules:
@@ -224,8 +233,8 @@ firewall_zones:
           - wan
           - local
           - mgmt
-          - vlan_iot
-          # - vlan_trusted
+          - iot
+          - wired
           - wg_trusted
         default: drop
         defaultLog: true
@@ -233,64 +242,77 @@ firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
-  # - name: vlan_trusted
-  #   description: Trusted devices zone
-  #   interfaces:
-  #     - vlan_trusted
-  #   fw_policies:
-  #     - includeZones:
-  #         - local
-  #       default: drop
-  #       rules:
-  #         - accept_established: null
-  #         - accept_related: null
-  #         - drop_invalid: null
-  #         - accept_igmp: null
-  #         - accept_mdns: null
-  #         - accept_discovery_from_sonos_players: null
-  #     - includeZones:
-  #         - wg_trusted
-  #       default: accept
-  #       defaultLog: true
-  #       rules:
-  #         - accept_established: null
-  #         - accept_related: null
-  #         - drop_invalid: null
-  #     - includeZones:
-  #         - vlan_iot
-  #       default: drop
-  #       rules:
-  #         - accept_established: null
-  #         - accept_related: null
-  #         - drop_invalid: null
-  #         - accept_app_control_from_sonos_players: null
-  #     - ignoreZones:
-  #         - local
-  #         - vlan_iot
-  #         - wg_trusted
-  #       default: drop
-  #       rules:
-  #         - accept_established: null
-  #         - accept_related: null
-  #         - drop_invalid: null
-  - name: vlan_wireless
-    description: Guest devices zone
+  - name: wired
+    description: Trusted iot zone
     interfaces:
-      - vlan_wireless
+      - wired
     fw_policies:
-      - default: drop
+      - includeZones:
+          - local
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_igmp: null
+          - accept_mdns: null
+          - accept_discovery_from_sonos_players: null
+      - includeZones:
+          - wg_trusted
+        default: accept
         defaultLog: true
         rules:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
-  - name: vlan_iot
-    description: IoT devices zone
+      - includeZones:
+          - iot
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_app_control_from_sonos_players: null
+      - ignoreZones:
+          - local
+          - iot
+          - wg_trusted
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+  - name: wireless
+    description: Guest iot zone
     interfaces:
-      - vlan_iot
+      - wireless
     fw_policies:
       - includeZones:
-          # - vlan_trusted
+          - servers
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_icmp: null
+          - accept_esphome_from_k8s_nodes: null
+          - accept_app_control_from_sonos_controllers: null
+      - ignoreZones:
+          - servers
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+  - name: iot
+    description: iot iot zone
+    interfaces:
+      - iot
+    fw_policies:
+      - includeZones:
+          - wired
           - wg_trusted
         default: accept
         defaultLog: true
@@ -301,7 +323,7 @@ firewall_zones:
           - accept_icmp: null
           - accept_app_control_from_sonos_controllers: null
       - includeZones:
-          - vlan_servers
+          - servers
         default: drop
         defaultLog: true
         rules:
@@ -319,12 +341,12 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_igmp: null
-          # - accept_mdns: null
-          # - accept_discovery_from_sonos_controllers: null
+          - accept_mdns: null
+          - accept_discovery_from_sonos_controllers: null
       - ignoreZones:
           - local
-          - vlan_servers
-          # - vlan_trusted
+          - servers
+          - wired
           - wg_trusted
         default: drop
         defaultLog: true
@@ -332,13 +354,13 @@ firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
-  - name: vlan_video
-    description: Video devices zone
+  - name: video
+    description: Video iot zone
     interfaces:
-      - vlan_video
+      - video
     fw_policies:
       - includeZones:
-          # - vlan_trusted
+          - wired
           - wg_trusted
         default: accept
         defaultLog: true
@@ -348,7 +370,7 @@ firewall_zones:
           - drop_invalid: null
           - accept_icmp: null
       - includeZones:
-          - vlan_servers
+          - servers
         default: drop
         defaultLog: true
         rules:
@@ -358,8 +380,8 @@ firewall_zones:
           - accept_icmp: null
           # - accept_k8s_nodes: null
       - ignoreZones:
-          - vlan_servers
-          # - vlan_trusted
+          - servers
+          - wired
           - wg_trusted
         default: drop
         defaultLog: true
@@ -368,7 +390,7 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
   - name: wg_trusted
-    description: Wireguard VPN trusted devices
+    description: Wireguard VPN trusted iot
     interfaces:
       - wg_trusted
     fw_policies:
@@ -384,7 +406,7 @@ firewall_zones:
           - accept_mdns: null
           - accept_discovery_from_sonos_players: null
       - includeZones:
-          - vlan_iot
+          - iot
         default: drop
         defaultLog: true
         rules:
@@ -394,7 +416,7 @@ firewall_zones:
           - accept_app_control_from_sonos_players: null
       - ignoreZones:
           - local
-          - vlan_iot
+          - iot
         default: drop
         rules:
           - accept_established: null

@@ -1,0 +1,215 @@
+        - name: servers_to_cameras_ipv4
+          zones:
+            from: servers
+            to: cameras
+          rules:
+            - protocol: tcp
+              port: http
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: https
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: 554
+              log: enable
+              action: accept
+            - protocol: icmp
+              log: enable
+              action: accept
+            - protocol: all
+              log: enable
+              action: reject
+        - name: servers_to_local_ipv4
+          zones:
+            from: servers
+            to: local
+          rules:
+            - source_groups: k8s-bgp-peers-v4
+              protocol: tcp
+              port: 179
+              log: enable
+              action: accept
+            - protocol: tcp_udp
+              port: 53
+              log: enable
+              action: accept
+            - protocol: udp
+              port: 5353
+              log: enable
+              action: accept
+            - protocol: tcp
+              desc: node-exporter
+              port: 9100
+              log: enable
+              action: accept
+            - protocol: udp
+              port: 123
+              desc: NTP Traffic
+              log: enable
+              action: accept
+            - protocol: icmp
+              log: enable
+              action: accept
+            - protocol: all
+              log: enable
+              action: reject
+        - name: servers_to_mgmt_ipv4
+          zones:
+            from: servers
+            to: mgmt
+          rules:
+            - protocol: icmp
+              log: enable
+              action: accept
+            - protocol: udp
+              port: 161
+              log: enable
+              action: accept
+            - protocol: all
+              log: enable
+              action: reject
+        - name: servers_to_wireless_ipv4
+          zones:
+            from: servers
+            to: wireless
+          rules:
+            - protocol: tcp
+              port: 3232
+              log: enable
+              action: accept
+            - protocol: tcp
+              DONE: TRUE
+              port: 6053
+              log: enable
+              action: accept
+            - protocol: tcp
+              DONE: TRUE
+              port: 8266
+              log: enable
+              action: accept
+            - protocol: tcp
+              DESC: Printing of some kind...
+              port: 631
+              log: enable
+              action: accept
+            - protocol: tcp_udp
+              port: 1400
+              log: enable
+              action: accept
+            - protocol: tcp_udp
+              port: 5555
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: 8008-8009
+              log: enable
+              action: accept
+            - protocol: udp
+              port: 1901
+              log: enable
+              action: accept
+            - protocol: udp
+              port: 30000-61000
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: 8443
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: 3401
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: 30000-60000
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: 3000
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: 9999
+              log: enable
+              action: accept
+            - protocol: icmp
+              log: enable
+              action: accept
+            - protocol: all
+              log: enable
+              action: reject
+        - name: servers_to_wan_ipv4
+          zones:
+            from: servers
+            to: wan
+          rules:
+            - protocol: tcp
+              port: http
+              log: enable
+              action: accept
+            - protocol: tcp
+              port: https
+              log: enable
+              action: accept
+            - protocol: udp
+              desc: NTP
+              port: 123
+              log: enable
+              action: accept
+            - protocol: tcp
+              desc: SMTP (Mailgun)
+              port: 465
+              log: enable
+              action: accept
+            - protocol: udp
+              desc: Wireguard
+              port: 51820
+              log: enable
+              action: accept
+            - dest_groups: public-dns-services-v4
+              protocol: tcp_udp
+              port: 53
+              log: enable
+              action: accept
+            - protocol: tcp
+              desc: Usenet
+              port: 563
+              log: enable
+              action: accept
+            - protocol: udp
+              desc: Unifi-STUN
+              port: 3478
+              log: enable
+              action: accept
+            - protocol: tcp
+              desc: Unifi-RA
+              port: 8883
+              log: enable
+              action: accept
+            - protocol: udp
+              desc: Unifi-RA
+              port: 443
+              log: enable
+              action: accept
+            - dest_groups: resilio-sync-trackers
+              # source_groups: k8s-resilio-sync-v4
+              desc: Resilio-Sync Trackers
+              protocol: tcp_udp
+              port: 4000
+              log: enable
+              action: accept
+            - dest_groups: resilio-sync-relays
+              # source_groups: k8s-resilio-sync-v4
+              desc: Resilio-Sync Relays
+              protocol: tcp_udp
+              port: 3000,3001
+              log: enable
+              action: accept
+            - protocol: icmp
+              log: enable
+              action: accept
+            - protocol: all
+              log: enable
+              action: reject

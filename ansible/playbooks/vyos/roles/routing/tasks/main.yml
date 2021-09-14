@@ -1,4 +1,4 @@
 ---
-- import_tasks: bgp.yml
+- ansible.builtin.import_tasks: bgp.yml
   tags:
     - bgp

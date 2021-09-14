@@ -4,28 +4,25 @@
     lines:
       - set firewall all-ping enable
 
-- import_tasks: network-groups.yml
+- ansible.builtin.import_tasks: network-groups.yml
   tags:
     - network-groups
     - firewall-groups
 
-- import_tasks: address-groups.yml
+- ansible.builtin.import_tasks: address-groups.yml
   tags:
     - address-groups
     - firewall-groups
 
-- import_tasks: port-groups.yml
+- ansible.builtin.import_tasks: port-groups.yml
   tags:
     - port-groups
     - firewall-groups
 
-- import_tasks: rules.yml
+- ansible.builtin.import_tasks: rules.yml
   tags:
     - firewall-rules
 
-- name: define zones
-  vyos.vyos.vyos_config:
-    match: none
-    src: config/zones.j2
+- ansible.builtin.import_tasks: zones.yml
   tags:
     - firewall-zones

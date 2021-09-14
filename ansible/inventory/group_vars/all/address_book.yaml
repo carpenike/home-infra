@@ -6,34 +6,34 @@ address_book:
     ########################
     fw:
       hostname: fw
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_hostid: 1
       groups:
         - fw
     cp-0:
       hostname: cp-0
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.0.20
       groups:
         - k8s_nodes
     cp-1:
       hostname: cp-1
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.0.21
       groups:
         - k8s_nodes
     cp-2:
       hostname: cp-2
-      network: vlan_servers
+      network: servers
       ipv4_addr: 10.20.0.22
       groups:
         - k8s_nodes
     nas-0:
       hostname: nas-0
-      network: vlan_servers
+      network: servers
       aliases:
         - nas.holthome.net
       dhcp_client: false
@@ -42,95 +42,102 @@ address_book:
         - nas_nodes
     nas-0-ipmi:
       hostname: nas-0-ipmi
-      network: lan
+      network: mgmt
       dhcp_client: false
       ipv4_addr: 10.9.18.10
       groups:
         - ipmi
     nas-1:
       hostname: nas-1
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.0.11
       groups:
         - nas_nodes
     nas-1-ipmi:
       hostname: nas-1-ipmi
-      network: lan
+      network: mgmt
       dhcp_client: false
       ipv4_addr: 10.9.18.11
       groups:
         - ipmi
     node-0:
       hostname: node-0
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.10.20
       groups:
         - k8s_nodes
     node-0-ipmi:
       hostname: node-0-ipmi
-      network: lan
+      network: mgmt
       dhcp_client: false
       ipv4_addr: 10.9.18.20
       groups:
         - ipmi
     node-1:
       hostname: node-1
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.10.21
       groups:
         - k8s_nodes
     node-1-ipmi:
       hostname: node-1-ipmi
-      network: lan
+      network: mgmt
       dhcp_client: false
       ipv4_addr: 10.9.18.21
       groups:
         - ipmi
     node-2:
       hostname: node-2
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.10.22
       groups:
         - k8s_nodes
     node-2-ipmi:
       hostname: node-2-ipmi
-      network: lan
+      network: mgmt
       dhcp_client: false
       ipv4_addr: 10.9.18.22
       groups:
         - ipmi
     node-3:
       hostname: node-3
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.10.23
       groups:
         - k8s_nodes
     node-3-ipmi:
       hostname: node-3-ipmi
-      network: lan
+      network: mgmt
       dhcp_client: false
       ipv4_addr: 10.9.18.23
       groups:
         - ipmi
     pki:
       hostname: pki
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.0.15
       groups:
         - pki
     sm-0:
       hostname: sm-0
-      network: vlan_servers
+      network: servers
       dhcp_client: false
       ipv4_addr: 10.20.10.18
       groups:
         - utility
+    3com:
+      hostname: 3com
+      network: mgmt
+      dhcp_client: false
+      ipv4_addr: 10.9.18.254
+      groups:
+        - networking
 
     ####################
     ### DHCP Clients ###
@@ -138,7 +145,7 @@ address_book:
     ubnt-upstairs:
       hostname: ubnt-upstairs
       mac_addr: 80:2a:a8:10:ed:da
-      network: lan
+      network: mgmt
       dhcp_client: true
       ipv4_addr: 10.9.18.100
       groups:
@@ -146,7 +153,7 @@ address_book:
     ubnt-basement:
       hostname: ubnt-basement
       mac_addr: 80:2a:a8:56:70:a4
-      network: lan
+      network: mgmt
       dhcp_client: true
       ipv4_addr: 10.9.18.101
       groups:
@@ -154,7 +161,7 @@ address_book:
     ubnt-10gbswitch:
       hostname: ubnt-10gbswitch
       mac_addr: b4:fb:e4:56:cf:8e
-      network: lan
+      network: mgmt
       dhcp_client: true
       ipv4_addr: 10.9.18.102
       groups:
@@ -162,25 +169,25 @@ address_book:
     ubnt-24poeswitch:
       hostname: ubnt-24poeswitch
       mac_addr: b4:fb:e4:1c:a1:f6
-      network: lan
+      network: mgmt
       dhcp_client: true
       ipv4_addr: 10.9.18.103
       groups:
         - unifi_devices
-    bcs:
-      hostname: bcs
-      mac_addr: aa:00:02:00:24:0f
-      network: lan
-      dhcp_client: true
-      ipv4_addr: 10.9.18.50
-      groups:
-        - bcs
+    # bcs:
+    #   hostname: bcs
+    #   mac_addr: aa:00:02:00:24:0f
+    #   network: wired
+    #   dhcp_client: true
+    #   ipv4_addr: 10.9.18.50
+    #   groups:
+    #     - bcs
     rydesk:
       hostname: rydesk
       mac_addr: 7e:c9:9f:f0:08:15
-      network: lan
+      network: wired
       dhcp_client: true
-      ipv4_addr: 10.9.18.200
+      ipv4_addr: 10.10.0.200
       groups:
         - nfs_clients
         - smb_clients
@@ -189,9 +196,9 @@ address_book:
     Ryan-PC:
       hostname: Ryan-PC
       mac_addr: 52:54:00:f5:e6:19
-      network: lan
+      network: wired
       dhcp_client: true
-      ipv4_addr: 10.9.18.198
+      ipv4_addr: 10.10.0.198
       groups:
         - nfs_clients
         - smb_clients
@@ -200,25 +207,25 @@ address_book:
     nintendo-switch-1:
       hostname: nintendo-switch-1
       mac_addr: 58:2f:40:7c:25:19
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.10
+      ipv4_addr: 10.40.50.10
       groups:
         - nintendo_switches
     nintendo-switch-2:
       hostname: nintendo-switch-2
       mac_addr: 48:a5:e7:79:07:ef
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.11
+      ipv4_addr: 10.40.50.11
       groups:
         - nintendo_switches
     nvidia_shield_tv_livingroom:
       hostname: nvidia_shield_tv_livingroom
       mac_addr: 00:04:4b:83:12:01
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.12
+      ipv4_addr: 10.40.50.12
       groups:
         - media_players
         - nvidia_shields
@@ -226,9 +233,9 @@ address_book:
     nvidia_shield_tv_basement:
       hostname: nvidia_shield_tv_basement
       mac_addr: 48:b0:2d:13:b7:a0
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.13
+      ipv4_addr: 10.40.50.13
       groups:
         - media_players
         - nvidia_shields
@@ -236,9 +243,9 @@ address_book:
     nvidia_shield_tv_masterbedroom:
       hostname: nvidia_shield_tv_masterbedroom
       mac_addr: 48:b0:2d:13:d1:d6
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.14
+      ipv4_addr: 10.40.50.14
       groups:
         - media_players
         - nvidia_shields
@@ -246,123 +253,133 @@ address_book:
     firetv_bar_tv:
       hostname: firetv_bar_tv
       mac_addr: 74:ec:b2:5a:c3:47
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.15
+      ipv4_addr: 10.40.50.15
       groups:
         - media_players
     hdhr:
       hostname: hdhr
       mac_addr: 00:18:dd:04:cb:77
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.70
+      ipv4_addr: 10.40.50.70
       groups:
         - media_players
         - hd_homeruns
     google_home_mini_ryanoffice:
       hostname: google_home_mini_ryanoffice
       mac_addr: 30:fd:38:75:0f:a1
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.112
+      ipv4_addr: 10.40.50.112
       groups:
         - media_players
         - google_device
     google_home_kitchendisplay:
       hostname: google_home_kitchendisplay
       mac_addr: a4:77:33:f2:65:38
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.114
+      ipv4_addr: 10.40.50.114
       groups:
         - media_players
         - google_device
     sonos_kitchen:
       hostname: sonos_kitchen
       mac_addr: 34:7e:5c:1e:04:82
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.150
+      ipv4_addr: 10.40.50.150
       groups:
         - media_players
         - sonos_players
     sonos_upstairs_hallway:
       hostname: sonos_upstairs_hallway
       mac_addr: 5c:aa:fd:4e:d2:9e
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.151
+      ipv4_addr: 10.40.50.151
       groups:
         - media_players
         - sonos_players
     sonos_livingroom:
       hostname: sonos_livingroom
       mac_addr: 5c:aa:fd:4e:d6:24
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.152
+      ipv4_addr: 10.40.50.152
       groups:
         - media_players
         - sonos_players
     sonos_bar:
       hostname: sonos_bar
       mac_addr: 48:a6:b8:f9:11:b6
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.153
+      ipv4_addr: 10.40.50.153
       groups:
         - media_players
         - sonos_players
     sonos_move:
       hostname: sonos_move
       mac_addr: 48:a6:b8:e0:cd:ec
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.154
+      ipv4_addr: 10.40.50.154
       groups:
         - media_players
         - sonos_players
     sonos_office:
       hostname: sonos_office
       mac_addr: 48:a6:b8:68:81:b5
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.155
+      ipv4_addr: 10.40.50.155
       groups:
         - media_players
         - sonos_players
     sonos_livingroom_tv:
       hostname: sonos_livingroom_tv
       mac_addr: 54:2a:1b:87:58:10
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.156
+      ipv4_addr: 10.40.50.156
       groups:
         - media_players
         - sonos_players
     sonos_masterbedroom_tv:
       hostname: sonos_masterbedroom_tv
       mac_addr: 48:a6:b8:b3:9f:e7
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.157
+      ipv4_addr: 10.40.50.157
       groups:
         - media_players
         - sonos_players
     lg_basement_tv:
       hostname: lg_basement_tv
       mac_addr: 20:3d:bd:6b:24:d2
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.170
+      ipv4_addr: 10.40.50.170
       groups:
         - media_players
         - lg_tvs
+    Ryans-iPad:
+      hostname: Ryans-iPad
+      mac_addr: 80:d6:05:3b:32:20
+      network: wireless
+      dhcp_client: true
+      ipv4_addr: 10.30.50.240
+      groups:
+        - sonos_controllers
+        - media_players
+        - print_clients
     Ryans-iPhone:
       hostname: Ryans-iPhone
       mac_addr: 74:42:8b:68:50:ae
-      network: vlan_wireless
+      network: wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.200
       groups:
@@ -372,7 +389,7 @@ address_book:
     rybook:
       hostname: rybook
       mac_addr: 74:42:8b:68:50:fe
-      network: vlan_wireless
+      network: wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.250
       groups:
@@ -382,7 +399,7 @@ address_book:
     StefaniesiPhone:
       hostname: StefaniesiPhone
       mac_addr: 60:83:73:40:3a:8b
-      network: vlan_wireless
+      network: wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.201
       groups:
@@ -392,7 +409,7 @@ address_book:
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af
-      network: vlan_wireless
+      network: wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.251
       groups:
@@ -402,15 +419,15 @@ address_book:
     ecobee:
       hostname: ecobee
       mac_addr: 44:61:32:f0:99:8b
-      network: vlan_wireless
+      network: iot
       dhcp_client: true
-      ipv4_addr: 10.30.50.180
+      ipv4_addr: 10.40.50.180
       groups:
         - ecobee
     camera_backpatio:
       hostname: camera_backpatio
       mac_addr: 9c:8e:cd:30:99:4c
-      network: vlan_video
+      network: video
       dhcp_client: true
       ipv4_addr: 10.50.0.100
       groups:
@@ -418,7 +435,7 @@ address_book:
     amcrest_frontdoor:
       hostname: amcrest_frontdoor
       mac_addr: 9c:8e:cd:30:99:4d
-      network: vlan_video
+      network: video
       dhcp_client: true
       ipv4_addr: 10.50.0.101
       groups:

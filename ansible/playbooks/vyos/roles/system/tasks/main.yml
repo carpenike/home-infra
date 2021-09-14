@@ -30,12 +30,12 @@
     - syslog['endpoint'] is defined
     - syslog['port'] is defined
   tags:
-  - syslog
+    - syslog
 
-- import_tasks: files.yml
+- ansible.builtin.import_tasks: files.yml
   tags:
-  - files
+    - files
 
-- import_tasks: task-scheduler.yml
+- ansible.builtin.import_tasks: task-scheduler.yml
   tags:
-  - task-scheduler
+    - task-scheduler

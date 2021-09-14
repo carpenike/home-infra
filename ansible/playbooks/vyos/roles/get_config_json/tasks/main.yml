@@ -1,0 +1,13 @@
+---
+- name: get active config
+  vyos.vyos.vyos_command:
+    commands: "{{ vyos_cmd_config_as_json }}"
+  register: active_config
+  tags:
+    - always
+
+- name: store active config json
+  set_fact:
+    vyos_active_config: "{{ active_config['stdout'][0] }}"
+  tags:
+    - always

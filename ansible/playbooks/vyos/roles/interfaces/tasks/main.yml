@@ -1,12 +1,12 @@
 ---
-- import_tasks: physical.yml
+- ansible.builtin.import_tasks: physical.yml
   tags:
     - physical_interfaces
 
-- import_tasks: vlan.yml
+- ansible.builtin.import_tasks: vlan.yml
   tags:
     - vlan_interfaces
 
-- import_tasks: wireguard.yml
+- ansible.builtin.import_tasks: wireguard.yml
   tags:
     - wireguard
