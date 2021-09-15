@@ -1,8 +1,6 @@
 ---
 - name: dhcp-server
-  vyos.vyos.vyos_config:
-    match: none
-    src: dhcp-server.j2
+  ansible.builtin.import_tasks: dhcp-server.yml
   tags:
     - dhcp-server
 
@@ -20,7 +18,8 @@
   tags:
     - broadcast-relay
 
-- ansible.builtin.import_tasks: igmp-proxy.yml
+- name: igmp-proxy
+  ansible.builtin.import_tasks: igmp-proxy.yml
   tags:
     - igmp-proxy
 

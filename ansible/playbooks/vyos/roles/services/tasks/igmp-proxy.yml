@@ -9,5 +9,3 @@
   vyos.vyos.vyos_config:
     match: line
     lines: "{{ lookup('template', './config/igmp-proxy.j2') }}"
-  tags:
-    - igmp-proxy

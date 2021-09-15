@@ -3,13 +3,14 @@
   {%- set listen_addresses = listen_addresses.append(vyos_interfaces[interface]['ipv4_addr'] | ansible.netcommon.ipv4('address')) -%}
 {%- endfor -%}
 
-.:53
+.:53 {
   bind {{ listen_addresses | join(' ') }}
   errors
   log
   prometheus :9153
 
   hosts /etc/hosts {
+    reload "1m"
     fallthrough
   }
 
