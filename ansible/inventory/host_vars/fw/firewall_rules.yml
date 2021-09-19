@@ -310,7 +310,7 @@ firewall_rules:
     destination:
       port: 3000
 
-  accept_connection_to_hdhr:
+  accept_media_players_to_hdhr:
     action: accept
     protocol: tcp_udp
     source:
@@ -318,3 +318,12 @@ firewall_rules:
     destination:
       port: 5002,5004,65001
       address-group: hd_homeruns
+
+  accept_hdhr_to_media_players:
+    action: accept
+    protocol: udp
+    source:
+      address-group: hd_homeruns
+    destination:
+      port: 33021
+      address-group: media_players

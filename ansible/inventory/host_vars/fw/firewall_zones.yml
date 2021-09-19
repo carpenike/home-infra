@@ -416,7 +416,8 @@ firewall_zones:
           - accept_icmp: null
           - accept_app_control_from_sonos_controllers_tcp: null
           - accept_app_control_from_sonos_controllers_udp: null
-          - accept_connection_to_hdhr: null
+          - accept_media_players_to_hdhr: null
+          - accept_hdhr_to_media_players: null
       - includeZones:
           - servers
         default: drop
@@ -431,7 +432,8 @@ firewall_zones:
           - accept_android_adb_from_k8s_nodes: null
           - accept_app_control_from_sonos_controllers_tcp: null
           - accept_app_control_from_sonos_controllers_udp: null
-          - accept_connection_to_hdhr: null
+          - accept_media_players_to_hdhr: null
+          - accept_hdhr_to_media_players: null
           # - accept_k8s_nodes: null
       - includeZones:
           - local
