@@ -15,6 +15,18 @@ firewall_global_rules:
     state:
       invalid: true
 
+  accept_http:
+    action: accept
+    protocol: tcp
+    destination:
+      port: http
+
+  accept_https:
+    action: accept
+    protocol: tcp
+    destination:
+      port: https
+
   accept_icmp:
     action: accept
     protocol: icmp

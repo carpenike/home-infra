@@ -130,7 +130,7 @@ nat:
       interface: iot
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
         port: 53
       destination:
         address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
@@ -138,7 +138,7 @@ nat:
       interface: video
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
         port: 53
       destination:
         address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
@@ -146,7 +146,7 @@ nat:
       interface: wireless
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
         port: 53
       destination:
         address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
@@ -157,6 +157,23 @@ nat:
         port: 32400
       destination:
         address: "{{ vyos_address_book['services']['k8s_plex']['ipv4_addr'] }}"
+    - type: dnat
+      interface: video
+      protocol: udp
+      source:
+        address: "!{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        port: 123
+      destination:
+        address: "{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+    - type: dnat
+      interface: iot
+      protocol: udp
+      source:
+        address: "!{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        port: 123
+      destination:
+        address: "{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+
 
 # -----------------------
 # Firewall configuration
@@ -245,6 +262,7 @@ mdns_repeater:
     - wired
     - iot
     - wireless
+    - servers
 
 broadcast_relay:
   enabled: true
@@ -254,4 +272,5 @@ broadcast_relay:
         - wired
         - iot
         - wireless
+        - servers
       port: 1900

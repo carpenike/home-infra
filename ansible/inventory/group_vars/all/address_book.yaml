@@ -18,6 +18,8 @@ address_book:
       ipv4_addr: 10.20.0.20
       groups:
         - k8s_nodes
+        - sonos_controllers
+        - media_players
     cp-1:
       hostname: cp-1
       network: servers
@@ -25,12 +27,16 @@ address_book:
       ipv4_addr: 10.20.0.21
       groups:
         - k8s_nodes
+        - sonos_controllers
+        - media_players
     cp-2:
       hostname: cp-2
       network: servers
       ipv4_addr: 10.20.0.22
       groups:
         - k8s_nodes
+        - sonos_controllers
+        - media_players
     nas-0:
       hostname: nas-0
       network: servers
@@ -68,6 +74,8 @@ address_book:
       ipv4_addr: 10.20.10.20
       groups:
         - k8s_nodes
+        - sonos_controllers
+        - media_players
     node-0-ipmi:
       hostname: node-0-ipmi
       network: mgmt
@@ -82,6 +90,8 @@ address_book:
       ipv4_addr: 10.20.10.21
       groups:
         - k8s_nodes
+        - sonos_controllers
+        - media_players
     node-1-ipmi:
       hostname: node-1-ipmi
       network: mgmt
@@ -96,6 +106,8 @@ address_book:
       ipv4_addr: 10.20.10.22
       groups:
         - k8s_nodes
+        - sonos_controllers
+        - media_players
     node-2-ipmi:
       hostname: node-2-ipmi
       network: mgmt
@@ -110,6 +122,8 @@ address_book:
       ipv4_addr: 10.20.10.23
       groups:
         - k8s_nodes
+        - sonos_controllers
+        - media_players
     node-3-ipmi:
       hostname: node-3-ipmi
       network: mgmt
@@ -166,8 +180,8 @@ address_book:
       ipv4_addr: 10.9.18.102
       groups:
         - unifi_devices
-    ubnt-24poeswitch:
-      hostname: ubnt-24poeswitch
+    ubnt-16poeswitch:
+      hostname: ubnt-16poeswitch
       mac_addr: b4:fb:e4:1c:a1:f6
       network: mgmt
       dhcp_client: true
@@ -189,6 +203,7 @@ address_book:
       dhcp_client: true
       ipv4_addr: 10.10.0.200
       groups:
+        - sonos_controllers
         - nfs_clients
         - smb_clients
         - plex_clients
@@ -200,10 +215,21 @@ address_book:
       dhcp_client: true
       ipv4_addr: 10.10.0.198
       groups:
+        - sonos_controllers
         - nfs_clients
         - smb_clients
         - plex_clients
         - print_clients
+
+    hp_printer:
+      hostname: hp_printer
+      mac_addr: f8:0d:ac:7b:d9:90
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.5
+      groups:
+        - printers
+        - smb_clients
     nintendo-switch-1:
       hostname: nintendo-switch-1
       mac_addr: 58:2f:40:7c:25:19
@@ -230,6 +256,7 @@ address_book:
         - media_players
         - nvidia_shields
         - plex_clients
+        - android_tvs
     nvidia_shield_tv_basement:
       hostname: nvidia_shield_tv_basement
       mac_addr: 48:b0:2d:13:b7:a0
@@ -240,6 +267,7 @@ address_book:
         - media_players
         - nvidia_shields
         - plex_clients
+        - android_tvs
     nvidia_shield_tv_masterbedroom:
       hostname: nvidia_shield_tv_masterbedroom
       mac_addr: 48:b0:2d:13:d1:d6
@@ -250,6 +278,7 @@ address_book:
         - media_players
         - nvidia_shields
         - plex_clients
+        - android_tvs
     firetv_bar_tv:
       hostname: firetv_bar_tv
       mac_addr: 74:ec:b2:5a:c3:47
@@ -258,6 +287,7 @@ address_book:
       ipv4_addr: 10.40.50.15
       groups:
         - media_players
+        - android_tvs
     hdhr:
       hostname: hdhr
       mac_addr: 00:18:dd:04:cb:77
@@ -386,6 +416,7 @@ address_book:
         - sonos_controllers
         - media_players
         - print_clients
+        - homekit_clients
     rybook:
       hostname: rybook
       mac_addr: 74:42:8b:68:50:fe
@@ -406,6 +437,7 @@ address_book:
         - sonos_controllers
         - media_players
         - print_clients
+        - homekit_clients
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af
@@ -424,12 +456,102 @@ address_book:
       ipv4_addr: 10.40.50.180
       groups:
         - ecobee
+        - homekit_devices
+    energy_meter:
+      hostname: energy_meter
+      mac_addr: 3c:61:05:2a:e4:a0
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.200
+      groups:
+        - esphome_devices
+    utility_closet_sensors:
+      hostname: utility_closet_sensors
+      mac_addr: 7c:9e:bd:f5:2e:b0
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.201
+      groups:
+        - esphome_devices
+    sunroom_corner_lights:
+      hostname: sunroom_corner_lights
+      mac_addr: e8:68:e7:f1:5a:c3
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.202
+      groups:
+        - esphome_devices
+    front_under_bar_lights:
+      hostname: front_under_bar_lights
+      mac_addr: 84:cc:a8:af:a2:ca
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.203
+      groups:
+        - esphome_devices
+    garage_front_lights:
+      hostname: garage_front_lights
+      mac_addr: 68:c6:3a:fb:70:ae
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.204
+      groups:
+        - esphome_devices
+    outside_bar_back_door_lights:
+      hostname: outside_bar_back_door_lights
+      mac_addr: 68:c6:3a:fb:42:b6
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.205
+      groups:
+        - esphome_devices
+    well_switch:
+      hostname: well_switch
+      mac_addr: dc:4f:22:4c:98:98
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.206
+      groups:
+        - esphome_devices
+    hall_bath_corner_light:
+      hostname: hall_bath_corner_light
+      mac_addr: e8:68:e7:f0:45:cd
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.207
+      groups:
+        - esphome_devices
+    garage-door:
+      hostname: garage-door
+      mac_addr: e8:db:84:d4:cd:53
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.208
+      groups:
+        - esphome_devices
+    porch_ceiling_lights:
+      hostname: porch_ceiling_lights
+      mac_addr: 68:c6:3a:fb:67:e3
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.209
+      groups:
+        - esphome_devices
+    garage_side_lights:
+      hostname: garage_side_lights
+      mac_addr: 68:c6:3a:fb:3b:78
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.210
+      groups:
+        - esphome_devices
+
     camera_backpatio:
       hostname: camera_backpatio
-      mac_addr: 9c:8e:cd:30:99:4c
+      mac_addr: 58:50:ed:2d:47:4b
       network: video
       dhcp_client: true
-      ipv4_addr: 10.50.0.100
+      ipv4_addr: 10.50.50.100
       groups:
         - rtsp
     amcrest_frontdoor:
@@ -437,9 +559,10 @@ address_book:
       mac_addr: 9c:8e:cd:30:99:4d
       network: video
       dhcp_client: true
-      ipv4_addr: 10.50.0.101
+      ipv4_addr: 10.50.50.101
       groups:
         - rtsp
+        - amcrest_cameras
 
   services:
     k8s_api:
@@ -456,6 +579,10 @@ address_book:
       ipv4_addr: 10.45.10.11
     k8s_dns:
       ipv4_addr: 10.45.10.13
+    mullvad_ip:
+      ipv4_addr: 198.54.132.82 
+    racknerd_ip:
+      ipv4_addr: 173.82.197.179
   static_mappings:
     - hostname: k8s.holthome.net
       service: k8s_api

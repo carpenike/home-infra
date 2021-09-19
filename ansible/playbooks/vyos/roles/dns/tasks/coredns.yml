@@ -48,19 +48,22 @@
     lstrip_blocks: true
   become: true
 
-- name: set facts for network connection
-  when:
-    - coredns['enabled']
-  set_fact:
-    ansible_connection: ansible.netcommon.network_cli
+- name: copy coredns service unit
+  ansible.builtin.template:
+    src: coredns/coredns.service.j2
+    dest: /etc/systemd/system/coredns.service
+    owner: root
+    group: vyattacfg
+    mode: "0775"
+    lstrip_blocks: true
+  become: true
+  notify:
+    - reload systemd daemon
+    - restart coredns service unit
 
-- name: read config json
-  ansible.builtin.include_role:
-    name: get_config_json
-
-- name: set up coredns container
-  vars:
-    current_config: "{{ vyos_active_config['container']['name']['coredns'] | default({}) }}"
-  vyos.vyos.vyos_config:
-    match: line
-    lines: "{{ lookup('template', './config/coredns-container.j2') }}"
+- name: start coredns unit
+  ansible.builtin.systemd:
+    state: started
+    enabled: true
+    name: coredns
+  become: true

@@ -31,6 +31,8 @@ firewall_rules:
     destination:
       port: 1883
       address-group: k8s_mqtt
+    source:
+      address-group: mqtt_devices
 
   accept_k8s_nodes:
     action: accept
@@ -110,7 +112,7 @@ firewall_rules:
     action: accept
     protocol: udp
     source:
-      address-group: k8s_hass
+      address-group: k8s_nodes
     destination:
       port: 1900
 
@@ -120,7 +122,7 @@ firewall_rules:
     source:
       address-group: sonos_players
     destination:
-      port: 1900
+      port: 1900,1901
 
   accept_discovery_from_sonos_controllers:
     action: accept
@@ -128,7 +130,7 @@ firewall_rules:
     source:
       address-group: sonos_controllers
     destination:
-      port: 1900
+      port: 1900,1901,57621
 
   accept_app_control_from_sonos_players:
     action: accept
@@ -136,15 +138,23 @@ firewall_rules:
     source:
       address-group: sonos_players
     destination:
-      port: 3400,3401,3500
+      port: 1400,3400,3401,3500
 
-  accept_app_control_from_sonos_controllers:
+  accept_app_control_from_sonos_controllers_tcp:
     action: accept
     protocol: tcp
     source:
       address-group: sonos_controllers
     destination:
-      port: 1400,1433,4444
+      port: 80,443,445,1400,3400,3401,3445,3500,4070,4444
+
+  accept_app_control_from_sonos_controllers_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: sonos_controllers
+    destination:
+      port: 136-139,1900-1901,2869,10243,10280-10284,5353,6969
 
   accept_k8s_ingress_from_sonos_players:
     action: accept
@@ -202,3 +212,109 @@ firewall_rules:
       address-group: k8s_nodes
     destination:
       port: 3232,6053,8266
+      address-group: esphome_devices
+
+  accept_homekit_from_k8s_nodes:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 80,443
+      address-group: homekit_devices
+
+  accept_homekit_from_ios_devices:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: homekit_clients
+    destination:
+      port: 80,443
+      address-group: homekit_devices
+
+  accept_homekit_from_ios_devices_to_k8s_nodes_tcp:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: homekit_clients
+    destination:
+      port: 21063
+      address-group: k8s_nodes
+
+  accept_homekit_from_ios_devices_to_k8s_nodes_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: homekit_clients
+    destination:
+      port: 5353
+      address-group: k8s_nodes
+
+  accept_mullvad_vpn_from_k8s_nodes:
+    action: accept
+    protocol: udp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 51820
+      address-group: mullvad_ip
+
+  accept_racknerd_vpn_from_k8s_nodes:
+    action: accept
+    protocol: udp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 51820
+      address-group: racknerd_ip
+
+  accept_rtsp_from_k8s_nodes:
+    action: accept
+    protocol: tcp_udp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 80,554,5000,8000
+      address-group: rtsp
+
+  accept_android_adb_from_k8s_nodes:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 5555
+      address-group: android_tvs
+
+  accept_amcrest_to_amcrest_cloud_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: amcrest_cameras
+    destination:
+      port: 8800-8815
+
+  accept_amcrest_to_amcrest_cloud_tcp:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: amcrest_cameras
+    destination:
+      port: 9112,15301,10000,12367,15100
+
+  accept_resilio_from_k8s_nodes:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 3000
+
+  accept_connection_to_hdhr:
+    action: accept
+    protocol: tcp_udp
+    source:
+      address-group: media_players
+    destination:
+      port: 5002,5004,65001
+      address-group: hd_homeruns

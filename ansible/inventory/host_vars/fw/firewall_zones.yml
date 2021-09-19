@@ -12,15 +12,42 @@ firewall_zones:
           - video
         default: drop
         defaultLog: true
+        rules:
+          - accept_amcrest_to_amcrest_cloud_udp: true
+          - accept_amcrest_to_amcrest_cloud_tcp: true
       - includeZones:
           - wireless
-        default: accept
+        default: drop
         defaultLog: true
         rules:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_http: null
+          - accept_https: null
+      - includeZones:
+          - iot
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_http: null
+          - accept_https: null
           - accept_ecobee_ems_from_ecobee: null
+      - includeZones:
+          - servers
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_http: null
+          - accept_https: null
+          - accept_racknerd_vpn_from_k8s_nodes: null
+          - accept_mullvad_vpn_from_k8s_nodes: null
       - ignoreZones:
           - video
         default: accept
@@ -68,15 +95,26 @@ firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
-          - accept_ssh: null
           - accept_dns: null
           - accept_ntp: null
           - accept_dhcp: null
           - accept_igmp: null
           - accept_mdns: null
-          # - accept_discovery_from_sonos_players: null
-          # - accept_discovery_from_sonos_controllers: null
+          - accept_discovery_from_sonos_players: null
+          - accept_discovery_from_sonos_controllers: null
+          # - accept_app_control_from_sonos_controllers_udp: null
+          # - accept_app_control_from_sonos_controllers_tcp: null
           # - accept_discovery_from_hass: null
+      - includeZones:
+          - video
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_dns: null
+          - accept_ntp: null
+          - accept_dhcp: null
       - includeZones:
           - servers
         default: drop
@@ -88,6 +126,7 @@ firewall_zones:
           - accept_ntp: null
           - accept_dhcp: null
           - accept_bgp: null
+          - accept_discovery_from_hass: null
           # - accept_prometheus_from_k8s_nodes: null
       - includeZones:
           - wan
@@ -104,7 +143,10 @@ firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_mdns: null
           - accept_dhcp: null
+          - accept_discovery_from_sonos_controllers: null
+          - accept_ssh: null
       - ignoreZones:
           - mgmt
           - wireless
@@ -159,7 +201,16 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
+          - accept_ssh: null
+          # - accept_mqtt: null
+          - accept_k8s_api: null
           - accept_k8s_ingress_from_internal: null
+          - accept_k8s_ingress_from_internal: null
+          - accept_plex_from_internal_tcp: null
+          - accept_plex_from_internal_udp: null
+          - accept_smb_from_smb_clients: null
+          - accept_nfs_from_smb_clients: null
+          - accept_stepca_ingress_from_internal: null
       - includeZones:
           - wan
         default: drop
@@ -182,14 +233,9 @@ firewall_zones:
           - accept_k8s_api: null
           - accept_dns: null
           - accept_k8s_ingress_from_internal: null
-          - accept_plex_from_internal_tcp: null
-          - accept_plex_from_internal_udp: null
           - accept_ssh: null
-          - accept_mqtt: null
           - accept_unifi_inform: null
           - accept_unifi_stun: null
-          - accept_smb_from_smb_clients: null
-          - accept_nfs_from_smb_clients: null
           - accept_stepca_ingress_from_internal: null
       - includeZones:
           - wireless
@@ -205,6 +251,8 @@ firewall_zones:
           - accept_plex_from_internal_tcp: null
           - accept_plex_from_internal_udp: null
           - accept_k8s_ingress_from_internal: null
+          - accept_homekit_from_ios_devices_to_k8s_nodes_tcp: null
+          - accept_homekit_from_ios_devices_to_k8s_nodes_udp: null
       - includeZones:
           - iot
         default: drop
@@ -213,10 +261,22 @@ firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_dns: null
           # - accept_mqtt: null
-          # - accept_plex_from_plex_clients: null
+          - accept_plex_from_internal_tcp: null
+          - accept_plex_from_internal_udp: null
+          - accept_smb_from_smb_clients: null
           # - accept_k8s_ingress_from_wall_displays: null
           # - accept_k8s_ingress_from_sonos_players: null
+      - includeZones:
+          - video
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_dns: null
       - includeZones:
           - local
         default: drop
@@ -228,6 +288,8 @@ firewall_zones:
           - accept_bgp: null
           - accept_k8s_api: null
           - accept_promtail_syslog: null
+          - accept_discovery_from_sonos_players: null
+          - accept_discovery_from_sonos_controllers: null
           - accept_dns: null
       - ignoreZones:
           - wan
@@ -257,6 +319,16 @@ firewall_zones:
           - accept_igmp: null
           - accept_mdns: null
           - accept_discovery_from_sonos_players: null
+          - accept_discovery_from_sonos_controllers: null
+      - includeZones:
+          - servers
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_mdns: null
+          - accept_resilio_from_k8s_nodes: null
       - includeZones:
           - wg_trusted
         default: accept
@@ -268,6 +340,7 @@ firewall_zones:
       - includeZones:
           - iot
         default: drop
+        defaultLog: true
         rules:
           - accept_established: null
           - accept_related: null
@@ -275,7 +348,6 @@ firewall_zones:
           - accept_app_control_from_sonos_players: null
       - ignoreZones:
           - local
-          - iot
           - wg_trusted
         default: drop
         rules:
@@ -296,8 +368,28 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
-          - accept_esphome_from_k8s_nodes: null
-          - accept_app_control_from_sonos_controllers: null
+          - accept_resilio_from_k8s_nodes: null
+      - includeZones:
+          - local
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_igmp: null
+          - accept_mdns: null
+          - accept_discovery_from_sonos_players: null
+          - accept_discovery_from_sonos_controllers: null
+      - includeZones:
+          - iot
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_icmp: null
+          - accept_app_control_from_sonos_players: null
       - ignoreZones:
           - servers
         default: drop
@@ -314,6 +406,7 @@ firewall_zones:
       - includeZones:
           - wired
           - wg_trusted
+          - wireless
         default: accept
         defaultLog: true
         rules:
@@ -321,7 +414,9 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
-          - accept_app_control_from_sonos_controllers: null
+          - accept_app_control_from_sonos_controllers_tcp: null
+          - accept_app_control_from_sonos_controllers_udp: null
+          - accept_connection_to_hdhr: null
       - includeZones:
           - servers
         default: drop
@@ -331,7 +426,13 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
-          - accept_k8s_nodes: null
+          - accept_esphome_from_k8s_nodes: null
+          - accept_homekit_from_k8s_nodes: null
+          - accept_android_adb_from_k8s_nodes: null
+          - accept_app_control_from_sonos_controllers_tcp: null
+          - accept_app_control_from_sonos_controllers_udp: null
+          - accept_connection_to_hdhr: null
+          # - accept_k8s_nodes: null
       - includeZones:
           - local
         default: drop
@@ -360,15 +461,18 @@ firewall_zones:
       - video
     fw_policies:
       - includeZones:
+          - mgmt
           - wired
           - wg_trusted
-        default: accept
+        default: drop
         defaultLog: true
         rules:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
+          - accept_http: null
+          - accept_https: null
       - includeZones:
           - servers
         default: drop
@@ -378,10 +482,10 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
+          - accept_rtsp_from_k8s_nodes: null
           # - accept_k8s_nodes: null
       - ignoreZones:
           - servers
-          - wired
           - wg_trusted
         default: drop
         defaultLog: true

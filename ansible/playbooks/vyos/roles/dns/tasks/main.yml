@@ -3,6 +3,17 @@
   tags:
     - coredns
 
+- name: flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: set facts for network connection
+  when:
+    - coredns['enabled']
+  set_fact:
+    ansible_connection: ansible.netcommon.network_cli
+  tags:
+    - coredns
+
 - ansible.builtin.import_tasks: static-host-mapping.yml
   tags:
     - static-host-mapping
