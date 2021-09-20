@@ -327,3 +327,12 @@ firewall_rules:
     destination:
       port: 33021
       address-group: media_players
+
+  accept_plex_to_media_players:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_plex
+      port: 32400
+    destination:
+      address-group: media_players

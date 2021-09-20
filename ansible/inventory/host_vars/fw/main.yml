@@ -174,7 +174,6 @@ nat:
       destination:
         address: "{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
 
-
 # -----------------------
 # Firewall configuration
 # Note: rules and zones are configured in their own respective host_vars files.
@@ -274,3 +273,9 @@ broadcast_relay:
         - wireless
         - servers
       port: 1900
+    - description: HDHR
+      interfaces:
+        - wireless
+        - iot
+        - servers
+      port: 65001

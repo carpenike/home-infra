@@ -266,6 +266,7 @@ firewall_zones:
           - accept_plex_from_internal_tcp: null
           - accept_plex_from_internal_udp: null
           - accept_smb_from_smb_clients: null
+          - accept_hdhr_to_media_players: null
           # - accept_k8s_ingress_from_wall_displays: null
           # - accept_k8s_ingress_from_sonos_players: null
       - includeZones:
@@ -417,7 +418,6 @@ firewall_zones:
           - accept_app_control_from_sonos_controllers_tcp: null
           - accept_app_control_from_sonos_controllers_udp: null
           - accept_media_players_to_hdhr: null
-          - accept_hdhr_to_media_players: null
       - includeZones:
           - servers
         default: drop
@@ -433,7 +433,7 @@ firewall_zones:
           - accept_app_control_from_sonos_controllers_tcp: null
           - accept_app_control_from_sonos_controllers_udp: null
           - accept_media_players_to_hdhr: null
-          - accept_hdhr_to_media_players: null
+          - accept_plex_to_media_players: null
           # - accept_k8s_nodes: null
       - includeZones:
           - local
