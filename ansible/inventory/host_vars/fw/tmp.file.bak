@@ -438,19 +438,23 @@ fw_policies:
             from: servers
             to: wireless
           rules:
+            # - protocol: tcp
+            #   desc: esphome
+            #   port: 3232
+            #   log: enable
+            #   action: accept
+            # - protocol: tcp
+            #   desc: esphome
+            #   port: 6053
+            #   log: enable
+            #   action: accept
+            # - protocol: tcp
+            #   desc: esphome
+            #   port: 8266
+            #   log: enable
+            #   action: accept
             - protocol: tcp
-              port: 3232
-              log: enable
-              action: accept
-            - protocol: tcp
-              port: 6053
-              log: enable
-              action: accept
-            - protocol: tcp
-              port: 8266
-              log: enable
-              action: accept
-            - protocol: tcp
+              desc: printing
               port: 631
               log: enable
               action: accept
@@ -486,20 +490,21 @@ fw_policies:
               port: 30000-60000
               log: enable
               action: accept
-            - protocol: tcp
-              port: 3000
-              log: enable
-              action: accept
+            # - protocol: tcp
+            #   desc: resilio
+            #   port: 3000
+            #   log: enable
+            #   action: accept
             - protocol: tcp
               port: 9999
               log: enable
               action: accept
-            - protocol: icmp
-              log: enable
-              action: accept
-            - protocol: all
-              log: enable
-              action: reject
+            # - protocol: icmp
+            #   log: enable
+            #   action: accept
+            # - protocol: all
+            #   log: enable
+            #   action: reject
         - name: servers_to_wan_ipv4
           zones:
             from: servers

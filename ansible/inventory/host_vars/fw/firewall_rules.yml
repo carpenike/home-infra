@@ -336,3 +336,11 @@ firewall_rules:
       port: 32400
     destination:
       address-group: media_players
+
+  accept_wifi_calling_from_ios_devices:
+    action: accept
+    protocol: udp
+    source:
+      address-group: verizon_wifi_calling
+    destination:
+      port: 500,4500

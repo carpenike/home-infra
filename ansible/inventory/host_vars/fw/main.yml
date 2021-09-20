@@ -173,6 +173,14 @@ nat:
         port: 123
       destination:
         address: "{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+    - type: dnat
+      interface: iot
+      protocol: udp
+      source:
+        address: "!{{ vyos_interfaces['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        port: 123
+      destination:
+        address: "{{ vyos_interfaces['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
 
 # -----------------------
 # Firewall configuration

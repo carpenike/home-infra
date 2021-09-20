@@ -25,6 +25,7 @@ firewall_zones:
           - drop_invalid: null
           - accept_http: null
           - accept_https: null
+          - accept_wifi_calling_from_ios_devices: null
       - includeZones:
           - iot
         default: drop
@@ -408,7 +409,7 @@ firewall_zones:
           - wired
           - wg_trusted
           - wireless
-        default: accept
+        default: drop
         defaultLog: true
         rules:
           - accept_established: null
