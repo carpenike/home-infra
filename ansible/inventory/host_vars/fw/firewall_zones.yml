@@ -2,7 +2,7 @@
 # Firewall zone definition
 # -------------------------
 
-firewall_zones:
+vyos_firewall_zones:
   - name: wan
     description: WAN zone
     interfaces:
@@ -51,6 +51,9 @@ firewall_zones:
           - accept_mullvad_vpn_from_k8s_nodes: null
       - ignoreZones:
           - video
+          - wireless
+          - iot
+          - servers
         default: accept
         defaultLog: true
         rules:
@@ -153,12 +156,13 @@ firewall_zones:
           - accept_ssh: null
       - ignoreZones:
           - mgmt
-          - wireless
-          - iot
-          - servers
           - wired
           - wg_trusted
+          - iot
+          - video
+          - servers
           - wan
+          - wireless
         default: drop
         rules:
           - accept_established: null
@@ -194,6 +198,7 @@ firewall_zones:
       - ignoreZones:
           - wired
           - wg_trusted
+          - servers
         default: drop
         rules:
           - accept_established: null
@@ -307,12 +312,13 @@ firewall_zones:
           - accept_discovery_from_sonos_controllers: null
           - accept_dns: null
       - ignoreZones:
-          - wan
-          - local
-          - mgmt
-          - iot
           - wired
           - wg_trusted
+          - wan
+          - mgmt
+          - wireless
+          - iot
+          - local
         default: drop
         defaultLog: true
         rules:
@@ -363,7 +369,9 @@ firewall_zones:
           - accept_app_control_from_sonos_players: null
       - ignoreZones:
           - local
+          - servers
           - wg_trusted
+          - iot
         default: drop
         rules:
           - accept_established: null
@@ -407,13 +415,14 @@ firewall_zones:
           - accept_app_control_from_sonos_players: null
       - ignoreZones:
           - servers
+          - local
+          - iot
         default: drop
         defaultLog: true
         rules:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
-          - accept_wide_range_from_k8s: null
   - name: iot
     description: iot iot zone
     interfaces:
@@ -463,10 +472,11 @@ firewall_zones:
           - accept_mdns: null
           - accept_discovery_from_sonos_controllers: null
       - ignoreZones:
-          - local
-          - servers
           - wired
           - wg_trusted
+          - wireless
+          - servers
+          - local
         default: drop
         defaultLog: true
         rules:
@@ -503,8 +513,10 @@ firewall_zones:
           - accept_rtsp_from_k8s_nodes: null
           # - accept_k8s_nodes: null
       - ignoreZones:
-          - servers
+          - mgmt
+          - wired
           - wg_trusted
+          - servers
         default: drop
         defaultLog: true
         rules:

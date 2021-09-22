@@ -1,5 +1,0 @@
----
-- name: configure Network Address Translation
-  vyos.vyos.vyos_config:
-    match: none
-    src: nat.j2

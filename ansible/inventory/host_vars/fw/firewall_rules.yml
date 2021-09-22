@@ -2,12 +2,12 @@
 # Firewall Rule definition
 # -------------------------
 
-firewall_rules:
+vyos_firewall_rules:
   accept_wireguard:
     action: accept
     protocol: udp
     destination:
-      port: "{{ wireguard['servers']['wg_trusted']['port'] }}"
+      port: "{{ vyos_wireguard['servers']['wg_trusted']['port'] }}"
 
   accept_k8s_api:
     action: accept

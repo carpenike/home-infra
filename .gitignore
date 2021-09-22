@@ -1,6 +1,18 @@
-k8s-config.yaml
-.terraform
-*.tfstate*
+# Folders
+ignore/
+bin/
+
+# Trash
+.DS_Store
+Thumbs.db
+
+# Direnv
+.direnv
+
+# Sops
 .decrypted~*
+
 # Ansible
 xanmanning.k3s*
+.ansible/
+ansible/roles/ansible-role-vyos/

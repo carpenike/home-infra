@@ -1,5 +1,0 @@
----
-- name: wireguard
-  vyos.vyos.vyos_config:
-    match: none
-    src: wireguard.j2

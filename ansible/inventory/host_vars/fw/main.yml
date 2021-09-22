@@ -9,16 +9,18 @@ ansible_python_interpreter: /usr/bin/python3
 # System configuration
 # ---------------------
 
-hostname: fw
-domain: holthome.net
-upstream_dns:
+vyos_save_config: true
+
+vyos_hostname: fw
+vyos_upstream_dns:
   - 1.1.1.1
 
-syslog:
-  endpoint: "{{ vyos_address_book['services']['k8s_promtail']['ipv4_addr'] }}"
+vyos_remote_syslog:
+  enabled: true
+  endpoint: "{{ vyos_address_book_enriched['services']['k8s_promtail']['ipv4_addr'] }}"
   port: 1514
 
-task_scheduler:
+vyos_task_scheduler:
   tasks:
     update_cloudflare-ipv4:
       crontab: "0 */12 * * *"
@@ -28,7 +30,7 @@ task_scheduler:
 # Remote files to be managed
 # ---------------------
 
-files:
+vyos_managed_files:
   - url: https://www.cloudflare.com/ips-v4
     dest: /config/groups/cloudflare-ipv4
   - template: cloudflare-ipv4.sh.j2
@@ -39,7 +41,7 @@ files:
 # Interfaces configuration
 # -------------------------
 
-interfaces:
+vyos_interfaces:
   wan:
     interface: bond0
     vlan_id: 4000
@@ -85,7 +87,7 @@ interfaces:
     ipv4_addr: true
     skip_creation: true
 
-wireguard:
+vyos_wireguard:
   servers:
     wg_trusted:
       private-key: "{{ secure_values['wireguard']['wg_trusted']['private_key'] }}"
@@ -102,7 +104,7 @@ wireguard:
 # NAT configuration
 # ------------------
 
-nat:
+vyos_nat:
   rules:
     - type: snat
       interface: wan
@@ -116,7 +118,7 @@ nat:
       source:
         port: 443
       destination:
-        address: "{{ vyos_address_book['services']['k8s_ingress']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['k8s_ingress']['ipv4_addr'] }}"
         port: 443
     - type: dnat
       interface: wan
@@ -124,95 +126,95 @@ nat:
       source:
         port: 80
       destination:
-        address: "{{ vyos_address_book['services']['k8s_ingress']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['k8s_ingress']['ipv4_addr'] }}"
         port: 80
     - type: dnat
       interface: iot
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: video
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces_enriched['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_interfaces_enriched['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: wired
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces_enriched['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_interfaces_enriched['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: wireless
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces_enriched['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_interfaces_enriched['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: wan
       protocol: tcp
       source:
         port: 32400
       destination:
-        address: "{{ vyos_address_book['services']['k8s_plex']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['k8s_plex']['ipv4_addr'] }}"
     - type: dnat
       interface: video
       protocol: udp
       source:
-        address: "!{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces_enriched['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 123
       destination:
-        address: "{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_interfaces_enriched['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: iot
       protocol: udp
       source:
-        address: "!{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 123
       destination:
-        address: "{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: iot
       protocol: udp
       source:
-        address: "!{{ vyos_interfaces['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 123
       destination:
-        address: "{{ vyos_interfaces['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
 
 # -----------------------
 # Firewall configuration
 # Note: rules and zones are configured in their own respective host_vars files.
 # -----------------------
 
-firewall_network_groups:
+vyos_firewall_network_groups:
   - name: cloudflare-ipv4
     from_file: /config/groups/cloudflare-ipv4
 
-firewall_port_groups:
+vyos_firewall_port_groups:
   - name: wireguard
     ports:
-      - "{{ wireguard['servers']['wg_trusted']['port'] }}"
+      - "{{ vyos_wireguard['servers']['wg_trusted']['port'] }}"
 
 # ----------------------
 # Routing configuration
 # ----------------------
 
-bgp:
+vyos_bgp:
   enabled: true
   local_as: 64512
-  router_id: "{{ vyos_interfaces['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
-  neighbour_groups:
+  router_id: "{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+  neighbor_groups:
     - group: k8s_nodes
       remote_as: 64512
 
@@ -220,7 +222,7 @@ bgp:
 # Services configuration
 # -----------------------
 
-coredns:
+vyos_coredns:
   enabled: true
   interfaces:
     - mgmt
@@ -237,26 +239,31 @@ coredns:
     tag: v1.8.4
   k8s_gateway:
     enabled: true
-    api_ip: "{{ vyos_address_book['services']['k8s_api']['ipv4_addr'] }}"
+    api_ip: "{{ vyos_address_book_enriched['services']['k8s_api']['ipv4_addr'] }}"
     domains: "{{ secure_values['coredns']['k8s_gateway']['domains'] }}"
     service_account_ns: kube-system
     service_account: excoredns
 
-dhcp_server:
+vyos_dhcp_server:
   enabled: true
   host-decl-name: true
   hostfile-update: true
   interfaces:
     mgmt: true
-    wired: true
-    servers: true
-    iot: true
+    wired:
+      domain: "{{ vyos_domain }}"
+    servers:
+      domain: "{{ vyos_domain }}"
+    iot:
+      domain: "{{ vyos_domain }}"
     video:
       dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
-    wireless: true
-    rescue: true
+    wireless:
+      domain: "{{ vyos_domain }}"
+    rescue:
+      domain: "{{ vyos_domain }}"
 
-igmp_proxy:
+vyos_igmp_proxy:
   enabled: true
   interfaces:
     wired:
@@ -268,7 +275,7 @@ igmp_proxy:
       threshold: 1
       alt-subnet: 0.0.0.0/0
 
-mdns_repeater:
+vyos_mdns_repeater:
   enabled: true
   interfaces:
     - wired
@@ -276,7 +283,7 @@ mdns_repeater:
     - wireless
     - servers
 
-broadcast_relay:
+vyos_broadcast_relay:
   enabled: true
   rules:
     - description: SONOS

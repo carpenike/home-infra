@@ -1,5 +1,0 @@
----
-- name: configure BGP peers
-  vyos.vyos.vyos_config:
-    match: none
-    src: bgp.j2

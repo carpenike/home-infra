@@ -1,5 +1,6 @@
 Kind: Secret
 SSH_PASSWORD: ENC[AES256_GCM,data:Ww3fJTcppv+yqkpdMXeG,iv:pTmGSRz5mGCX163p0WOABejkz101qEh+EwnWFfN5BjE=,tag:OcHkHb93iEVWKpGAAddWyw==,type:str]
+vyos_domain: ENC[AES256_GCM,data:MEptzRamH1qHOrSo,iv:KhPxygE5oruYEwqnLnRkT+PccefcBADXCSaeLzTXfms=,tag:U174+TTAS26kkrt/+9y9zg==,type:str]
 secure_values:
   wireguard:
     wg_trusted:
@@ -16,8 +17,8 @@ sops:
   azure_kv: []
   hc_vault: []
   age: []
-  lastmodified: "2021-09-14T15:12:51Z"
-  mac: ENC[AES256_GCM,data:lshO0h6PoCs5sHh7yA1h4391CEwF2xWVuqVNZEeuqErxj2PrFi2WqeRuJQ7AJv5EEaTiECEBgQWbgr8zZM64ZA6VTNVVNuJB0ous6OZoxUqYfr0UWJeI8djyRIkojsqFWuz8bgTzqiAlOwhkqHbQJAx9N1O4xRml4IjS03Q20N0=,iv:wBk1tXnfRihkpeo8w2sx5zW1dRYPr026ycO7UBRaSqk=,tag:4JcLa1Oy9ZYlBMTLyAr4Ig==,type:str]
+  lastmodified: "2021-09-22T16:41:37Z"
+  mac: ENC[AES256_GCM,data:PPIgH68mB+rEknsYNabaftPV18WKdV5tNVZKblhbrMoXpjDRTcBJ3YLuTEu1tzprDc1yB8VRSYA0pUzhn4j0BHXSHflLHyco0kbQBRMZ0g0S/cV6DCVlq4Mr6xKpa+wiFES6neMCCxMBqvIHNcQxg7Ai89EIbuTIrDx/f5TBwYw=,iv:kZGNTAwI2hLFNseoDZjRgT2fhwAVYqHH65gtDyXHjls=,tag:JtQSRK55gP1XmEcoECGoOA==,type:str]
   pgp:
     - created_at: "2021-06-29T00:45:38Z"
       enc: |
