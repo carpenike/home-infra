@@ -146,6 +146,7 @@ firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_dns: null
           - accept_mdns: null
           - accept_dhcp: null
           - accept_discovery_from_sonos_controllers: null
