@@ -283,7 +283,7 @@ firewall_rules:
     source:
       address-group: k8s_nodes
     destination:
-      port: 5555
+      port: 5555,8009,8443
       address-group: android_tvs
 
   accept_amcrest_to_amcrest_cloud_udp:
@@ -344,3 +344,37 @@ firewall_rules:
       address-group: verizon_wifi_calling
     destination:
       port: 500,4500
+
+  accept_node_exporter_from_k8s_nodes:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 9100
+
+  accept_snmp_to_snmp_nodes_from_k8s_nodes:
+    action: accept
+    protocol: udp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: snmp
+      address-gorup: snmp_nodes
+
+  accept_wide_range_from_k8s:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 30000-60000
+
+  accept_k8s_nodes_to_poe_zigbee_controller:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 6638
+      address-group: zigbee_controllers

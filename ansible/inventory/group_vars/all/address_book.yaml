@@ -153,6 +153,14 @@ address_book:
       ipv4_addr: 10.9.18.254
       groups:
         - networking
+    apc-ups:
+      hostname: apc-ups
+      network: mgmt
+      dhcp_client: false
+      ipv4_addr: 10.9.18.245
+      groups:
+        - apc
+        - snmp_nodes
 
     ####################
     ### DHCP Clients ###
@@ -209,6 +217,8 @@ address_book:
         - smb_clients
         - plex_clients
         - print_clients
+        - mgmt_nodes
+
     Ryan-PC:
       hostname: Ryan-PC
       mac_addr: 52:54:00:f5:e6:19
@@ -221,6 +231,7 @@ address_book:
         - smb_clients
         - plex_clients
         - print_clients
+        - mgmt_nodes
 
     hp_printer:
       hostname: hp_printer
@@ -397,6 +408,15 @@ address_book:
       groups:
         - media_players
         - lg_tvs
+    lg_masterbedroom_tv:
+      hostname: lg_masterbedroom_tv
+      mac_addr: ac:f1:08:59:b5:46
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.171
+      groups:
+        - media_players
+        - lg_tvs
     Ryans-iPad:
       hostname: Ryans-iPad
       mac_addr: 80:d6:05:3b:32:20
@@ -460,39 +480,47 @@ address_book:
       groups:
         - ecobee
         - homekit_devices
-    energy_meter:
-      hostname: energy_meter
+    zigbee-controller:
+      hostname: zigbee-controller
+      mac_addr: 94:b9:7e:6b:bb:d3
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.185
+      groups:
+        - zigbee_controllers
+    energy-meter:
+      hostname: energy-meter
       mac_addr: 3c:61:05:2a:e4:a0
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.200
       groups:
         - esphome_devices
-    utility_closet_sensors:
-      hostname: utility_closet_sensors
+    utility-closet-sensors:
+      hostname: utility-closet-sensors
       mac_addr: 7c:9e:bd:f5:2e:b0
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.201
       groups:
         - esphome_devices
-    sunroom_corner_lights:
-      hostname: sunroom_corner_lights
+    sunroom-corner-lights:
+      hostname: sunroom-corner-lights
       mac_addr: e8:68:e7:f1:5a:c3
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.202
       groups:
         - esphome_devices
-    front_under_bar_lights:
-      hostname: front_under_bar_lights
+    front-under-bar-lights:
+      hostname: front-under-bar-lights
       mac_addr: 84:cc:a8:af:a2:ca
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.203
       groups:
         - esphome_devices
-    garage_front_lights:
+    garage-front-lights:
       hostname: garage_front_lights
       mac_addr: 68:c6:3a:fb:70:ae
       network: iot
@@ -500,24 +528,24 @@ address_book:
       ipv4_addr: 10.40.50.204
       groups:
         - esphome_devices
-    outside_bar_back_door_lights:
-      hostname: outside_bar_back_door_lights
+    back-patio-door-lights:
+      hostname: back-patio-door-lights
       mac_addr: 68:c6:3a:fb:42:b6
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.205
       groups:
         - esphome_devices
-    well_switch:
-      hostname: well_switch
+    well-switch:
+      hostname: well-switch
       mac_addr: dc:4f:22:4c:98:98
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.206
       groups:
         - esphome_devices
-    hall_bath_corner_light:
-      hostname: hall_bath_corner_light
+    hall-bath-corner-light:
+      hostname: hall-bath-corner-light
       mac_addr: e8:68:e7:f0:45:cd
       network: iot
       dhcp_client: true
@@ -532,20 +560,28 @@ address_book:
       ipv4_addr: 10.40.50.208
       groups:
         - esphome_devices
-    porch_ceiling_lights:
-      hostname: porch_ceiling_lights
+    porch-ceiling-lights:
+      hostname: porch-ceiling-lights
       mac_addr: 68:c6:3a:fb:67:e3
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.209
       groups:
         - esphome_devices
-    garage_side_lights:
-      hostname: garage_side_lights
+    garage-side-lights:
+      hostname: garage-side-lights
       mac_addr: 68:c6:3a:fb:3b:78
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.210
+      groups:
+        - esphome_devices
+    sunroom-window-lights:
+      hostname: sunroom-window-lights
+      mac_addr: 3c:61:05:eb:e0:29
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.211
       groups:
         - esphome_devices
 

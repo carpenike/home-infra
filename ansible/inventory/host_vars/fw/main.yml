@@ -130,26 +130,34 @@ nat:
       interface: iot
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "!{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "{{ vyos_interfaces['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: video
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "!{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "{{ vyos_interfaces['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+    - type: dnat
+      interface: wired
+      protocol: tcp_udp
+      source:
+        address: "!{{ vyos_interfaces['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        port: 53
+      destination:
+        address: "{{ vyos_interfaces['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: wireless
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "!{{ vyos_interfaces['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
         port: 53
       destination:
-        address: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "{{ vyos_interfaces['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
       interface: wan
       protocol: tcp
@@ -240,15 +248,12 @@ dhcp_server:
   hostfile-update: true
   interfaces:
     mgmt: true
-    wired:
-      dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+    wired: true
     servers: true
-    iot:
-      dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+    iot: true
     video:
       dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
-    wireless:
-      dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+    wireless: true
     rescue: true
 
 igmp_proxy:

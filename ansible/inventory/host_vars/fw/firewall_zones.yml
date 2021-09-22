@@ -124,10 +124,12 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_dns: null
+          - accept_mdns: null
           - accept_ntp: null
           - accept_dhcp: null
           - accept_bgp: null
           - accept_discovery_from_hass: null
+          - accept_node_exporter_from_k8s_nodes: null
           # - accept_prometheus_from_k8s_nodes: null
       - includeZones:
           - wan
@@ -179,6 +181,15 @@ firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+      - includeZones:
+          - servers
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_snmp_to_snmp_nodes_from_k8s_nodes: null
       - ignoreZones:
           - wired
           - wg_trusted
@@ -288,6 +299,7 @@ firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_bgp: null
+          - accept_mdns: null
           - accept_k8s_api: null
           - accept_promtail_syslog: null
           - accept_discovery_from_sonos_players: null
@@ -400,6 +412,7 @@ firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_wide_range_from_k8s: null
   - name: iot
     description: iot iot zone
     interfaces:
@@ -435,6 +448,7 @@ firewall_zones:
           - accept_app_control_from_sonos_controllers_udp: null
           - accept_media_players_to_hdhr: null
           - accept_plex_to_media_players: null
+          - accept_k8s_nodes_to_poe_zigbee_controller: null
           # - accept_k8s_nodes: null
       - includeZones:
           - local
