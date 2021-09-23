@@ -11,14 +11,15 @@ secure_values:
     k8s_gateway:
       domains:
         - ENC[AES256_GCM,data:PkTG+rC0hcDq1nO5,iv:whDost3Mumx3u6oeoL0cQJ30LnV3SsoV5kfhppqdBs0=,tag:kE8ESHK35NxC/J/DSgu8qw==,type:str]
+        - ENC[AES256_GCM,data:En8VMPv0kg==,iv:oUEng6K/BotBKQ9tiDCe7jc+KvnScypfxLJD1lLxoAc=,tag:IjV5TPQzQ0UTg+sUJYMWKg==,type:str]
 sops:
   kms: []
   gcp_kms: []
   azure_kv: []
   hc_vault: []
   age: []
-  lastmodified: "2021-09-22T16:41:37Z"
-  mac: ENC[AES256_GCM,data:PPIgH68mB+rEknsYNabaftPV18WKdV5tNVZKblhbrMoXpjDRTcBJ3YLuTEu1tzprDc1yB8VRSYA0pUzhn4j0BHXSHflLHyco0kbQBRMZ0g0S/cV6DCVlq4Mr6xKpa+wiFES6neMCCxMBqvIHNcQxg7Ai89EIbuTIrDx/f5TBwYw=,iv:kZGNTAwI2hLFNseoDZjRgT2fhwAVYqHH65gtDyXHjls=,tag:JtQSRK55gP1XmEcoECGoOA==,type:str]
+  lastmodified: "2021-09-23T21:25:11Z"
+  mac: ENC[AES256_GCM,data:viy+m2l6HRtJFx3R8Q+cz53dFOk081nC6tLB+jaHQCzGLe4rXmQtidYdE1R2fNjHIGUr34jlXaaMOLzAnu2uFISJuGblPmWZ1TVVH8j8D2OES70jxXgayNihVpfeJ1CGHPgeWOlWwoP2KuArq3Cwr5iKXgQRnf+KdVtQkxrYxco=,iv:ipW7Bl/pY07FK24MiIoHS13U8mWc+4wxgC1uhjzJMEE=,tag:Di3/we86h5AT/Us8tdxlBg==,type:str]
   pgp:
     - created_at: "2021-06-29T00:45:38Z"
       enc: |
