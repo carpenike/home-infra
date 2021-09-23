@@ -510,6 +510,8 @@ vyos_firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
+          - accept_http: null
+          - accept_https: null
           - accept_rtsp_from_k8s_nodes: null
           # - accept_k8s_nodes: null
       - ignoreZones:
