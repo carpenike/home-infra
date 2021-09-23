@@ -45,6 +45,7 @@ vyos_firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_dns: null
           - accept_http: null
           - accept_https: null
           - accept_racknerd_vpn_from_k8s_nodes: null
