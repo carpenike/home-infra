@@ -107,9 +107,7 @@ vyos_firewall_zones:
           - accept_mdns: null
           - accept_discovery_from_sonos_players: null
           - accept_discovery_from_sonos_controllers: null
-          # - accept_app_control_from_sonos_controllers_udp: null
-          # - accept_app_control_from_sonos_controllers_tcp: null
-          # - accept_discovery_from_hass: null
+          - accept_discovery_from_hass: null
       - includeZones:
           - video
         default: drop
@@ -286,6 +284,7 @@ vyos_firewall_zones:
           - accept_plex_from_internal_udp: null
           - accept_smb_from_smb_clients: null
           - accept_hdhr_to_media_players: null
+          - accept_k8s_ingress_from_sonos_players: null
           # - accept_k8s_ingress_from_wall_displays: null
           # - accept_k8s_ingress_from_sonos_players: null
       - includeZones:
@@ -341,7 +340,6 @@ vyos_firewall_zones:
           - accept_igmp: null
           - accept_mdns: null
           - accept_discovery_from_sonos_players: null
-          - accept_discovery_from_sonos_controllers: null
       - includeZones:
           - servers
         default: drop
@@ -367,7 +365,8 @@ vyos_firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
-          - accept_app_control_from_sonos_players: null
+          - accept_udp_from_sonos_players_to_sonos_controllers: null
+          - accept_tcp_from_sonos_players_to_sonos_controllers: null
       - ignoreZones:
           - local
           - servers
@@ -403,7 +402,6 @@ vyos_firewall_zones:
           - accept_igmp: null
           - accept_mdns: null
           - accept_discovery_from_sonos_players: null
-          - accept_discovery_from_sonos_controllers: null
       - includeZones:
           - iot
         default: drop
@@ -413,7 +411,8 @@ vyos_firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
-          - accept_app_control_from_sonos_players: null
+          - accept_udp_from_sonos_players_to_sonos_controllers: null
+          - accept_tcp_from_sonos_players_to_sonos_controllers: null
       - ignoreZones:
           - servers
           - local
@@ -541,19 +540,8 @@ vyos_firewall_zones:
           - drop_invalid: null
           - accept_igmp: null
           - accept_mdns: null
-          - accept_discovery_from_sonos_players: null
-      - includeZones:
-          - iot
-        default: drop
-        defaultLog: true
-        rules:
-          - accept_established: null
-          - accept_related: null
-          - drop_invalid: null
-          - accept_app_control_from_sonos_players: null
       - ignoreZones:
           - local
-          - iot
         default: drop
         rules:
           - accept_established: null

@@ -96,9 +96,6 @@ vyos_wireguard:
         - name: iphone-ryan
           public-key: "{{ secure_values['wireguard']['wg_trusted']['iphone_ryan_public'] }}"
           ipv4_hostid: 2
-        # - name: macbook-bernd
-        #   public-key: "{{ secure_values['wireguard']['wg_trusted']['macbook_bernd_public'] }}"
-        #   ipv4_hostid: 3
 
 # ------------------
 # NAT configuration
@@ -263,39 +260,65 @@ vyos_dhcp_server:
     rescue:
       domain: "{{ vyos_domain }}"
 
-vyos_igmp_proxy:
-  enabled: true
-  interfaces:
-    wired:
-      role: upstream
-      threshold: 1
-      alt-subnet: 0.0.0.0/0
-    iot:
-      role: downstream
-      threshold: 1
-      alt-subnet: 0.0.0.0/0
+# -----------------------
+# Container configuration
+# -----------------------
 
-vyos_mdns_repeater:
-  enabled: true
-  interfaces:
-    - wired
-    - iot
-    - wireless
-    - servers
-
-vyos_broadcast_relay:
-  enabled: true
-  rules:
-    - description: SONOS
-      interfaces:
-        - wired
-        - iot
-        - wireless
-        - servers
-      port: 1900
-    - description: HDHR
-      interfaces:
-        - wireless
-        - iot
-        - servers
-      port: 65001
+vyos_containers:
+  udp-broadcast-relay-sonos:
+    image:
+      repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
+      tag: v1.25.0
+    host-networking: true
+    cap_add:
+      - CAP_NET_RAW
+    env:
+      CFG_ID: "1"
+      CFG_PORT: "1900"
+      CFG_DEV: |-
+        {{-
+          [
+            vyos_interfaces_enriched['wireless']['interface_complete'],
+            vyos_interfaces_enriched['wired']['interface_complete'],
+            vyos_interfaces_enriched['iot']['interface_complete']
+          ] | join(",")
+        -}}
+      CFG_MULTICAST: "239.255.255.250"
+  udp-broadcast-relay-hdhr:
+    image:
+      repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
+      tag: v1.25.0
+    host-networking: true
+    cap_add:
+      - CAP_NET_RAW
+    env:
+      CFG_ID: "1"
+      CFG_PORT: "65001"
+      CFG_DEV: |-
+        {{-
+          [
+            vyos_interfaces_enriched['wireless']['interface_complete'],
+            vyos_interfaces_enriched['wired']['interface_complete'],
+            vyos_interfaces_enriched['iot']['interface_complete']
+          ] | join(",")
+        -}}
+      CFG_MULTICAST: "239.255.255.250"
+  udp-broadcast-relay-mdns:
+    image:
+      repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
+      tag: v1.25.0
+    host-networking: true
+    cap_add:
+      - CAP_NET_RAW
+    env:
+      CFG_ID: "2"
+      CFG_PORT: "5353"
+      CFG_DEV: |-
+        {{-
+          [
+            vyos_interfaces_enriched['wireless']['interface_complete'],
+            vyos_interfaces_enriched['wired']['interface_complete'],
+            vyos_interfaces_enriched['iot']['interface_complete']
+          ] | join(",")
+        -}}
+      CFG_MULTICAST: "224.0.0.251"

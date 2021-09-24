@@ -132,13 +132,24 @@ vyos_firewall_rules:
     destination:
       port: 1900,1901,57621
 
-  accept_app_control_from_sonos_players:
+  #accept_app_control_from_sonos_players:
+  accept_udp_from_sonos_players_to_sonos_controllers:
+    action: accept
+    protocol: udp
+    source:
+      address-group: sonos_players
+    destination:
+      address-group: sonos_controllers
+      port: 30000-65535
+
+  accept_tcp_from_sonos_players_to_sonos_controllers:
     action: accept
     protocol: tcp
     source:
       address-group: sonos_players
     destination:
-      port: 1400,3400,3401,3500
+      address-group: sonos_controllers
+      port: 80,443,445,1400,3400,3401,3500,4070,4444
 
   accept_app_control_from_sonos_controllers_tcp:
     action: accept
