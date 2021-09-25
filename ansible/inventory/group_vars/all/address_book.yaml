@@ -437,6 +437,7 @@ address_book:
         - sonos_controllers
         - media_players
         - print_clients
+        - smb_clients
         - homekit_clients
         - verizon_wifi_calling
     rybook:
@@ -448,6 +449,7 @@ address_book:
       groups:
         - sonos_controllers
         - media_players
+        - smb_clients
         - print_clients
     StefaniesiPhone:
       hostname: StefaniesiPhone
@@ -459,6 +461,7 @@ address_book:
         - sonos_controllers
         - media_players
         - print_clients
+        - smb_clients
         - homekit_clients
         - verizon_wifi_calling
     Steffi-PC:
@@ -470,6 +473,7 @@ address_book:
       groups:
         - sonos_controllers
         - media_players
+        - smb_clients
         - print_clients
     ecobee:
       hostname: ecobee
