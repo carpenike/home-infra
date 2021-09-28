@@ -389,3 +389,21 @@ vyos_firewall_rules:
     destination:
       port: 6638
       address-group: zigbee_controllers
+
+  accept_chromecast_to_chromecast_players_from_chromecast_clients:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: chromecast_clients
+    destination:
+      port: 8009
+      address-group: zigbee_controllers
+
+  accept_lg_remote_to_lg_tvs_from_k8s_nodes:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 3000
+      address-group: lg_tvs

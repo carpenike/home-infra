@@ -269,6 +269,7 @@ address_book:
         - nvidia_shields
         - plex_clients
         - android_tvs
+        - chromecast_players
     nvidia_shield_tv_basement:
       hostname: nvidia_shield_tv_basement
       mac_addr: 48:b0:2d:13:b7:a0
@@ -280,6 +281,7 @@ address_book:
         - nvidia_shields
         - plex_clients
         - android_tvs
+        - chromecast_players
     nvidia_shield_tv_masterbedroom:
       hostname: nvidia_shield_tv_masterbedroom
       mac_addr: 48:b0:2d:13:d1:d6
@@ -291,6 +293,7 @@ address_book:
         - nvidia_shields
         - plex_clients
         - android_tvs
+        - chromecast_players
     firetv_bar_tv:
       hostname: firetv_bar_tv
       mac_addr: 74:ec:b2:5a:c3:47
@@ -300,6 +303,7 @@ address_book:
       groups:
         - media_players
         - android_tvs
+        - chromecast_players
     hdhr:
       hostname: hdhr
       mac_addr: 00:18:dd:04:cb:77
@@ -440,6 +444,7 @@ address_book:
         - smb_clients
         - homekit_clients
         - verizon_wifi_calling
+        - chromecast_clients
     rybook:
       hostname: rybook
       mac_addr: 74:42:8b:68:50:fe
@@ -464,6 +469,7 @@ address_book:
         - smb_clients
         - homekit_clients
         - verizon_wifi_calling
+        - chromecast_clients
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af

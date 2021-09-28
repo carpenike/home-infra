@@ -442,6 +442,7 @@ vyos_firewall_zones:
           - accept_app_control_from_sonos_controllers_tcp: null
           - accept_app_control_from_sonos_controllers_udp: null
           - accept_media_players_to_hdhr: null
+          - accept_chromecast_to_chromecast_players_from_chromecast_clients: null
       - includeZones:
           - servers
         default: drop
@@ -459,6 +460,7 @@ vyos_firewall_zones:
           - accept_media_players_to_hdhr: null
           - accept_plex_to_media_players: null
           - accept_k8s_nodes_to_poe_zigbee_controller: null
+          - accept_lg_remote_to_lg_tvs_from_k8s_nodes: null
           # - accept_k8s_nodes: null
       - includeZones:
           - local
