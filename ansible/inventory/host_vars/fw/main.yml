@@ -181,7 +181,7 @@ vyos_nat:
       destination:
         address: "{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     - type: dnat
-      interface: iot
+      interface: servers
       protocol: udp
       source:
         address: "!{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
