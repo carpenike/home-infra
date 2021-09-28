@@ -285,6 +285,8 @@ vyos_firewall_zones:
           - accept_smb_from_smb_clients: null
           - accept_hdhr_to_media_players: null
           - accept_k8s_ingress_from_sonos_players: null
+          - accept_tcp_from_sonos_players_to_sonos_controllers: null
+          - accept_udp_from_sonos_players_to_sonos_controllers: null
           # - accept_k8s_ingress_from_wall_displays: null
           # - accept_k8s_ingress_from_sonos_players: null
       - includeZones:

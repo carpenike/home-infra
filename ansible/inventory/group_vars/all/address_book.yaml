@@ -538,8 +538,8 @@ address_book:
       ipv4_addr: 10.40.50.204
       groups:
         - esphome_devices
-    back-patio-door-lights:
-      hostname: back-patio-door-lights
+    patio-door-lights:
+      hostname: patio-door-lights
       mac_addr: 68:c6:3a:fb:42:b6
       network: iot
       dhcp_client: true
@@ -554,8 +554,8 @@ address_book:
       ipv4_addr: 10.40.50.206
       groups:
         - esphome_devices
-    hall-bath-corner-light:
-      hostname: hall-bath-corner-light
+    hall-bathroom-corner-light:
+      hostname: hall-bathroom-corner-light
       mac_addr: e8:68:e7:f0:45:cd
       network: iot
       dhcp_client: true
