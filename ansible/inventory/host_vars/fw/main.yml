@@ -318,7 +318,8 @@ vyos_containers:
           [
             vyos_interfaces_enriched['wireless']['interface_complete'],
             vyos_interfaces_enriched['wired']['interface_complete'],
-            vyos_interfaces_enriched['iot']['interface_complete']
+            vyos_interfaces_enriched['iot']['interface_complete'],
+            vyos_interfaces_enriched['servers']['interface_complete']
           ] | join(",")
         -}}
       CFG_MULTICAST: "224.0.0.251"

@@ -214,7 +214,7 @@ vyos_firewall_rules:
     source:
       address-group: ecobee
     destination:
-      port: 8089
+      port: 8089,8190
 
   accept_esphome_from_k8s_nodes:
     action: accept
@@ -416,3 +416,11 @@ vyos_firewall_rules:
     destination:
       port: 631
       address-group: printers
+
+  accept_ubnt_cloud_from_k8s_nodes:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: k8s_nodes
+    destination:
+      port: 8883
