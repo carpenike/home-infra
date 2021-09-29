@@ -407,3 +407,12 @@ vyos_firewall_rules:
     destination:
       port: 3000
       address-group: lg_tvs
+
+  accept_print_clients_to_printers:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: print_clients
+    destination:
+      port: 631
+      address-group: printers
