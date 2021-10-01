@@ -445,6 +445,7 @@ address_book:
         - homekit_clients
         - verizon_wifi_calling
         - chromecast_clients
+        - ecobee_clients
     rybook:
       hostname: rybook
       mac_addr: 74:42:8b:68:50:fe
@@ -470,6 +471,7 @@ address_book:
         - homekit_clients
         - verizon_wifi_calling
         - chromecast_clients
+        - ecobee_clients
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af
@@ -554,8 +556,8 @@ address_book:
       ipv4_addr: 10.40.50.206
       groups:
         - esphome_devices
-    hall-bathroom-corner-light:
-      hostname: hall-bathroom-corner-light
+    master-bathroom-counter-light:
+      hostname: master-bathroom-counter-light
       mac_addr: e8:68:e7:f0:45:cd
       network: iot
       dhcp_client: true

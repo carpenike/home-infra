@@ -449,6 +449,7 @@ vyos_firewall_zones:
           - accept_media_players_to_hdhr: null
           - accept_chromecast_to_chromecast_players_from_chromecast_clients: null
           - accept_print_clients_to_printers: null
+          - accept_ecobee_from_ecobee_clients: null
       - includeZones:
           - servers
         default: drop
