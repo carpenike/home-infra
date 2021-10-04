@@ -331,12 +331,21 @@ address_book:
       groups:
         - media_players
         - google_device
-    sonos_kitchen:
-      hostname: sonos_kitchen
+    sonos_kitchen-1:
+      hostname: sonos_kitchen_1
       mac_addr: 34:7e:5c:1e:04:82
       network: iot
       dhcp_client: true
       ipv4_addr: 10.40.50.150
+      groups:
+        - media_players
+        - sonos_players
+    sonos_kitchen-2:
+      hostname: sonos_kitchen_2
+      mac_addr: 34:7e:5c:1e:04:4c
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.158
       groups:
         - media_players
         - sonos_players
@@ -349,8 +358,8 @@ address_book:
       groups:
         - media_players
         - sonos_players
-    sonos_livingroom:
-      hostname: sonos_livingroom
+    sonos_basement:
+      hostname: sonos_basement
       mac_addr: 5c:aa:fd:4e:d6:24
       network: iot
       dhcp_client: true
@@ -459,7 +468,7 @@ address_book:
         - print_clients
     StefaniesiPhone:
       hostname: StefaniesiPhone
-      mac_addr: 60:83:73:40:3a:8b
+      mac_addr: 88:b9:45:32:84:e4
       network: wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.201

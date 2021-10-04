@@ -148,7 +148,7 @@ vyos_firewall_rules:
       address-group: sonos_players
     destination:
       address-group: sonos_controllers
-      port: 80,443,445,1400,1443,3400,3401,3500,4070,4444
+      port: 80,443,445,1400,3400,3401,3500,4070,4444
 
   accept_app_control_from_sonos_controllers_tcp:
     action: accept
@@ -156,7 +156,8 @@ vyos_firewall_rules:
     source:
       address-group: sonos_controllers
     destination:
-      port: 80,443,445,1400,3400,3401,3445,3500,4070,4444
+      port: 80,443,445,1400,1443,3400,3401,3445,3500,4070,4444
+      address-group: sonos_players
 
   accept_app_control_from_sonos_controllers_udp:
     action: accept
@@ -165,6 +166,7 @@ vyos_firewall_rules:
       address-group: sonos_controllers
     destination:
       port: 136-139,1900-1901,2869,10243,10280-10284,5353,6969
+      address-group: sonos_players
 
   accept_k8s_ingress_from_sonos_players:
     action: accept
@@ -221,7 +223,7 @@ vyos_firewall_rules:
     source:
       address-group: ecobee_clients
     destination:
-      address: ecobee
+      address-group: ecobee
       port: 34883
 
   accept_esphome_from_k8s_nodes:
