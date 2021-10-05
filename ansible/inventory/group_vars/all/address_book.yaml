@@ -455,6 +455,7 @@ address_book:
         - verizon_wifi_calling
         - chromecast_clients
         - ecobee_clients
+        - plex_clients
     rybook:
       hostname: rybook
       mac_addr: 74:42:8b:68:50:fe
@@ -481,6 +482,7 @@ address_book:
         - verizon_wifi_calling
         - chromecast_clients
         - ecobee_clients
+        - plex_clients
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af
@@ -605,6 +607,33 @@ address_book:
       ipv4_addr: 10.40.50.211
       groups:
         - esphome_devices
+    lifx-bar-ceiling-1:
+      hostname: lifx-bar-ceiling-1
+      mac_addr: d0:73:d5:20:16:2a
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.190
+      groups:
+        - lifx_devices
+        - homekit_devices
+    lifx-bar-ceiling-2:
+      hostname: lifx-bar-ceiling-2
+      mac_addr: d0:73:d5:20:18:7d
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.191
+      groups:
+        - lifx_devices
+        - homekit_devices
+    lifx-bar-ceiling-3:
+      hostname: lifx-bar-ceiling-3
+      mac_addr: d0:73:d5:20:24:d5
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.192
+      groups:
+        - lifx_devices
+        - homekit_devices
 
     camera_backpatio:
       hostname: camera_backpatio

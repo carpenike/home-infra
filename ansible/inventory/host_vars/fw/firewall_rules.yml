@@ -424,7 +424,7 @@ vyos_firewall_rules:
     source:
       address-group: print_clients
     destination:
-      port: 631
+      port: 80,631
       address-group: printers
 
   accept_ubnt_cloud_from_k8s_nodes:

@@ -39,3 +39,8 @@ k3s_server:
     - "address=0.0.0.0"
     - "bind-address=0.0.0.0"
   etcd-expose-metrics: true
+  kube-apiserver-arg:
+    - "oidc-issuer-url=https://dex.holthome.net"
+    - "oidc-client-id=dex-k8s-authenticator"
+    - "oidc-username-claim=email"
+    - "oidc-groups-claim=groups"
