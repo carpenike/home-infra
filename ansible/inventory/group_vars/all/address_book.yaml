@@ -270,6 +270,7 @@ address_book:
         - plex_clients
         - android_tvs
         - chromecast_players
+        - airplay_devices
     nvidia_shield_tv_basement:
       hostname: nvidia_shield_tv_basement
       mac_addr: 48:b0:2d:13:b7:a0
@@ -282,6 +283,7 @@ address_book:
         - plex_clients
         - android_tvs
         - chromecast_players
+        - airplay_devices
     nvidia_shield_tv_masterbedroom:
       hostname: nvidia_shield_tv_masterbedroom
       mac_addr: 48:b0:2d:13:d1:d6
@@ -294,6 +296,7 @@ address_book:
         - plex_clients
         - android_tvs
         - chromecast_players
+        - airplay_devices
     firetv_bar_tv:
       hostname: firetv_bar_tv
       mac_addr: 74:ec:b2:5a:c3:47
@@ -340,6 +343,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     sonos_kitchen-2:
       hostname: sonos_kitchen_2
       mac_addr: 34:7e:5c:1e:04:4c
@@ -349,6 +353,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     sonos_upstairs_hallway:
       hostname: sonos_upstairs_hallway
       mac_addr: 5c:aa:fd:4e:d2:9e
@@ -358,6 +363,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     sonos_basement:
       hostname: sonos_basement
       mac_addr: 5c:aa:fd:4e:d6:24
@@ -367,6 +373,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     sonos_bar:
       hostname: sonos_bar
       mac_addr: 48:a6:b8:f9:11:b6
@@ -376,6 +383,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     sonos_move:
       hostname: sonos_move
       mac_addr: 48:a6:b8:e0:cd:ec
@@ -385,6 +393,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     sonos_office:
       hostname: sonos_office
       mac_addr: 48:a6:b8:68:81:b5
@@ -394,6 +403,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     sonos_livingroom_tv:
       hostname: sonos_livingroom_tv
       mac_addr: 54:2a:1b:87:58:10
@@ -403,6 +413,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     sonos_masterbedroom_tv:
       hostname: sonos_masterbedroom_tv
       mac_addr: 48:a6:b8:b3:9f:e7
@@ -412,6 +423,7 @@ address_book:
       groups:
         - media_players
         - sonos_players
+        - airplay_devices
     lg_basement_tv:
       hostname: lg_basement_tv
       mac_addr: 20:3d:bd:6b:24:d2
@@ -442,7 +454,7 @@ address_book:
         - print_clients
     Ryans-iPhone:
       hostname: Ryans-iPhone
-      mac_addr: 74:42:8b:68:50:ae
+      mac_addr: 5c:52:30:2b:6a:f7
       network: wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.200
@@ -456,6 +468,7 @@ address_book:
         - chromecast_clients
         - ecobee_clients
         - plex_clients
+        - airplay_clients
     rybook:
       hostname: rybook
       mac_addr: 74:42:8b:68:50:fe
@@ -483,6 +496,7 @@ address_book:
         - chromecast_clients
         - ecobee_clients
         - plex_clients
+        - airplay_clients
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af

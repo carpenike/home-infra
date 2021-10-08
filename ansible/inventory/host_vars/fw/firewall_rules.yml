@@ -442,3 +442,21 @@ vyos_firewall_rules:
       address-group: k8s_nodes
     destination:
       port: imaps
+
+  accept_airplay_to_airplay_devices_from_airplay_clients_tcp:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: airplay_clients
+    destination:
+      address-group: airplay_devices
+      port: 5000,7000,7100,50000,7200-17210
+
+  accept_airplay_to_airplay_devices_from_airplay_clients_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: airplay_clients
+    destination:
+      address-group: airplay_devices
+      port: 7200-17210
