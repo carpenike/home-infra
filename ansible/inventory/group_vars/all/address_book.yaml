@@ -525,6 +525,14 @@ address_book:
       ipv4_addr: 10.40.50.185
       groups:
         - zigbee_controllers
+    miele-dishwasher:
+      hostname: miele-dishwasher
+      mac_addr: 00:1d:63:27:64:45
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.186
+      groups:
+        - miele_dishwashers
     energy-meter:
       hostname: energy-meter
       mac_addr: 3c:61:05:2a:e4:a0
