@@ -508,6 +508,16 @@ address_book:
         - media_players
         - smb_clients
         - print_clients
+    Caydans-iPad:
+      hostname: Caydans-iPad
+      mac_addr: 10:00:20:33:a3:84
+      network: wireless
+      dhcp_client: true
+      ipv4_addr: 10.30.50.202
+      groups:
+        - media_players
+        - print_clients
+        - plex_clients
     ecobee:
       hostname: ecobee
       mac_addr: 44:61:32:f0:99:8b
