@@ -129,34 +129,34 @@ vyos_nat:
       interface: iot
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
       interface: video
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces_enriched['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces_enriched['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
       interface: wired
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces_enriched['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces_enriched['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
       interface: wireless
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_interfaces_enriched['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
         port: 53
       destination:
-        address: "{{ vyos_interfaces_enriched['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
     - type: dnat
       interface: wan
       protocol: tcp
