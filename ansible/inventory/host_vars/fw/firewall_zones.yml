@@ -256,6 +256,8 @@ vyos_firewall_zones:
           - accept_unifi_inform: null
           - accept_unifi_stun: null
           - accept_stepca_ingress_from_internal: null
+          - accept_tplink_to_controller_udp: null
+          - accept_tplink_to_controller_tcp: null
       - includeZones:
           - wireless
         default: drop

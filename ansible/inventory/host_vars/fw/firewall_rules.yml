@@ -460,3 +460,17 @@ vyos_firewall_rules:
     destination:
       address-group: airplay_devices
       port: 7200-17210
+
+  accept_tplink_to_controller_udp:
+    action: accept
+    protocol: udp
+    destination:
+      address-group: k8s_tplink_controller
+      port: 29810-29813
+
+  accept_tplink_to_controller_tcp:
+    action: accept
+    protocol: tcp
+    destination:
+      address-group: k8s_tplink_controller
+      port: 29810-29813

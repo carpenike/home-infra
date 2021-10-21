@@ -197,6 +197,15 @@ address_book:
       ipv4_addr: 10.9.18.103
       groups:
         - unifi_devices
+    ap-patio:
+      hostname: ap-patio
+      mac_addr: 00:31:92:8a:7e:ee
+      network: mgmt
+      dhcp_client: true
+      ipv4_addr: 10.9.18.105
+      groups:
+        - tplink_eap_devices
+
     # bcs:
     #   hostname: bcs
     #   mac_addr: aa:00:02:00:24:0f
@@ -700,6 +709,8 @@ address_book:
       ipv4_addr: 10.45.10.11
     k8s_dns:
       ipv4_addr: 10.45.10.13
+    k8s_tplink_controller:
+      ipv4_addr: 10.45.10.20
     mullvad_ip:
       ipv4_addr: 198.54.132.82 
     racknerd_ip:

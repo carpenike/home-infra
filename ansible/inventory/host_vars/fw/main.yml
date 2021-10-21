@@ -246,7 +246,8 @@ vyos_dhcp_server:
   host-decl-name: true
   hostfile-update: true
   interfaces:
-    mgmt: true
+    mgmt:
+      subnet_parameters: "option omada-address 10.45.10.20;"
     wired:
       domain: "{{ vyos_domain }}"
     servers:
