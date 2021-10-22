@@ -205,8 +205,16 @@ address_book:
       ipv4_addr: 10.9.18.105
       groups:
         - tplink_eap_devices
+    sw-0:
+      hostname: sw-0
+      mac_addr: c0:06:c3:c9:72:03
+      network: mgmt
+      dhcp_client: true
+      ipv4_addr: 10.9.18.106
+      groups:
+        - tplink_eap_devices
 
-    # bcs:
+        # bcs:
     #   hostname: bcs
     #   mac_addr: aa:00:02:00:24:0f
     #   network: wired
