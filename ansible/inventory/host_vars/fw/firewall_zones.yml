@@ -53,6 +53,7 @@ vyos_firewall_zones:
           - accept_mullvad_vpn_from_k8s_nodes: null
           - accept_ubnt_cloud_from_k8s_nodes: null
           - accept_imaps_from_k8s_nodes: null
+          - accept_matrix_federation_from_k8s_nodes: null
       - ignoreZones:
           - video
           - wireless

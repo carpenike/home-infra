@@ -146,8 +146,8 @@ address_book:
       ipv4_addr: 10.20.10.18
       groups:
         - utility
-    3com:
-      hostname: 3com
+    sw-3com:
+      hostname: sw-3com
       network: mgmt
       dhcp_client: false
       ipv4_addr: 10.9.18.254
@@ -213,8 +213,23 @@ address_book:
       ipv4_addr: 10.9.18.106
       groups:
         - tplink_eap_devices
-
-        # bcs:
+    ap-upstairs:
+      hostname: ap-upstairs
+      mac_addr: c0:06:c3:aa:81:28
+      network: mgmt
+      dhcp_client: true
+      ipv4_addr: 10.9.18.107
+      groups:
+        - tplink_eap_devices
+    ap-basement:
+      hostname: ap-basement
+      mac_addr: c0:06:c3:aa:84:ea
+      network: mgmt
+      dhcp_client: true
+      ipv4_addr: 10.9.18.108
+      groups:
+        - tplink_eap_devices
+    # bcs:
     #   hostname: bcs
     #   mac_addr: aa:00:02:00:24:0f
     #   network: wired
@@ -250,8 +265,8 @@ address_book:
         - print_clients
         - mgmt_nodes
 
-    hp_printer:
-      hostname: hp_printer
+    hp-printer:
+      hostname: hp-printer
       mac_addr: f8:0d:ac:7b:d9:90
       network: iot
       dhcp_client: true
@@ -288,8 +303,8 @@ address_book:
         - android_tvs
         - chromecast_players
         - airplay_devices
-    nvidia_shield_tv_basement:
-      hostname: nvidia_shield_tv_basement
+    nvidia-shield-tv-basement:
+      hostname: nvidia-shield-tv-basement
       mac_addr: 48:b0:2d:13:b7:a0
       network: iot
       dhcp_client: true
@@ -301,8 +316,8 @@ address_book:
         - android_tvs
         - chromecast_players
         - airplay_devices
-    nvidia_shield_tv_masterbedroom:
-      hostname: nvidia_shield_tv_masterbedroom
+    nvidia-shield-tv-master-bedroom:
+      hostname: nvidia-shield-tv-master-bedroom
       mac_addr: 48:b0:2d:13:d1:d6
       network: iot
       dhcp_client: true
@@ -314,8 +329,8 @@ address_book:
         - android_tvs
         - chromecast_players
         - airplay_devices
-    firetv_bar_tv:
-      hostname: firetv_bar_tv
+    firetv-bar-tv:
+      hostname: firetv-bar-tv
       mac_addr: 74:ec:b2:5a:c3:47
       network: iot
       dhcp_client: true
@@ -351,8 +366,8 @@ address_book:
       groups:
         - media_players
         - google_device
-    sonos_kitchen-1:
-      hostname: sonos_kitchen_1
+    sonos-kitchen-1:
+      hostname: sonos-kitchen-1
       mac_addr: 34:7e:5c:1e:04:82
       network: iot
       dhcp_client: true
@@ -361,8 +376,8 @@ address_book:
         - media_players
         - sonos_players
         - airplay_devices
-    sonos_kitchen-2:
-      hostname: sonos_kitchen_2
+    sonos-kitchen-2:
+      hostname: sonos-kitchen-2
       mac_addr: 34:7e:5c:1e:04:4c
       network: iot
       dhcp_client: true
@@ -371,8 +386,8 @@ address_book:
         - media_players
         - sonos_players
         - airplay_devices
-    sonos_upstairs_hallway:
-      hostname: sonos_upstairs_hallway
+    sonos-upstairs-hallway:
+      hostname: sonos-upstairs-hallway
       mac_addr: 5c:aa:fd:4e:d2:9e
       network: iot
       dhcp_client: true
@@ -381,8 +396,8 @@ address_book:
         - media_players
         - sonos_players
         - airplay_devices
-    sonos_basement:
-      hostname: sonos_basement
+    sonos-basement:
+      hostname: sonos-basement
       mac_addr: 5c:aa:fd:4e:d6:24
       network: iot
       dhcp_client: true
@@ -391,8 +406,8 @@ address_book:
         - media_players
         - sonos_players
         - airplay_devices
-    sonos_bar:
-      hostname: sonos_bar
+    sonos-bar:
+      hostname: sonos-bar
       mac_addr: 48:a6:b8:f9:11:b6
       network: iot
       dhcp_client: true
@@ -401,8 +416,8 @@ address_book:
         - media_players
         - sonos_players
         - airplay_devices
-    sonos_move:
-      hostname: sonos_move
+    sonos-move:
+      hostname: sonos-move
       mac_addr: 48:a6:b8:e0:cd:ec
       network: iot
       dhcp_client: true
@@ -411,8 +426,8 @@ address_book:
         - media_players
         - sonos_players
         - airplay_devices
-    sonos_office:
-      hostname: sonos_office
+    sonos-office:
+      hostname: sonos-office
       mac_addr: 48:a6:b8:68:81:b5
       network: iot
       dhcp_client: true
@@ -421,8 +436,8 @@ address_book:
         - media_players
         - sonos_players
         - airplay_devices
-    sonos_livingroom_tv:
-      hostname: sonos_livingroom_tv
+    sonos-livingroom-tv:
+      hostname: sonos-livingroom-tv
       mac_addr: 54:2a:1b:87:58:10
       network: iot
       dhcp_client: true
@@ -431,8 +446,8 @@ address_book:
         - media_players
         - sonos_players
         - airplay_devices
-    sonos_masterbedroom_tv:
-      hostname: sonos_masterbedroom_tv
+    sonos-master-bedroom-tv:
+      hostname: sonos-master-bedroom-tv
       mac_addr: 48:a6:b8:b3:9f:e7
       network: iot
       dhcp_client: true
@@ -450,8 +465,8 @@ address_book:
       groups:
         - media_players
         - lg_tvs
-    lg_masterbedroom_tv:
-      hostname: lg_masterbedroom_tv
+    lg_master-bedroom_tv:
+      hostname: lg-master-bedroom-tv
       mac_addr: ac:f1:08:59:b5:46
       network: iot
       dhcp_client: true
@@ -593,7 +608,7 @@ address_book:
       groups:
         - esphome_devices
     garage-front-lights:
-      hostname: garage_front_lights
+      hostname: garage-front-lights
       mac_addr: 68:c6:3a:fb:70:ae
       network: iot
       dhcp_client: true
