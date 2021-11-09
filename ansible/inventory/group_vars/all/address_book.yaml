@@ -501,6 +501,7 @@ address_book:
         - ecobee_clients
         - plex_clients
         - airplay_clients
+        - amcrest_clients
     rybook:
       hostname: rybook
       mac_addr: 74:42:8b:68:50:fe
@@ -529,6 +530,7 @@ address_book:
         - ecobee_clients
         - plex_clients
         - airplay_clients
+        - amcrest_clients
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af

@@ -323,6 +323,14 @@ vyos_firewall_rules:
     destination:
       port: 9112,15301,10000,12367,15100
 
+  accept_amcrest_clients_to_amcrest_cloud_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: amcrest_clients
+    destination:
+      port: 8800-8815
+
   accept_resilio_from_k8s_nodes:
     action: accept
     protocol: tcp

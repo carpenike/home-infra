@@ -26,6 +26,7 @@ vyos_firewall_zones:
           - accept_http: null
           - accept_https: null
           - accept_wifi_calling_from_ios_devices: null
+          - accept_amcrest_clients_to_amcrest_cloud_udp: null
       - includeZones:
           - iot
         default: drop
@@ -328,6 +329,7 @@ vyos_firewall_zones:
           - wireless
           - iot
           - local
+          - video
         default: drop
         defaultLog: true
         rules:
