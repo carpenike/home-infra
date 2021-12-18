@@ -264,6 +264,7 @@ address_book:
         - plex_clients
         - print_clients
         - mgmt_nodes
+        - gamestream_servers
 
     hp-printer:
       hostname: hp-printer
@@ -303,6 +304,7 @@ address_book:
         - android_tvs
         - chromecast_players
         - airplay_devices
+        - gamestream_clients
     nvidia-shield-tv-basement:
       hostname: nvidia-shield-tv-basement
       mac_addr: 48:b0:2d:13:b7:a0
@@ -316,6 +318,7 @@ address_book:
         - android_tvs
         - chromecast_players
         - airplay_devices
+        - gamestream_clients
     nvidia-shield-tv-master-bedroom:
       hostname: nvidia-shield-tv-master-bedroom
       mac_addr: 48:b0:2d:13:d1:d6
@@ -329,6 +332,7 @@ address_book:
         - android_tvs
         - chromecast_players
         - airplay_devices
+        - gamestream_clients
     firetv-bar-tv:
       hostname: firetv-bar-tv
       mac_addr: 74:ec:b2:5a:c3:47
@@ -737,7 +741,7 @@ address_book:
     k8s_tplink_controller:
       ipv4_addr: 10.45.10.20
     mullvad_ip:
-      ipv4_addr: 198.54.132.82 
+      ipv4_addr: 198.54.132.82
     racknerd_ip:
       ipv4_addr: 173.82.197.179
   static_mappings:

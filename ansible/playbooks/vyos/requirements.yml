@@ -1,7 +1,7 @@
 ---
 roles:
   - src: https://github.com/bjw-s/ansible-role-vyos
-    version: v0.0.3
+    version: v0.0.7
 
 collections:
   - name: community.general
@@ -13,4 +13,4 @@ collections:
   - name: kubernetes.core
     version: 2.2.0
   - name: vyos.vyos
-    version: 2.5.1
+    version: 2.6.0

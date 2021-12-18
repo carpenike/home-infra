@@ -498,3 +498,28 @@ vyos_firewall_rules:
       address-group: k8s_nodes
     destination:
       port: 8448
+
+  accept_gamestream_from_gamestream_clients_tcp:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: gamestream_clients
+    destination:
+      port: 47984,47989,48010
+      address-group: gamestream_servers
+
+  accept_gamestream_from_gamestream_clients_udp:
+    action: accept
+    protocol: udp
+    source:
+      address-group: gamestream_clients
+    destination:
+      address-group: gamestream_servers
+
+  accept_gamestream_clients_to_wan_tcp:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: gamestream_clients
+    destination:
+      port: 47984,47989,48010

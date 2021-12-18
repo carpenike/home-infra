@@ -38,6 +38,7 @@ vyos_firewall_zones:
           - accept_http: null
           - accept_https: null
           - accept_ecobee_ems_from_ecobee: null
+          - accept_gamestream_clients_to_wan_tcp: null
       - includeZones:
           - servers
         default: drop
@@ -378,6 +379,8 @@ vyos_firewall_zones:
           - drop_invalid: null
           - accept_udp_from_sonos_players_to_sonos_controllers: null
           - accept_tcp_from_sonos_players_to_sonos_controllers: null
+          - accept_gamestream_from_gamestream_clients_tcp: null
+          - accept_gamestream_from_gamestream_clients_udp: null
       - ignoreZones:
           - local
           - servers

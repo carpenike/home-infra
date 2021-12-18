@@ -15,6 +15,8 @@ vyos_hostname: fw
 vyos_upstream_dns:
   - 1.1.1.1
 
+vyos_timezone: "{{ timezone }}"
+
 vyos_remote_syslog:
   enabled: true
   endpoint: "{{ vyos_address_book_enriched['services']['k8s_promtail']['ipv4_addr'] }}"
@@ -97,97 +99,6 @@ vyos_wireguard:
           public-key: "{{ secure_values['wireguard']['wg_trusted']['iphone_ryan_public'] }}"
           ipv4_hostid: 2
 
-# ------------------
-# NAT configuration
-# ------------------
-
-vyos_nat:
-  rules:
-    - type: snat
-      interface: wan
-      source:
-        address: 0.0.0.0/0
-      destination:
-        address: masquerade
-    - type: dnat
-      interface: wan
-      protocol: tcp
-      source:
-        port: 443
-      destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_ingress']['ipv4_addr'] }}"
-        port: 443
-    - type: dnat
-      interface: wan
-      protocol: tcp
-      source:
-        port: 80
-      destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_ingress']['ipv4_addr'] }}"
-        port: 80
-    - type: dnat
-      interface: iot
-      protocol: tcp_udp
-      source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        port: 53
-      destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-    - type: dnat
-      interface: video
-      protocol: tcp_udp
-      source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        port: 53
-      destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-    - type: dnat
-      interface: wired
-      protocol: tcp_udp
-      source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        port: 53
-      destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-    - type: dnat
-      interface: wireless
-      protocol: tcp_udp
-      source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        port: 53
-      destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-    - type: dnat
-      interface: wan
-      protocol: tcp
-      source:
-        port: 32400
-      destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_plex']['ipv4_addr'] }}"
-    - type: dnat
-      interface: video
-      protocol: udp
-      source:
-        address: "!{{ vyos_interfaces_enriched['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
-        port: 123
-      destination:
-        address: "{{ vyos_interfaces_enriched['video']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
-    - type: dnat
-      interface: iot
-      protocol: udp
-      source:
-        address: "!{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
-        port: 123
-      destination:
-        address: "{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
-    - type: dnat
-      interface: servers
-      protocol: udp
-      source:
-        address: "!{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
-        port: 123
-      destination:
-        address: "{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
 
 # -----------------------
 # Firewall configuration
