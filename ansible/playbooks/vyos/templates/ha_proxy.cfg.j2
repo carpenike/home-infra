@@ -51,9 +51,9 @@ backend k8s_controlplane
     mode tcp
     option ssl-hello-chk
     balance     roundrobin
-        server master1 master1.cluster-0.{{ vyos_domain }}:6443 check
-        server master2 master2.cluster-0.{{ vyos_domain }}:6443 check
-        server master3 master3.cluster-0.{{ vyos_domain }}:6443 check
+        server cp-0 cp-0.{{ vyos_domain }}:6443 check
+        server cp-1 cp-1.{{ vyos_domain }}:6443 check
+        server cp-2 cp-2.{{ vyos_domain }}:6443 check
 
 backend talos_controlplane
     option httpchk GET /healthz
@@ -61,6 +61,4 @@ backend talos_controlplane
     mode tcp
     option ssl-hello-chk
     balance     roundrobin
-        server master1 master1.cluster-0.{{ vyos_domain }}:50000 check
-        server master2 master2.cluster-0.{{ vyos_domain }}:50000 check
-        server master3 master3.cluster-0.{{ vyos_domain }}:50000 check
+        server sidero sidero.{{ vyos_domain }}:50000 check

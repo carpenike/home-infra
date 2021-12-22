@@ -2,12 +2,12 @@ allow bootp;
 allow booting;
 
 # IP address for PXE-based TFTP methods
-next-server {{ vyos_address_book_enriched['hosts']['abraham']['ipv4_addr'] }};
+next-server {{ vyos_address_book_enriched['hosts']['sm-0']['ipv4_addr'] }};
 
 # Configuration for iPXE clients
 class "ipxeclient" {
   match if exists user-class and (option user-class = "iPXE");
-  filename "http://{{ vyos_address_book_enriched['hosts']['abraham']['ipv4_addr'] }}:8081/boot.ipxe";
+  filename "http://{{ vyos_address_book_enriched['hosts']['sm-0']['ipv4_addr'] }}:8081/boot.ipxe";
 }
 
 # Configuration for legacy BIOS-based PXE boot
@@ -26,5 +26,5 @@ class "pxeclients" {
 class "httpclients" {
   match if not exists user-class and substring (option vendor-class-identifier, 0, 10) = "HTTPClient";
   option vendor-class-identifier "HTTPClient";
-  filename "http://{{ vyos_address_book_enriched['hosts']['abraham']['ipv4_addr'] }}:8081/tftp/ipxe.efi";
+  filename "http://{{ vyos_address_book_enriched['hosts']['sm-0']['ipv4_addr'] }}:8081/tftp/ipxe.efi";
 }

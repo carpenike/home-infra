@@ -38,6 +38,9 @@ vyos_managed_files:
   - template: cloudflare-ipv4.sh.j2
     dest: /config/scripts/cloudflare-ipv4.sh
     mode: "0755"
+  - template: ipxe-metal.conf.j2
+    dest: /config/dhcp/ipxe-metal.conf
+    mode: "0755"
 
 # -------------------------
 # Interfaces configuration
@@ -158,11 +161,13 @@ vyos_dhcp_server:
   hostfile-update: true
   interfaces:
     mgmt:
+      domain: "{{ vyos_domain }}"
       subnet_parameters: "option omada-address 10.45.10.20;"
     wired:
       domain: "{{ vyos_domain }}"
     servers:
       domain: "{{ vyos_domain }}"
+      subnet_parameters: "include &quot;/config/dhcp/ipxe-metal.conf&quot;;"
     iot:
       domain: "{{ vyos_domain }}"
     video:

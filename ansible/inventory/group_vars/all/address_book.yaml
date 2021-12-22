@@ -139,13 +139,6 @@ address_book:
       ipv4_addr: 10.20.0.15
       groups:
         - pki
-    sm-0:
-      hostname: sm-0
-      network: servers
-      dhcp_client: false
-      ipv4_addr: 10.20.10.18
-      groups:
-        - utility
     sidero:
       hostname: sidero
       network: servers
@@ -172,6 +165,15 @@ address_book:
     ####################
     ### DHCP Clients ###
     ####################
+
+    sm-0:
+      hostname: sm-0
+      mac_addr: 00:25:90:99:12:70
+      network: servers
+      dhcp_client: true
+      ipv4_addr: 10.20.10.18
+      groups:
+        - sidero
     ubnt-upstairs:
       hostname: ubnt-upstairs
       mac_addr: 80:2a:a8:10:ed:da
