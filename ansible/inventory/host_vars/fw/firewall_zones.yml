@@ -461,6 +461,7 @@ vyos_firewall_zones:
           - accept_ecobee_from_ecobee_clients: null
           - accept_airplay_to_airplay_devices_from_airplay_clients_tcp: null
           - accept_airplay_to_airplay_devices_from_airplay_clients_udp: null
+          - accept_hue_clients_to_hue_bridge: null
       - includeZones:
           - servers
         default: drop

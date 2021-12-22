@@ -523,3 +523,12 @@ vyos_firewall_rules:
       address-group: gamestream_clients
     destination:
       port: 47984,47989,48010
+
+  accept_hue_clients_to_hue_bridge:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: hue_clients
+    destination:
+      port: 80,443,8080,33820
+      address-group: hue_bridge

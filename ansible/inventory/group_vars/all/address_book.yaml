@@ -146,6 +146,13 @@ address_book:
       ipv4_addr: 10.20.10.18
       groups:
         - utility
+    sidero:
+      hostname: sidero
+      network: servers
+      dhcp_client: false
+      ipv4_addr: 10.20.10.18
+      groups:
+        - sidero
     sw-3com:
       hostname: sw-3com
       network: mgmt
@@ -478,6 +485,14 @@ address_book:
       groups:
         - media_players
         - lg_tvs
+    hue-bridge:
+      hostname: hue-bridge
+      mac_addr: ec:b5:fa:9c:5a:d3
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.180
+      groups:
+        - hue_bridge
     Ryans-iPad:
       hostname: Ryans-iPad
       mac_addr: 80:d6:05:3b:32:20
@@ -506,6 +521,7 @@ address_book:
         - plex_clients
         - airplay_clients
         - amcrest_clients
+        - hue_clients
     rybook:
       hostname: rybook
       mac_addr: 74:42:8b:68:50:fe
@@ -535,6 +551,7 @@ address_book:
         - plex_clients
         - airplay_clients
         - amcrest_clients
+        - hue_clients
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af
