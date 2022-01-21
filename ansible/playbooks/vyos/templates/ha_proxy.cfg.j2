@@ -52,8 +52,8 @@ backend k8s_controlplane
     option ssl-hello-chk
     balance     roundrobin
         server cp-0 cp-0.{{ vyos_domain }}:6443 check
-        server cp-1 cp-1.{{ vyos_domain }}:6443 check
-        server cp-2 cp-2.{{ vyos_domain }}:6443 check
+        #server cp-1 cp-1.{{ vyos_domain }}:6443 check
+        #server cp-2 cp-2.{{ vyos_domain }}:6443 check
 
 backend talos_controlplane
     option httpchk GET /healthz

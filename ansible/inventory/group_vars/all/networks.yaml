@@ -18,3 +18,5 @@ networks:
     cidr: 10.11.0.0/24
   - name: rescue
     cidr: 10.5.0.0/16
+  - name: services
+    cidr: 10.6.0.0/16

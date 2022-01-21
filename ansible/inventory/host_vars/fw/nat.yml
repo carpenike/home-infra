@@ -38,6 +38,20 @@ vyos_nat:
         port: 32400
       destination:
         address: "{{ vyos_address_book_enriched['services']['k8s_plex']['ipv4_addr'] }}"
+    - type: dnat
+      interface: wan
+      protocol: tcp
+      source:
+        port: 4994
+      destination:
+        address: "{{ vyos_address_book_enriched['hosts']['flex']['ipv4_addr'] }}"
+    - type: dnat
+      interface: wan
+      protocol: udp
+      source:
+        port: 4993
+      destination:
+        address: "{{ vyos_address_book_enriched['hosts']['flex']['ipv4_addr'] }}"
 
     # ------------------
     # Force DNS to gateway
@@ -47,34 +61,58 @@ vyos_nat:
       interface: iot
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "!1.1.1.1"
         port: 53
       destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "1.1.1.1"
     - type: dnat
       interface: video
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "!1.1.1.1"
         port: 53
       destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "1.1.1.1"
     - type: dnat
       interface: wired
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "!1.1.1.1"
         port: 53
       destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "1.1.1.1"
     - type: dnat
       interface: wireless
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "!1.1.1.1"
         port: 53
       destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "1.1.1.1"
+    # - type: dnat
+    #   interface: servers
+    #   protocol: tcp_udp
+    #   source:
+    #     address: "!{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+    #     port: 53
+    #   destination:
+    #     address: "{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
 
     # ------------------
     # Force NTP to gateway

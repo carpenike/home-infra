@@ -15,9 +15,11 @@ vyos_firewall_zones:
         rules:
           - accept_amcrest_to_amcrest_cloud_udp: true
           - accept_amcrest_to_amcrest_cloud_tcp: true
+          - accept_wyze_cameras_to_cloud_tcp: null
+          - accept_wyze_cameras_to_cloud_udp: null
       - includeZones:
           - wireless
-        default: drop
+        default: accept
         defaultLog: true
         rules:
           - accept_established: null
@@ -27,6 +29,8 @@ vyos_firewall_zones:
           - accept_https: null
           - accept_wifi_calling_from_ios_devices: null
           - accept_amcrest_clients_to_amcrest_cloud_udp: null
+          - accept_smart_link_from_flex_clients_tcp: null
+          - accept_smart_link_from_flex_clients_udp: null
       - includeZones:
           - iot
         default: drop
@@ -154,6 +158,7 @@ vyos_firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_icmp: null
           - accept_dns: null
           - accept_mdns: null
           - accept_dhcp: null
@@ -199,18 +204,32 @@ vyos_firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_http: null
+          - accept_https: null
           - accept_snmp_to_snmp_nodes_from_k8s_nodes: null
+          - accept_sidero_to_server_ipmi: null
+      - includeZones:
+          - wireless
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_http: null
+          - accept_https: null
       - ignoreZones:
           - wired
           - wg_trusted
           - servers
+          - wireless
         default: drop
         rules:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
   - name: servers
-    description: Server iot zone
+    description: Server zone
     interfaces:
       - servers
     fw_policies:
@@ -271,8 +290,6 @@ vyos_firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
-          - accept_http: null
-          - accept_https: null
           - accept_k8s_api: null
           - accept_dns: null
           - accept_smb_from_smb_clients: null
@@ -281,6 +298,18 @@ vyos_firewall_zones:
           - accept_k8s_ingress_from_internal: null
           - accept_homekit_from_ios_devices_to_k8s_nodes_tcp: null
           - accept_homekit_from_ios_devices_to_k8s_nodes_udp: null
+      - includeZones:
+          - services
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_icmp: null
+          - accept_dns: null
+          - accept_vector_syslog: null
+          - accept_k8s_api: null
       - includeZones:
           - iot
         default: drop
@@ -320,7 +349,7 @@ vyos_firewall_zones:
           - accept_bgp: null
           - accept_mdns: null
           - accept_k8s_api: null
-          - accept_promtail_syslog: null
+          - accept_vector_syslog: null
           - accept_discovery_from_sonos_players: null
           - accept_discovery_from_sonos_controllers: null
           - accept_dns: null
@@ -333,6 +362,7 @@ vyos_firewall_zones:
           - iot
           - local
           - video
+          - services
         default: drop
         defaultLog: true
         rules:
@@ -364,6 +394,25 @@ vyos_firewall_zones:
           - accept_mdns: null
           - accept_resilio_from_k8s_nodes: null
       - includeZones:
+          - wan
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_smart_link_to_flex_radio_tcp: null
+          - accept_smart_link_to_flex_radio_udp: null
+      - includeZones:
+          - wireless
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_icmp: null
+          - accept_smart_link_to_flex_radio_from_flex_clients_tcp: null
+          - accept_smart_link_to_flex_radio_from_flex_clients_udp: null
+      - includeZones:
           - wg_trusted
         default: accept
         defaultLog: true
@@ -388,6 +437,8 @@ vyos_firewall_zones:
           - servers
           - wg_trusted
           - iot
+          - wan
+          - wireless
         default: drop
         rules:
           - accept_established: null
@@ -429,10 +480,20 @@ vyos_firewall_zones:
           - accept_icmp: null
           - accept_udp_from_sonos_players_to_sonos_controllers: null
           - accept_tcp_from_sonos_players_to_sonos_controllers: null
+      - includeZones:
+          - wired
+        default: drop
+        defaultLog: true
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          # - accept_flex_radio_to_flex_clients_tcp: null
       - ignoreZones:
           - servers
           - local
           - iot
+          - wired
         default: drop
         defaultLog: true
         rules:
@@ -569,4 +630,28 @@ vyos_firewall_zones:
         rules:
           - accept_established: null
           - accept_related: null
+          - drop_invalid: null
+
+  - name: services
+    description: VyOS services zone
+    interfaces:
+      - services
+    fw_policies:
+      - includeZones:
+          - wan
+          - video
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+      - ignoreZones:
+          - wan
+          - video
+        default: accept
+        defaultLog: false
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - accept_dns: null
           - drop_invalid: null

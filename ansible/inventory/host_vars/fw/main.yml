@@ -18,9 +18,7 @@ vyos_upstream_dns:
 vyos_timezone: "{{ timezone }}"
 
 vyos_remote_syslog:
-  enabled: true
-  endpoint: "{{ vyos_address_book_enriched['services']['k8s_promtail']['ipv4_addr'] }}"
-  port: 1514
+  enabled: false
 
 vyos_task_scheduler:
   tasks:
@@ -40,6 +38,12 @@ vyos_managed_files:
     mode: "0755"
   - template: ipxe-metal.conf.j2
     dest: /config/dhcp/ipxe-metal.conf
+    mode: "0755"
+  - template: ha_proxy.cfg.j2
+    dest: /config/haproxy/ha_proxy.cfg
+    mode: "0755"
+  - template: vector.yaml.j2
+    dest: /config/vector-agent/vector.yaml
     mode: "0755"
 
 # -------------------------
@@ -91,6 +95,10 @@ vyos_interfaces:
     interface: wg01
     ipv4_addr: true
     skip_creation: true
+  services:
+    interface: cni-services
+    ipv4_addr: true
+    skip_creation: true
 
 vyos_wireguard:
   servers:
@@ -101,7 +109,6 @@ vyos_wireguard:
         - name: iphone-ryan
           public-key: "{{ secure_values['wireguard']['wg_trusted']['iphone_ryan_public'] }}"
           ipv4_hostid: 2
-
 
 # -----------------------
 # Firewall configuration
@@ -135,19 +142,13 @@ vyos_bgp:
 
 vyos_coredns:
   enabled: true
-  interfaces:
-    - mgmt
-    - wired
-    - servers
-    - iot
-    - wireless
-    - video
-    - rescue
-    - wg_trusted
   config_path: /config/coredns
   container:
     repository: ghcr.io/k8s-at-home/coredns
     tag: v1.8.4
+    networks:
+      services:
+        ipv4_hostid: 3
   k8s_gateway:
     enabled: true
     api_ip: "{{ vyos_address_book_enriched['services']['k8s_api']['ipv4_addr'] }}"
@@ -162,81 +163,22 @@ vyos_dhcp_server:
   interfaces:
     mgmt:
       domain: "{{ vyos_domain }}"
-      subnet_parameters: "option omada-address 10.45.10.20;"
+      # subnet_parameters: "option omada-address 10.45.10.20;;"
+      dns_server: "{{ vyos_interfaces_enriched['mgmt']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     wired:
       domain: "{{ vyos_domain }}"
+      dns_server: "{{ vyos_interfaces_enriched['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     servers:
-      domain: "{{ vyos_domain }}"
       subnet_parameters: "include &quot;/config/dhcp/ipxe-metal.conf&quot;;"
+      dns_server: "{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     iot:
       domain: "{{ vyos_domain }}"
+      dns_server: "{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     video:
       dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
     wireless:
       domain: "{{ vyos_domain }}"
+      dns_server: "{{ vyos_interfaces_enriched['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
     rescue:
       domain: "{{ vyos_domain }}"
-
-# -----------------------
-# Container configuration
-# -----------------------
-
-vyos_containers:
-  udp-broadcast-relay-sonos:
-    image:
-      repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
-      tag: v1.25.0
-    host-networking: true
-    cap_add:
-      - CAP_NET_RAW
-    env:
-      CFG_ID: "1"
-      CFG_PORT: "1900"
-      CFG_DEV: |-
-        {{-
-          [
-            vyos_interfaces_enriched['wireless']['interface_complete'],
-            vyos_interfaces_enriched['wired']['interface_complete'],
-            vyos_interfaces_enriched['iot']['interface_complete']
-          ] | join(",")
-        -}}
-      CFG_MULTICAST: "239.255.255.250"
-  udp-broadcast-relay-hdhr:
-    image:
-      repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
-      tag: v1.25.0
-    host-networking: true
-    cap_add:
-      - CAP_NET_RAW
-    env:
-      CFG_ID: "1"
-      CFG_PORT: "65001"
-      CFG_DEV: |-
-        {{-
-          [
-            vyos_interfaces_enriched['wireless']['interface_complete'],
-            vyos_interfaces_enriched['wired']['interface_complete'],
-            vyos_interfaces_enriched['iot']['interface_complete']
-          ] | join(",")
-        -}}
-      CFG_MULTICAST: "239.255.255.250"
-  udp-broadcast-relay-mdns:
-    image:
-      repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
-      tag: v1.25.0
-    host-networking: true
-    cap_add:
-      - CAP_NET_RAW
-    env:
-      CFG_ID: "2"
-      CFG_PORT: "5353"
-      CFG_DEV: |-
-        {{-
-          [
-            vyos_interfaces_enriched['wireless']['interface_complete'],
-            vyos_interfaces_enriched['wired']['interface_complete'],
-            vyos_interfaces_enriched['iot']['interface_complete'],
-            vyos_interfaces_enriched['servers']['interface_complete']
-          ] | join(",")
-        -}}
-      CFG_MULTICAST: "224.0.0.251"
+      dns_server: "{{ vyos_interfaces_enriched['rescue']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"

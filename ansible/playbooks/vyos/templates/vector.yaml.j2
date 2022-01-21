@@ -1,0 +1,81 @@
+---
+data_dir: /var/lib/vector
+sources:
+  journal_logs:
+    type: journald
+    journal_directory: /var/log/journal
+
+transforms:
+  route_log_type:
+    type: route
+    inputs:
+      - journal_logs
+    route:
+      firewall: >-
+        .SYSLOG_IDENTIFIER == "kernel"
+        && match!(.message, r'^\[(.*?)\](.*)')
+      other: >-
+        .SYSLOG_IDENTIFIER != "kernel"
+        || !match!(.message, r'^\[(.*?)\](.*)')
+
+  enrich_firewall_msg:
+    type: remap
+    inputs:
+      - route_log_type.firewall
+    source: |
+      # Parse firewall rule message
+      split_message, split_err = parse_regex(.message, r'^\[(?P<rule>.*?)\](?P<fields>.*)')
+      if split_err != null {
+        abort
+      }
+
+      # Extract separate fields from message
+      split_message.fields = strip_whitespace(split_message.fields)
+      .message, parse_err = parse_key_value(split_message.fields, whitespace: "strict")
+      if parse_err != null {
+        abort
+      }
+
+      # Add more information about the triggered rule
+      .message.RULE, parse_err = parse_regex(split_message.rule, r'^(?P<from_zone>\w+)-(?P<to_zone>\w+)-(?P<id>\w+)-(?P<action>\w+)$')
+      if parse_err != null {
+        abort
+      }
+
+      # Add GeoIP information for non-rfc1918 source addresses
+      if (
+        .message.SRC != null &&
+        !ip_cidr_contains!("10.0.0.0/8", .message.SRC) &&
+        !ip_cidr_contains!("172.16.0.0/12", .message.SRC) &&
+        !ip_cidr_contains!("192.168.0.0/16", .message.SRC)
+      ) {
+        .message.SRC_geoip = true
+      }
+
+  route_firewall_msg_add_src_geoip:
+    type: route
+    inputs:
+      - enrich_firewall_msg
+    route:
+      enrich: >-
+        .message.SRC_geoip != null
+      skip: >-
+        .message.SRC_geoip == null
+
+  enrich_firewall_msg_with_src_geoip:
+    type: geoip
+    inputs:
+      - route_firewall_msg_add_src_geoip.enrich
+    database: /usr/share/GeoIP/GeoLite2-City.mmdb
+    source: message.SRC
+    target: message.SRC_geoip
+
+sinks:
+  vector_journal:
+    type: vector
+    inputs:
+      - route_log_type.other
+      - route_firewall_msg_add_src_geoip.skip
+      - enrich_firewall_msg_with_src_geoip
+    address: "{{ vyos_address_book_enriched['services']['k8s_vector_aggregator']['ipv4_addr'] }}:6001"
+    version: "2"
