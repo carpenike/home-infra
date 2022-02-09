@@ -72,7 +72,8 @@ address_book:
     node-0:
       hostname: node-0
       network: servers
-      dhcp_client: false
+      dhcp_client: true
+      mac_addr: 0c:c4:7a:8e:90:f4
       ipv4_addr: 10.20.10.20
       groups:
         - k8s_nodes
