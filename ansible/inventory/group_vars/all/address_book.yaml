@@ -24,7 +24,8 @@ address_book:
     cp-1:
       hostname: cp-1
       network: servers
-      dhcp_client: false
+      dhcp_client: true
+      mac_addr: 00:a0:98:78:3c:08
       ipv4_addr: 10.20.0.21
       groups:
         - k8s_nodes
@@ -33,7 +34,8 @@ address_book:
     cp-2:
       hostname: cp-2
       network: servers
-      dhcp_client: false
+      dhcp_client: true
+      mac_addr: 00:a0:98:1e:d4:42
       ipv4_addr: 10.20.0.22
       groups:
         - k8s_nodes
