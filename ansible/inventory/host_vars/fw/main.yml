@@ -164,21 +164,21 @@ vyos_dhcp_server:
     mgmt:
       domain: "{{ vyos_domain }}"
       # subnet_parameters: "option omada-address 10.45.10.20;;"
-      dns_server: "{{ vyos_interfaces_enriched['mgmt']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+      dns_server: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
     wired:
       domain: "{{ vyos_domain }}"
-      dns_server: "{{ vyos_interfaces_enriched['wired']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+      dns_server: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
     servers:
       subnet_parameters: "include &quot;/config/dhcp/ipxe-metal.conf&quot;;"
-      dns_server: "{{ vyos_interfaces_enriched['servers']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+      dns_server: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
     iot:
       domain: "{{ vyos_domain }}"
-      dns_server: "{{ vyos_interfaces_enriched['iot']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+      dns_server: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
     video:
-      dns_server: "{{ vyos_address_book['services']['k8s_dns']['ipv4_addr'] }}"
+      dns_server: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
     wireless:
       domain: "{{ vyos_domain }}"
-      dns_server: "{{ vyos_interfaces_enriched['wireless']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+      dns_server: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
     rescue:
       domain: "{{ vyos_domain }}"
-      dns_server: "{{ vyos_interfaces_enriched['rescue']['ipv4_addr'] | ansible.netcommon.ipv4('address') }}"
+      dns_server: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"

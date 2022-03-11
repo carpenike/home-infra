@@ -13,14 +13,14 @@ vyos_containers:
     haproxy-k8s-api:
       image:
         repository: docker.io/library/haproxy
-        tag: '2.4.7'
+        tag: "2.4.7"
       networks:
         services:
           ipv4_hostid: 2
       volumes:
         config:
-          source: '/config/haproxy/ha_proxy.cfg'
-          destination: '/usr/local/etc/haproxy/haproxy.cfg'
+          source: "/config/haproxy/ha_proxy.cfg"
+          destination: "/usr/local/etc/haproxy/haproxy.cfg"
 
     udp-broadcast-relay-sonos:
       image:
@@ -28,7 +28,7 @@ vyos_containers:
         tag: v1.25.0
       allow-host-networks: true
       cap-add:
-        - net-raw
+        - net-admin
       env:
         SEPARATOR: ";"
         CFG_ID: "1"
@@ -49,10 +49,10 @@ vyos_containers:
         tag: v1.25.0
       allow-host-networks: true
       cap-add:
-        - net-raw
+        - net-admin
       env:
         SEPARATOR: ";"
-        CFG_ID: "2"
+        CFG_ID: "1"
         CFG_PORT: "65001"
         CFG_DEV: |-
           {{-
@@ -70,10 +70,10 @@ vyos_containers:
         tag: v1.25.0
       allow-host-networks: true
       cap-add:
-        - net-raw
+        - net-admin
       env:
         SEPARATOR: ";"
-        CFG_ID: "3"
+        CFG_ID: "1"
         CFG_PORT: "5353"
         CFG_DEV: |-
           {{-
@@ -85,28 +85,26 @@ vyos_containers:
             ] | join(";")
           -}}
         CFG_MULTICAST: "224.0.0.251"
-        
+
     udp-broadcast-relay-flex:
       image:
         repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
         tag: v1.25.0
       allow-host-networks: true
       cap-add:
-        - net-raw
+        - net-admin
       env:
         SEPARATOR: ";"
-        CFG_ID: "4"
+        CFG_ID: "1"
         CFG_PORT: "4992"
         CFG_DEV: |-
           {{-
             [
-              vyos_interfaces_enriched['wireless']['interface_complete'],
               vyos_interfaces_enriched['wired']['interface_complete'],
-              vyos_interfaces_enriched['iot']['interface_complete'],
+              vyos_interfaces_enriched['wireless']['interface_complete'],
               vyos_interfaces_enriched['servers']['interface_complete']
             ] | join(";")
           -}}
-        CFG_MULTICAST: "255.255.255.255"
 
     vector-agent:
       image:
@@ -120,17 +118,17 @@ vyos_containers:
         VECTOR_WATCH_CONFIG: "true"
       volumes:
         config:
-          source: '/config/vector-agent/vector.yaml'
-          destination: '/etc/vector/vector.yaml'
+          source: "/config/vector-agent/vector.yaml"
+          destination: "/etc/vector/vector.yaml"
         data:
-          source: '/config/vector-agent/data'
-          destination: '/var/lib/vector'
+          source: "/config/vector-agent/data"
+          destination: "/var/lib/vector"
         logs:
-          source: '/var/log'
-          destination: '/var/log'
+          source: "/var/log"
+          destination: "/var/log"
         geoip:
-          source: '/config/geoip'
-          destination: '/usr/share/GeoIP'
+          source: "/config/geoip"
+          destination: "/usr/share/GeoIP"
 
     vector-update-geoip:
       image:
@@ -146,5 +144,5 @@ vyos_containers:
         GEOIPUPDATE_FREQUENCY: 24
       volumes:
         geoip:
-          source: '/config/geoip'
-          destination: '/usr/share/GeoIP'
+          source: "/config/geoip"
+          destination: "/usr/share/GeoIP"

@@ -333,7 +333,7 @@ address_book:
         - flex_clients
     rybook:
       hostname: rybook
-      mac_addr: 74:42:8b:68:50:fe
+      mac_addr: bc:83:85:cf:53:82
       network: wireless
       dhcp_client: true
       ipv4_addr: 10.30.50.250
@@ -783,15 +783,15 @@ address_book:
       groups:
         - august_locks
         - homekit_devices
-    # august-patio-door:
-    #   hostname: august-patio-door
-    #   mac_addr: 78:9c:85:0d:91:4e
-    #   network: iot
-    #   dhcp_client: true
-    #   ipv4_addr: 10.40.50.221
-    #   groups:
-    #     - august_locks
-    #     - homekit_devices
+    august-patio-door:
+      hostname: august-patio-door
+      mac_addr: 78:9c:85:21:7c:01
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.221
+      groups:
+        - august_locks
+        - homekit_devices
 
     ####
     ### VIDEO ###

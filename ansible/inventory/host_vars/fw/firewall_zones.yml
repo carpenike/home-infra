@@ -103,6 +103,8 @@ vyos_firewall_zones:
           - accept_mdns: null
           - accept_discovery_from_sonos_players: null
           - accept_discovery_from_sonos_controllers: null
+          - accept_flex_discovery_from_flex_clients: null
+          - accept_flex_discovery_from_flex_radio: null
       - includeZones:
           - iot
         default: drop
@@ -142,6 +144,7 @@ vyos_firewall_zones:
           - accept_bgp: null
           - accept_discovery_from_hass: null
           - accept_node_exporter_from_k8s_nodes: null
+          - accept_flex_discovery_from_flex_clients: null
           # - accept_prometheus_from_k8s_nodes: null
       - includeZones:
           - wan
@@ -163,6 +166,7 @@ vyos_firewall_zones:
           - accept_mdns: null
           - accept_dhcp: null
           - accept_discovery_from_sonos_controllers: null
+          - accept_flex_discovery_from_flex_clients: null
           - accept_ssh: null
       - ignoreZones:
           - mgmt
@@ -352,6 +356,7 @@ vyos_firewall_zones:
           - accept_vector_syslog: null
           - accept_discovery_from_sonos_players: null
           - accept_discovery_from_sonos_controllers: null
+          - accept_flex_discovery_from_flex_radio: null
           - accept_dns: null
       - ignoreZones:
           - wired
@@ -469,6 +474,7 @@ vyos_firewall_zones:
           - accept_igmp: null
           - accept_mdns: null
           - accept_discovery_from_sonos_players: null
+          - accept_flex_discovery_from_flex_radio: null
       - includeZones:
           - iot
         default: drop
@@ -488,6 +494,9 @@ vyos_firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_http: null
+          - accept_https: null
+          - accept_ssh: null
           # - accept_flex_radio_to_flex_clients_tcp: null
       - ignoreZones:
           - servers

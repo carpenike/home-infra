@@ -587,7 +587,7 @@ vyos_firewall_rules:
     source:
       address-group: flex_clients
     destination:
-      port: 4992,4993
+      port: 4991,4992,4993
       address-group: flex_radio
 
   accept_smart_link_from_flex_clients_tcp:
@@ -604,7 +604,7 @@ vyos_firewall_rules:
     source:
       address-group: flex_clients
     destination:
-      port: 4992,4993
+      port: 4991,4992,4993
 
   accept_flex_radio_to_flex_clients_tcp:
     action: accept
@@ -614,6 +614,21 @@ vyos_firewall_rules:
     destination:
       address-group: flex_clients
       port: 40193,33340
+
+  accept_flex_discovery_from_flex_clients:
+    action: accept
+    protocol: udp
+    source:
+      address-group: flex_clients
+    destination:
+      port: 4992,4994
+
+  accept_flex_discovery_from_flex_radio:
+    action: accept
+    protocol: udp
+    source:
+      address-group: flex_radio
+      port: 4992
 
   # accept_flex_radio_to_flex_clients_udp:
   #   action: accept
