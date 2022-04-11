@@ -654,9 +654,20 @@ vyos_firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+      - includeZones:
+          - wired
+        default: drop
+        rules:
+          - accept_established: null
+          - accept_related: null
+          - drop_invalid: null
+          - accept_dns: null
+          - accept_http: null
+          - accept_https: null
       - ignoreZones:
           - wan
           - video
+          - wired
         default: accept
         defaultLog: false
         rules:

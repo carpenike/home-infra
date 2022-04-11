@@ -848,6 +848,8 @@ address_book:
       ipv4_addr: 10.20.50.50
     vyos_coredns:
       ipv4_addr: 10.6.0.3
+    vyos_adguard_home:
+      ipv4_addr: 10.6.0.6
   static_mappings:
     - hostname: k8s.holthome.net
       service: k8s_api
@@ -857,3 +859,5 @@ address_book:
       service: k8s_cluster_0_api
     - hostname: minio.holthome.net
       service: minio_ip
+    - hostname: adguard.holthome.net
+      service: vyos_adguard_home

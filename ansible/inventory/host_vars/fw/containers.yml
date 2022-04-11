@@ -146,3 +146,20 @@ vyos_containers:
         geoip:
           source: "/config/geoip"
           destination: "/usr/share/GeoIP"
+
+    adguard-home:
+      image:
+        repository: ghcr.io/bjw-s/adguardhome
+        tag: v0.107.3
+      networks:
+        services:
+          ipv4_hostid: 6
+      env:
+        NO_ETC_HOSTS: "true"
+      volumes:
+        workdir:
+          source: "/config/adguard-home/work"
+          destination: "/opt/adguardhome/work"
+        config:
+          source: "/config/adguard-home/conf"
+          destination: "/opt/adguardhome/conf"

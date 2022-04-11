@@ -62,58 +62,67 @@ vyos_nat:
       protocol: tcp_udp
       source:
         # address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        address: "!{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
         # address: "!1.1.1.1"
         port: 53
       destination:
         # address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
         # address: "1.1.1.1"
     - type: dnat
       interface: video
       protocol: tcp_udp
       source:
-        address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
         # address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        address: "!{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
         # address: "!1.1.1.1"
         port: 53
       destination:
-        address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
+        # address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
         # address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
         # address: "1.1.1.1"
     - type: dnat
       interface: wired
       protocol: tcp_udp
       source:
         # address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        address: "!{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
         # address: "!1.1.1.1"
         port: 53
       destination:
         # address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
         # address: "1.1.1.1"
     - type: dnat
       interface: wireless
       protocol: tcp_udp
       source:
         # address: "!{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        address: "!{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
         # address: "!1.1.1.1"
         port: 53
       destination:
         # address: "{{ vyos_address_book_enriched['services']['k8s_dns']['ipv4_addr'] }}"
-        address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        # address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+        address: "{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
         # address: "1.1.1.1"
-    - type: dnat
-      interface: servers
-      protocol: tcp_udp
-      source:
-        address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
-        port: 53
-      destination:
-        address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
-
+    # - type: dnat
+    #   interface: servers
+    #   protocol: tcp_udp
+    #   source:
+    #     # address: "!{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+    #     address: "!{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
+    #     port: 53
+    #   destination:
+    #     # address: "{{ vyos_address_book_enriched['services']['vyos_coredns']['ipv4_addr'] }}"
+    #     address: "{{ vyos_address_book_enriched['services']['vyos_adguard_home']['ipv4_addr'] }}"
 
     # ------------------
     # Force NTP to gateway
