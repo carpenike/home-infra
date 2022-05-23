@@ -827,7 +827,7 @@ address_book:
     k8s_vector_aggregator:
       ipv4_addr: 10.45.10.16
     k8s_cluster_0_api:
-      ipv4_addr: 10.20.50.10
+      ipv4_addr: 10.6.0.2
     k8s_unifi:
       ipv4_addr: 10.45.10.17
     k8s_ingress:

@@ -664,6 +664,7 @@ vyos_firewall_zones:
           - accept_dns: null
           - accept_http: null
           - accept_https: null
+          - accept_k8s_api: null
       - ignoreZones:
           - wan
           - video
