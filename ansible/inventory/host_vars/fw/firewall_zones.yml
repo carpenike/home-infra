@@ -31,6 +31,7 @@ vyos_firewall_zones:
           - accept_amcrest_clients_to_amcrest_cloud_udp: null
           - accept_smart_link_from_flex_clients_tcp: null
           - accept_smart_link_from_flex_clients_udp: null
+          - accept_plex_from_plex_clients_to_public: null
       - includeZones:
           - iot
         default: drop
@@ -43,6 +44,7 @@ vyos_firewall_zones:
           - accept_https: null
           - accept_ecobee_ems_from_ecobee: null
           - accept_gamestream_clients_to_wan_tcp: null
+          - accept_plex_from_plex_clients_to_public: null
       - includeZones:
           - servers
         default: drop

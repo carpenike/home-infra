@@ -366,6 +366,14 @@ vyos_firewall_rules:
     destination:
       address-group: media_players
 
+  accept_plex_from_plex_clients_to_public:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: plex_clients
+    destination:
+      port: 32400
+
   accept_wifi_calling_from_ios_devices:
     action: accept
     protocol: udp
