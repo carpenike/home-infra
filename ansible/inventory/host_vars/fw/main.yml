@@ -99,6 +99,14 @@ vyos_interfaces:
     interface: cni-services
     ipv4_addr: true
     skip_creation: true
+  vti1:
+    interface: vti1
+    ipv4_addr: true
+    skip_creation: true
+  vti2:
+    interface: vti2
+    ipv4_addr: true
+    skip_creation: true
 
 vyos_wireguard:
   servers:
@@ -135,6 +143,8 @@ vyos_bgp:
   neighbor_groups:
     - group: k8s_nodes
       remote_as: 64512
+    - group: azure_bgp
+      remote_as: 65515
 
 # -----------------------
 # Services configuration

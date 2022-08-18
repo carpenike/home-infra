@@ -159,6 +159,15 @@ vyos_firewall_rules:
       port: 80,443,445,1400,1443,3400,3401,3445,3500,4070,4444
       address-group: sonos_players
 
+  accept_sonos_players_to_hass:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: sonos_players
+    destination:
+      port: 1400
+      address-group: k8s_hass
+
   accept_app_control_from_sonos_controllers_udp:
     action: accept
     protocol: udp
@@ -482,14 +491,14 @@ vyos_firewall_rules:
     protocol: udp
     destination:
       address-group: k8s_tplink_controller
-      port: 29810-29813
+      port: 29810-29814
 
   accept_tplink_to_controller_tcp:
     action: accept
     protocol: tcp
     destination:
       address-group: k8s_tplink_controller
-      port: 29810-29813
+      port: 29810-29814
 
   accept_smtp_from_k8s_nodes:
     action: accept
@@ -646,3 +655,36 @@ vyos_firewall_rules:
   #   destination:
   #     address-group: flex_clients
   #     port: 4992,4993
+
+  accept_bgp_from_azure_to_local:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: azure_bgp
+    destination:
+      port: 179
+
+  accept_govee_ports_to_wan:
+    action: accept
+    protocol: tcp
+    source:
+      address-group: govee_devices
+    destination:
+      port: 8883
+
+  accept_lifx_discovery_from_lifx_clients:
+    action: accept
+    protocol: udp
+    source:
+      address-group: lifx_clients
+    destination:
+      port: 56700
+      address-group: lifx_devices
+
+  accept_openspot_to_brandmeister_network:
+    action: accept
+    protocol: udp
+    source:
+      address-group: openspot_devices
+    destination:
+      port: 62030

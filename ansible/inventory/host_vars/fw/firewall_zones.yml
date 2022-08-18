@@ -45,6 +45,8 @@ vyos_firewall_zones:
           - accept_ecobee_ems_from_ecobee: null
           - accept_gamestream_clients_to_wan_tcp: null
           - accept_plex_from_plex_clients_to_public: null
+          - accept_govee_ports_to_wan: null
+          - accept_openspot_to_brandmeister_network: null
       - includeZones:
           - servers
         default: drop
@@ -147,6 +149,7 @@ vyos_firewall_zones:
           - accept_discovery_from_hass: null
           - accept_node_exporter_from_k8s_nodes: null
           - accept_flex_discovery_from_flex_clients: null
+          - accept_lifx_discovery: null
           # - accept_prometheus_from_k8s_nodes: null
       - includeZones:
           - wan
@@ -156,6 +159,7 @@ vyos_firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_wireguard: null
+          - accept_bgp_from_azure_to_local: null
       - includeZones:
           - wireless
         default: drop
@@ -333,6 +337,8 @@ vyos_firewall_zones:
           - accept_k8s_ingress_from_sonos_players: null
           - accept_tcp_from_sonos_players_to_sonos_controllers: null
           - accept_udp_from_sonos_players_to_sonos_controllers: null
+          - accept_sonos_players_to_hass: null
+          - accept_mqtt: null
           # - accept_k8s_ingress_from_wall_displays: null
           # - accept_k8s_ingress_from_sonos_players: null
       - includeZones:
@@ -527,6 +533,8 @@ vyos_firewall_zones:
           - accept_related: null
           - drop_invalid: null
           - accept_icmp: null
+          - accept_http: null
+          - accept_https: null
           - accept_app_control_from_sonos_controllers_tcp: null
           - accept_app_control_from_sonos_controllers_udp: null
           - accept_media_players_to_hdhr: null
@@ -555,6 +563,7 @@ vyos_firewall_zones:
           - accept_k8s_nodes_to_poe_zigbee_controller: null
           - accept_lg_remote_to_lg_tvs_from_k8s_nodes: null
           # - accept_k8s_nodes: null
+          - accept_lifx_discovery: null
       - includeZones:
           - local
         default: drop
@@ -566,6 +575,7 @@ vyos_firewall_zones:
           - accept_igmp: null
           - accept_mdns: null
           - accept_discovery_from_sonos_controllers: null
+          - accept_lifx_discovery: null
       - ignoreZones:
           - wired
           - wg_trusted
@@ -656,6 +666,7 @@ vyos_firewall_zones:
           - accept_established: null
           - accept_related: null
           - drop_invalid: null
+          - accept_dns: null
       - includeZones:
           - wired
         default: drop

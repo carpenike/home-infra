@@ -21,6 +21,7 @@ address_book:
         - k8s_nodes
         - sonos_controllers
         - media_players
+        - lifx_clients
     cp-1:
       hostname: cp-1
       network: servers
@@ -31,6 +32,7 @@ address_book:
         - k8s_nodes
         - sonos_controllers
         - media_players
+        - lifx_clients
     cp-2:
       hostname: cp-2
       network: servers
@@ -41,6 +43,7 @@ address_book:
         - k8s_nodes
         - sonos_controllers
         - media_players
+        - lifx_clients
     nas-0:
       hostname: nas-0
       network: servers
@@ -81,6 +84,7 @@ address_book:
         - k8s_nodes
         - sonos_controllers
         - media_players
+        - lifx_clients
     node-0-ipmi:
       hostname: node-0-ipmi
       network: mgmt
@@ -98,6 +102,7 @@ address_book:
         - k8s_nodes
         - sonos_controllers
         - media_players
+        - lifx_clients
     node-1-ipmi:
       hostname: node-1-ipmi
       network: mgmt
@@ -115,6 +120,7 @@ address_book:
         - k8s_nodes
         - sonos_controllers
         - media_players
+        - lifx_clients
     node-2-ipmi:
       hostname: node-2-ipmi
       network: mgmt
@@ -132,6 +138,7 @@ address_book:
         - k8s_nodes
         - sonos_controllers
         - media_players
+        - lifx_clients
     node-3-ipmi:
       hostname: node-3-ipmi
       network: mgmt
@@ -168,7 +175,27 @@ address_book:
       groups:
         - apc
         - snmp_nodes
-
+    azure-bgp-endpoint-1:
+      hostname: azure-bgp-endpoint-1
+      network: wan
+      dhcp_client: false
+      ipv4_addr: 172.16.11.244
+      groups:
+        - azure_bgp
+    azure-bgp-endpoint-2:
+      hostname: azure-bgp-endpoint-2
+      network: wan
+      dhcp_client: false
+      ipv4_addr: 172.16.11.245
+      groups:
+        - azure_bgp
+    k8s-hass-homekit:
+      hostname: k8s-hass-homekit
+      network: servers
+      dhcp_client: false
+      ipv4_addr: 10.45.10.15
+      groups:
+        - homekit_devices
     ####################
     ### DHCP Clients ###
     ####################
@@ -248,6 +275,15 @@ address_book:
       ipv4_addr: 10.9.18.108
       groups:
         - tplink_eap_devices
+    ap-garage:
+      hostname: ap-garage
+      mac_addr: 00:31:92:8A:74:A6
+      network: mgmt
+      dhcp_client: true
+      ipv4_addr: 10.9.18.109
+      groups:
+        - tplink_eap_devices
+
     ###
 
     # bcs:
@@ -331,6 +367,7 @@ address_book:
         - amcrest_clients
         - hue_clients
         - flex_clients
+        - lifx_clients
     rybook:
       hostname: rybook
       mac_addr: bc:83:85:cf:53:82
@@ -362,6 +399,7 @@ address_book:
         - airplay_clients
         - amcrest_clients
         - hue_clients
+        - lifx_clients
     Steffi-PC:
       hostname: Steffi-PC
       mac_addr: 50:1a:c5:e9:75:af
@@ -677,6 +715,33 @@ address_book:
       groups:
         - lifx_devices
         - homekit_devices
+    lifx-mb-ryan:
+      hostname: lifx-mb-ryan
+      mac_addr: d0:73:d5:11:55:05
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.195
+      groups:
+        - lifx_devices
+        - homekit_devices
+    lifx-mb-steffi:
+      hostname: lifx-mb-steffi
+      mac_addr: d0:73:d5:11:59:1c
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.196
+      groups:
+        - lifx_devices
+        - homekit_devices
+
+    master-bedroom-tv-light:
+      hostname: master-bedroom-tv-light
+      mac_addr: 9c:04:a0:71:66:26
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.197
+      groups:
+        - govee_devices
 
     energy-meter:
       hostname: energy-meter
@@ -774,6 +839,30 @@ address_book:
       ipv4_addr: 10.40.50.211
       groups:
         - esphome_devices
+    upstairs-caydan-switch-lights:
+      hostname: upstairs-caydan-switch-lights
+      mac_addr: 8c:aa:b5:5f:97:26
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.212
+      groups:
+        - esphome_devices
+    upstairs-taylor-switch-lights:
+      hostname: upstairs-taylor-switch-lights
+      mac_addr: e8:db:84:d2:e0:67
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.213
+      groups:
+        - esphome_devices
+    upstairs-jayme-switch-lights:
+      hostname: upstairs-taylor-switch-lights
+      mac_addr: e8:db:84:d2:2b:fb
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.214
+      groups:
+        - esphome_devices
     august-front-door:
       hostname: august-front-door
       mac_addr: 78:9c:85:0d:91:4d
@@ -793,6 +882,26 @@ address_book:
         - august_locks
         - homekit_devices
 
+    espresense-office:
+      hostname: espresense-office
+      mac_addr: 94:b5:55:26:37:c4
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.240
+      groups:
+        - espresense_devices
+        - mqtt_devices
+
+    openspot4:
+      hostname: openspot4
+      mac_addr: 7c:df:a1:e6:d5:ac
+      network: iot
+      dhcp_client: true
+      ipv4_addr: 10.40.50.245
+      groups:
+        - openspot_devices
+
+        
     ####
     ### VIDEO ###
     camera-backpatio:
@@ -814,7 +923,10 @@ address_book:
         - amcrest_cameras
     wyze-hazel:
       hostname: amcrest-frontdoor
-      mac_addr: d0:3f:27:01:4a:0f00:1c:2d:05:22:80
+      mac_addr: d0:3f:27:01:4a:0f
+      network: video
+      dhcp_client: true
+      ipv4_addr: 10.50.50.102
       groups:
         - rtsp
         - wyze_cameras
@@ -836,6 +948,8 @@ address_book:
       ipv4_addr: 10.45.100.100
     k8s_mqtt:
       ipv4_addr: 10.45.10.11
+    k8s_hass:
+      ipv4_addr: 10.45.10.15
     k8s_dns:
       ipv4_addr: 10.45.10.13
     k8s_tplink_controller:

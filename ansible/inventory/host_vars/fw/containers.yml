@@ -106,6 +106,25 @@ vyos_containers:
             ] | join(";")
           -}}
 
+    udp-lifx-broadcast:
+      image:
+        repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
+        tag: v1.25.0
+      allow-host-networks: true
+      cap-add:
+        - net-admin
+      env:
+        SEPARATOR: ";"
+        CFG_ID: "1"
+        CFG_PORT: "56700"
+        CFG_DEV: |-
+          {{-
+            [
+              vyos_interfaces_enriched['iot']['interface_complete'],
+              vyos_interfaces_enriched['servers']['interface_complete']
+            ] | join(";")
+          -}}
+
     vector-agent:
       image:
         repository: docker.io/timberio/vector
