@@ -36,9 +36,9 @@ vyos_managed_files:
   - template: cloudflare-ipv4.sh.j2
     dest: /config/scripts/cloudflare-ipv4.sh
     mode: "0755"
-  - template: ipxe-metal.conf.j2
-    dest: /config/dhcp/ipxe-metal.conf
-    mode: "0755"
+  # - template: ipxe-metal.conf.j2
+  #   dest: /config/dhcp/ipxe-metal.conf
+  #   mode: "0755"
   - template: ha_proxy.cfg.j2
     dest: /config/haproxy/ha_proxy.cfg
     mode: "0755"

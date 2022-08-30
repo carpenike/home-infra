@@ -15,7 +15,7 @@ address_book:
       hostname: cp-0
       network: servers
       dhcp_client: true
-      mac_addr: 00:a0:98:32:17:10
+      mac_addr: 00:25:90:99:12:70
       ipv4_addr: 10.20.0.20
       groups:
         - k8s_nodes
@@ -26,7 +26,7 @@ address_book:
       hostname: cp-1
       network: servers
       dhcp_client: true
-      mac_addr: 00:a0:98:78:3c:08
+      mac_addr: 64:00:6a:71:38:52
       ipv4_addr: 10.20.0.21
       groups:
         - k8s_nodes
@@ -37,7 +37,7 @@ address_book:
       hostname: cp-2
       network: servers
       dhcp_client: true
-      mac_addr: 00:a0:98:1e:d4:42
+      mac_addr: 34:17:eb:dd:36:b9
       ipv4_addr: 10.20.0.22
       groups:
         - k8s_nodes
@@ -200,14 +200,14 @@ address_book:
     ### DHCP Clients ###
     ####################
     ### SERVERS
-    sm-0:
-      hostname: sm-0
-      mac_addr: 00:25:90:99:12:70
-      network: servers
-      dhcp_client: true
-      ipv4_addr: 10.20.10.18
-      groups:
-        - sidero
+    # sm-0:
+    #   hostname: sm-0
+    #   mac_addr: 00:25:90:99:12:70
+    #   network: servers
+    #   dhcp_client: true
+    #   ipv4_addr: 10.20.10.18
+    #   groups:
+    #     - sidero
     ####
     ### MGMT ###
 
