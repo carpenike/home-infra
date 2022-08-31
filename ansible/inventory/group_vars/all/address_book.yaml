@@ -901,7 +901,6 @@ address_book:
       groups:
         - openspot_devices
 
-        
     ####
     ### VIDEO ###
     camera-backpatio:
@@ -943,7 +942,7 @@ address_book:
     k8s_unifi:
       ipv4_addr: 10.45.10.17
     k8s_ingress:
-      ipv4_addr: 10.45.20.10
+      ipv4_addr: 10.45.10.10
     k8s_plex:
       ipv4_addr: 10.45.100.100
     k8s_mqtt:
