@@ -15,7 +15,7 @@ address_book:
       hostname: cp-0
       network: servers
       dhcp_client: true
-      mac_addr: 00:25:90:99:12:70
+      mac_addr: 00:a0:98:5a:f7:f0
       ipv4_addr: 10.20.0.20
       groups:
         - k8s_nodes

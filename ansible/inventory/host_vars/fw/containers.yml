@@ -22,26 +22,26 @@ vyos_containers:
           source: "/config/haproxy/ha_proxy.cfg"
           destination: "/usr/local/etc/haproxy/haproxy.cfg"
 
-    # udp-broadcast-relay-sonos:
-    #   image:
-    #     repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
-    #     tag: v1.25.0
-    #   allow-host-networks: true
-    #   cap-add:
-    #     - net-admin
-    #   env:
-    #     SEPARATOR: ";"
-    #     CFG_ID: "1"
-    #     CFG_PORT: "1900"
-    #     CFG_DEV: |-
-    #       {{-
-    #         [
-    #           vyos_interfaces_enriched['wireless']['interface_complete'],
-    #           vyos_interfaces_enriched['wired']['interface_complete'],
-    #           vyos_interfaces_enriched['iot']['interface_complete']
-    #         ] | join(";")
-    #       -}}
-    #     CFG_MULTICAST: "239.255.255.250"
+    udp-broadcast-relay-sonos:
+      image:
+        repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
+        tag: v1.25.0
+      allow-host-networks: true
+      cap-add:
+        - net-admin
+      env:
+        SEPARATOR: ";"
+        CFG_ID: "1"
+        CFG_PORT: "1900"
+        CFG_DEV: |-
+          {{-
+            [
+              vyos_interfaces_enriched['wireless']['interface_complete'],
+              vyos_interfaces_enriched['wired']['interface_complete'],
+              vyos_interfaces_enriched['iot']['interface_complete']
+            ] | join(";")
+          -}}
+        CFG_MULTICAST: "239.255.255.250"
 
     # udp-broadcast-relay-hdhr:
     #   image:

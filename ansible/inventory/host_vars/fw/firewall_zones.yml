@@ -151,6 +151,7 @@ vyos_firewall_zones:
           - accept_flex_discovery_from_flex_clients: null
           - accept_lifx_discovery: null
           # - accept_prometheus_from_k8s_nodes: null
+          - accept_haproxy_exporter_from_k8s_nodes: null
       - includeZones:
           - wan
         default: drop
