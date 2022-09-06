@@ -954,7 +954,7 @@ address_book:
     k8s_tplink_controller:
       ipv4_addr: 10.45.10.20
     mullvad_ip:
-      ipv4_addr: 198.54.132.82
+      ipv4_addr: 193.32.249.70
     racknerd_ip:
       ipv4_addr: 173.82.197.179
     minio_ip:
