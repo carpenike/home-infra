@@ -25,7 +25,7 @@ vyos_containers:
     udp-broadcast-relay-sonos:
       image:
         repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
-        tag: v1.25.0
+        tag: v1.27.0
       allow-host-networks: true
       cap-add:
         - net-admin
@@ -64,27 +64,27 @@ vyos_containers:
     #       -}}
     #     CFG_MULTICAST: "239.255.255.250"
 
-    # udp-broadcast-relay-mdns:
-    #   image:
-    #     repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
-    #     tag: v1.25.0
-    #   allow-host-networks: true
-    #   cap-add:
-    #     - net-admin
-    #   env:
-    #     SEPARATOR: ";"
-    #     CFG_ID: "1"
-    #     CFG_PORT: "5353"
-    #     CFG_DEV: |-
-    #       {{-
-    #         [
-    #           vyos_interfaces_enriched['wireless']['interface_complete'],
-    #           vyos_interfaces_enriched['wired']['interface_complete'],
-    #           vyos_interfaces_enriched['iot']['interface_complete'],
-    #           vyos_interfaces_enriched['servers']['interface_complete']
-    #         ] | join(";")
-    #       -}}
-    #     CFG_MULTICAST: "224.0.0.251"
+    udp-broadcast-relay-mdns:
+      image:
+        repository: ghcr.io/k8s-at-home/udp-broadcast-relay-redux
+        tag: v1.27.0
+      allow-host-networks: true
+      cap-add:
+        - net-admin
+      env:
+        SEPARATOR: ";"
+        CFG_ID: "1"
+        CFG_PORT: "5353"
+        CFG_DEV: |-
+          {{-
+            [
+              vyos_interfaces_enriched['wireless']['interface_complete'],
+              vyos_interfaces_enriched['wired']['interface_complete'],
+              vyos_interfaces_enriched['iot']['interface_complete'],
+              vyos_interfaces_enriched['servers']['interface_complete']
+            ] | join(";")
+          -}}
+        CFG_MULTICAST: "224.0.0.251"
 
     # udp-broadcast-relay-flex:
     #   image:
