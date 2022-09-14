@@ -299,7 +299,7 @@ address_book:
     ### WIRED ###
     rydesk:
       hostname: rydesk
-      mac_addr: 7e:c9:9f:f0:08:15
+      mac_addr: 8a:3c:36:ca:48:4e
       network: wired
       dhcp_client: true
       ipv4_addr: 10.10.0.200
